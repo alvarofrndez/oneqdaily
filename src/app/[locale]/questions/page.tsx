@@ -1,28 +1,29 @@
 import Link from 'next/link';
 import { getAllQuestions } from '@/src/features/questions/queries';
-import type { Question } from '@/src/features/questions/types';
+import { Card, CardHeader, CardTitle } from '@/src/components/ui/card';
 
 export default async function QuestionsPage() {
   const questions = await getAllQuestions();
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6">All Questions</h1>
         {questions.length === 0 ? (
-          <p className="text-center text-gray-500">No questions available.</p>
+          <p className="text-center text-muted-foreground">No questions available.</p>
         ) : (
           <ul className="space-y-4">
-            {questions.map((q: Question) => (
-              <li key={q.id} className="border p-4 rounded-lg bg-white">
-                <Link
-                  href={`/questions/${q.id}`}
-                  className="block hover:underline"
-                >
-                  <h2 className="text-xl font-semibold">{q.text}</h2>
-                  <p className="text-sm text-gray-500">
-                    Posted on {new Date(q.created_at).toLocaleDateString()}
-                  </p>
+            {questions.map((q) => (
+              <li key={q.id}>
+                <Link href={`/questions/${q.id}`}>
+                  <Card className="hover:bg-accent transition-colors">
+                    <CardHeader>
+                      <CardTitle className="text-xl">{q.text}</CardTitle>
+                      <p className="text-sm text-muted-foreground">
+                        Posted on {new Date(q.display_date).toLocaleDateString()}
+                      </p>
+                    </CardHeader>
+                  </Card>
                 </Link>
               </li>
             ))}

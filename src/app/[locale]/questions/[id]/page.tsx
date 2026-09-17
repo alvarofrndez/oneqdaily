@@ -1,6 +1,8 @@
 import { getQuestionById, getAnswersPage } from '@/src/features/questions/queries'
 import AnswerList from '@/src/features/questions/components/AnswerList'
 import AnswerForm from '@/src/features/questions/components/AnswerForm'
+import { Card, CardHeader, CardTitle, CardContent } from '@/src/components/ui/card'
+import { Button } from '@/src/components/ui/button'
 import Link from 'next/link'
 
 export default async function QuestionDetailPage({ params }: { params: { id: string } }) {
@@ -8,12 +10,12 @@ export default async function QuestionDetailPage({ params }: { params: { id: str
 
   if (!question) {
     return (
-      <main className="min-h-screen bg-gray-50">
+      <main className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-8">
-          <p className="text-center text-red-500">Question not found.</p>
-          <Link href="/questions" className="text-indigo-600 hover:underline">
-            ← Back to all questions
-          </Link>
+          <p className="text-center text-destructive">Question not found.</p>
+          <Button variant="link" asChild>
+            <Link href="/questions">← Back to all questions</Link>
+          </Button>
         </div>
       </main>
     )
@@ -22,30 +24,29 @@ export default async function QuestionDetailPage({ params }: { params: { id: str
   const { answers, hasMore } = await getAnswersPage(question.id, 0)
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
+    <main className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8 max-w-2xl">
         <div className="flex justify-between items-start mb-6">
           <h1 className="text-3xl font-bold">Question</h1>
-          <Link href="/questions" className="text-sm text-indigo-600 hover:underline">
-            ← Back to all questions
-          </Link>
+          <Button variant="link" asChild className="p-0">
+            <Link href="/questions">← Back to all questions</Link>
+          </Button>
         </div>
 
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">{question.text}</h2>
-          <p className="text-gray-500">
-            Posted on {new Date(question.created_at).toLocaleDateString()}
-          </p>
-        </div>
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>{question.text}</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Posted on {new Date(question.display_date).toLocaleDateString()}
+            </p>
+          </CardHeader>
+          <CardContent>
+            <AnswerForm questionId={question.id} />
+          </CardContent>
+        </Card>
 
-        <div className="mb-6">
-          <AnswerForm questionId={question.id} />
-        </div>
-
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Answers</h2>
-          <AnswerList questionId={question.id} initialAnswers={answers} initialHasMore={hasMore} />
-        </div>
+        <h2 className="text-xl font-semibold mb-4">Answers</h2>
+        <AnswerList questionId={question.id} initialAnswers={answers} initialHasMore={hasMore} />
       </div>
     </main>
   )

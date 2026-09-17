@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react';
 import { getTodayQuestion } from '../queries';
 import type { Question } from '../types';
-import { submitAnswer } from '../actions';
 import AnswerList from './AnswerList';
 import AnswerForm from './AnswerForm';
+import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/card';
 
 export default function DailyQuestion() {
   const [question, setQuestion] = useState<Question | null>(null);
@@ -18,9 +18,7 @@ export default function DailyQuestion() {
     setLoading(false);
   }
 
-  useEffect(() => {
-    fetchQuestion();
-  }, []);
+  useEffect(() => { fetchQuestion(); }, []);
 
   useEffect(() => {
     const tick = () => {
@@ -28,41 +26,40 @@ export default function DailyQuestion() {
       const nextDay = new Date(now);
       nextDay.setDate(nextDay.getDate() + 1);
       nextDay.setHours(0, 0, 0, 0);
-      const diffMs = nextDay.getTime() - now.getTime();
-      const diffSec = Math.floor(diffMs / 1000);
+      const diffSec = Math.floor((nextDay.getTime() - now.getTime()) / 1000);
       const hours = Math.floor(diffSec / 3600);
       const minutes = Math.floor((diffSec % 3600) / 60);
       const seconds = diffSec % 60;
-      setTimeLeft(
-        `${hours.toString().padStart(2, '0')}:${minutes
-          .toString()
-          .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-      );
+      setTimeLeft(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
       if (diffSec <= 0) {
-        // Reset to fetch new question for the new day
         setQuestion(null);
         setLoading(true);
         fetchQuestion();
       }
     };
-    tick(); // immediate call
+    tick();
     const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
   }, []);
 
   if (loading) return <p>Loading...</p>;
-  if (!question) return <p>No question available.</p>;
+  if (!question) return <p>No question available today.</p>;
 
   return (
     <div className="max-w-2xl mx-auto py-8">
-      <div className="mb-4 text-sm text-gray-500">
-        Next question in: <span className="font-mono">{timeLeft}</span>
-      </div>
-      <h1 className="text-3xl font-bold mb-6">{question.text}</h1>
-      <div className="mb-6">
-        <AnswerForm questionId={question.id} />
-      </div>
-      <div className="border-t pt-4">
+      <Card>
+        <CardHeader>
+          <p className="text-sm text-muted-foreground">
+            Next question in: <span className="font-mono">{timeLeft}</span>
+          </p>
+          <CardTitle className="text-3xl">{question.text}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <AnswerForm questionId={question.id} />
+        </CardContent>
+      </Card>
+
+      <div className="mt-8">
         <h2 className="text-xl font-semibold mb-4">Answers</h2>
         <AnswerList questionId={question.id} />
       </div>

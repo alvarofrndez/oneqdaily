@@ -1,8 +1,13 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
+import { UserContext } from '@/src/components/providers';
 import type { Answer } from '../types';
+import { Card, CardContent } from '@/src/components/ui/card';
+import { Button } from '@/src/components/ui/button';
+import { Badge } from '@/src/components/ui/badge';
+import { Skeleton } from '@/src/components/ui/skeleton';
 
 const PAGE_SIZE = 10;
 
@@ -13,6 +18,7 @@ type Props = {
 };
 
 export default function AnswerList({ questionId, initialAnswers, initialHasMore }: Props) {
+  const currentUser = useContext(UserContext);
   const [answers, setAnswers] = useState<Answer[]>(initialAnswers ?? []);
   const [hasMore, setHasMore] = useState(initialHasMore ?? true);
   const [loading, setLoading] = useState(initialAnswers === undefined);
@@ -37,7 +43,6 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
     return { answers: page, hasMore: more };
   }, [questionId]);
 
-  // Carga inicial solo si no vino precargada desde el servidor
   useEffect(() => {
     if (initialAnswers !== undefined) return;
     let active = true;
@@ -50,7 +55,6 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
     return () => { active = false; };
   }, [fetchPage, initialAnswers]);
 
-  // Respuestas nuevas en vivo: se añaden arriba del todo
   useEffect(() => {
     const channel = supabase
       .channel(`answers-${questionId}`)
@@ -59,7 +63,6 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
         { event: 'INSERT', schema: 'public', table: 'answers', filter: `question_id=eq.${questionId}` },
         async (payload) => {
           const newId = (payload.new as { id: string }).id;
-          // El payload de realtime no trae el join a profiles; lo pedimos aparte
           const { data } = await supabase
             .from('answers')
             .select('*, profiles(username, avatar_url)')
@@ -86,37 +89,41 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
     setLoadingMore(false);
   }
 
-  if (loading) return <p>Loading answers...</p>;
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        <Skeleton className="h-20 w-full" />
+        <Skeleton className="h-20 w-full" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
       {answers.length === 0 ? (
-        <p className="text-center text-gray-500">No answers yet. Be the first to respond!</p>
+        <p className="text-center text-muted-foreground">No answers yet. Be the first to respond!</p>
       ) : (
         answers.map((answer) => (
-          <div key={answer.id} className="border p-4 rounded-lg">
-            <p className="text-gray-700">{answer.answer_text}</p>
-            <div className="flex items-center text-sm text-gray-500 mt-2">
-              {answer.profiles?.username ? (
-                <span>{answer.profiles.username}</span>
-              ) : (
-                <span>Anónimo</span>
-              )}
-              <span className="ml-4">{new Date(answer.created_at).toLocaleString()}</span>
-            </div>
-          </div>
+          <Card key={answer.id}>
+            <CardContent className="pt-6">
+              <p className="text-card-foreground">{answer.answer_text}</p>
+              <div className="flex items-center gap-3 text-sm text-muted-foreground mt-3">
+                <span>{answer.profiles?.username || 'Anónimo'}</span>
+                <span>{new Date(answer.created_at).toLocaleString()}</span>
+                {answer.visibility === 'private' && answer.user_id === currentUser?.id && (
+                  <Badge variant="secondary">Privada</Badge>
+                )}
+              </div>
+            </CardContent>
+          </Card>
         ))
       )}
 
       {hasMore && (
         <div className="text-center pt-2">
-          <button
-            onClick={loadMore}
-            disabled={loadingMore}
-            className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-800"
-          >
+          <Button variant="outline" onClick={loadMore} disabled={loadingMore}>
             {loadingMore ? 'Cargando...' : 'Cargar más'}
-          </button>
+          </Button>
         </div>
       )}
     </div>

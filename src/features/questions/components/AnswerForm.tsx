@@ -3,10 +3,14 @@
 import { useState, useContext } from 'react';
 import { submitAnswer } from '@/src/features/questions/actions';
 import { UserContext } from '@/src/components/providers';
-import type { User } from '@supabase/supabase-js';
+import { Button } from '@/src/components/ui/button';
+import { Textarea } from '@/src/components/ui/textarea';
+import { Label } from '@/src/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/src/components/ui/radio-group';
 
 export default function AnswerForm({ questionId }: { questionId: string }) {
   const [answer, setAnswer] = useState('');
+  const [visibility, setVisibility] = useState<'public' | 'private'>('public');
   const [submitting, setSubmitting] = useState(false);
   const user = useContext(UserContext);
 
@@ -15,10 +19,10 @@ export default function AnswerForm({ questionId }: { questionId: string }) {
     if (!answer.trim()) return;
 
     setSubmitting(true);
-
     const formData = new FormData();
     formData.append('questionId', questionId);
     formData.append('answerText', answer);
+    formData.append('visibility', visibility);
 
     try {
       const result = await submitAnswer(formData);
@@ -26,6 +30,7 @@ export default function AnswerForm({ questionId }: { questionId: string }) {
         alert(result.error);
       } else {
         setAnswer('');
+        setVisibility('public');
       }
     } catch (err) {
       console.error(err);
@@ -38,31 +43,45 @@ export default function AnswerForm({ questionId }: { questionId: string }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label htmlFor="answer" className="block text-sm font-medium mb-2">
-          Your answer:
-        </label>
-        <textarea
+        <Label htmlFor="answer" className="mb-2 block">Your answer:</Label>
+        <Textarea
           id="answer"
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
           placeholder="Share your thoughts..."
-          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           rows={4}
           disabled={submitting}
         />
       </div>
-      <div className="flex items-center space-x-3">
-        {!user ? (
-          <span className="text-sm text-gray-500">Posting as anonymous</span>
-        ) : null}
+
+      <div className="flex items-center space-x-3 text-sm text-muted-foreground">
+        {user ? <span>Publicando como: <span className="font-medium text-foreground">{user.email}</span></span>
+              : <span>Posting as anonymous</span>}
       </div>
-      <button
-        type="submit"
-        disabled={submitting || !answer.trim()}
-        className="mt-6 w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-      >
+
+      {user && (
+        <div>
+          <Label className="mb-2 block">Visibilidad</Label>
+          <RadioGroup
+            value={visibility}
+            onValueChange={(v) => setVisibility(v as 'public' | 'private')}
+            className="flex gap-6"
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="public" id="visibility-public" />
+              <Label htmlFor="visibility-public" className="font-normal">Pública</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="private" id="visibility-private" />
+              <Label htmlFor="visibility-private" className="font-normal">Privada (solo tú la ves)</Label>
+            </div>
+          </RadioGroup>
+        </div>
+      )}
+
+      <Button type="submit" disabled={submitting || !answer.trim()} className="w-full">
         {submitting ? 'Submitting...' : 'Submit Answer'}
-      </button>
+      </Button>
     </form>
   );
 }
