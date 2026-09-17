@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { getTodayQuestion } from '../queries';
 import type { Question } from '../types';
 import AnswerList from './AnswerList';
@@ -8,6 +9,7 @@ import AnswerForm from './AnswerForm';
 import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/card';
 
 export default function DailyQuestion() {
+  const t = useTranslations('Questions.DailyQuestion');
   const [question, setQuestion] = useState<Question | null>(null);
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState<string>('');
@@ -42,15 +44,15 @@ export default function DailyQuestion() {
     return () => clearInterval(interval);
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (!question) return <p>No question available today.</p>;
+  if (loading) return <p>{t('loading')}</p>;
+  if (!question) return <p>{t('noQuestion')}</p>;
 
   return (
     <div className="max-w-2xl mx-auto py-8">
       <Card>
         <CardHeader>
           <p className="text-sm text-muted-foreground">
-            Next question in: <span className="font-mono">{timeLeft}</span>
+            {t('nextQuestionIn')} <span className="font-mono">{timeLeft}</span>
           </p>
           <CardTitle className="text-3xl">{question.text}</CardTitle>
         </CardHeader>
@@ -60,7 +62,7 @@ export default function DailyQuestion() {
       </Card>
 
       <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-4">Answers</h2>
+        <h2 className="text-xl font-semibold mb-4">{t('answersTitle')}</h2>
         <AnswerList questionId={question.id} />
       </div>
     </div>

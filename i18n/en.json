@@ -1,1 +1,134 @@
-{}
+{
+  "Metadata": {
+    "title": "Daily Questions",
+    "description": "A simple minimalist web app for daily questions"
+  },
+  "Header": {
+    "appName": "Daily Questions",
+    "questions": "Questions"
+  },
+  "UserMenu": {
+    "login": "Log in",
+    "signup": "Sign up",
+    "profile": "My profile",
+    "answeredQuestions": "My Answers",
+    "logout": "Log out"
+  },
+  "Auth": {
+    "Login": {
+      "title": "Log in",
+      "orEmail": "or with email",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Log in",
+      "submitting": "Logging in..."
+    },
+    "Signup": {
+      "title": "Create account",
+      "orEmail": "or with email",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Log in",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create account",
+      "submitting": "Creating account...",
+      "success": "Account created. Check your email to confirm it."
+    },
+    "OAuth": {
+      "google": "Continue with Google",
+      "github": "Continue with GitHub"
+    },
+    "Profile": {
+      "title": "My profile",
+      "username": "Username",
+      "fullName": "Full name",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "success": "Profile updated."
+    },
+    "errors": {
+      "missingCredentials": "Email and password are required",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "invalidCredentials": "Incorrect email or password",
+      "notAuthenticated": "You are not logged in",
+      "usernameRequired": "Username cannot be empty"
+    }
+  },
+  "Questions": {
+    "DailyQuestion": {
+      "nextQuestionIn": "Next question in:",
+      "loading": "Loading...",
+      "noQuestion": "No question available today.",
+      "answersTitle": "Answers"
+    },
+    "AnswerForm": {
+      "label": "Your answer:",
+      "placeholder": "Share your thoughts...",
+      "postingAs": "Posting as:",
+      "postingAnonymous": "Posting as anonymous",
+      "visibility": "Visibility",
+      "public": "Public",
+      "private": "Private (only you can see it)",
+      "submit": "Submit answer",
+      "submitting": "Submitting...",
+      "unexpectedError": "Failed to submit answer"
+    },
+    "AnswerList": {
+      "empty": "No answers yet. Be the first to respond!",
+      "loadMore": "Load more",
+      "loadingMore": "Loading...",
+      "anonymous": "Anonymous",
+      "privateBadge": "Private"
+    },
+    "AllQuestions": {
+      "title": "All Questions",
+      "empty": "No questions available.",
+      "postedOn": "Posted on {date}"
+    },
+    "AnsweredQuestions": {
+      "title": "My Answers",
+      "empty": "You haven't answered any questions yet.",
+      "answeredOn": "Answered on __DATE__",
+      "private": "Private",
+      "viewQuestion": "View Question",
+      "viewFullQuestion": "View Full Question & All Your Answers",
+      "questionId": "Question ID: __ID__",
+      "backToAllQuestions": "Back to All Questions"
+    },
+    "Detail": {
+      "title": "Question",
+      "notFound": "Question not found.",
+      "back": "← Back to all questions",
+      "postedOn": "Posted on {date}",
+      "answersTitle": "Answers"
+    },
+    "AnsweredQuestion":{
+      "title": "Question",
+      "notFound": "Question not found.",
+      "backToAnsweredList": "← Back to yours answers",
+      "answeredOn": "Answered on {date}",
+      "answersTitle": "Answers",
+      "postedOn": "Posted on {date}",
+      "private": "Private"
+    },
+    "AnswerDetail":{
+      "title": "Answer Detail",
+      "backToQuestionAnswers": "Back to Question Answers",
+      "backToAnsweredList": "Back to Your Answers",
+      "answerDetail": "Answer Detail",
+      "forQuestion": "For Question: {questionText}",
+      "answerNotFound": "Answer not found",
+      "yourAnswer": "Your Answer",
+      "private": "Private",
+      "answeredOn": "Answered on {date}",
+      "postedOn": "Posted on {date}"
+    },
+    "errors": {
+      "invalidInput": "Invalid input",
+      "submitFailed": "Could not post the answer. The question may not be available yet."
+    }
+  }
+}

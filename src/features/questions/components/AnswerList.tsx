@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useContext, useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { supabase } from '@/lib/supabase/client';
 import { UserContext } from '@/src/components/providers';
 import type { Answer } from '../types';
@@ -18,6 +19,7 @@ type Props = {
 };
 
 export default function AnswerList({ questionId, initialAnswers, initialHasMore }: Props) {
+  const t = useTranslations('Questions.AnswerList');
   const currentUser = useContext(UserContext);
   const [answers, setAnswers] = useState<Answer[]>(initialAnswers ?? []);
   const [hasMore, setHasMore] = useState(initialHasMore ?? true);
@@ -101,17 +103,17 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
   return (
     <div className="space-y-4">
       {answers.length === 0 ? (
-        <p className="text-center text-muted-foreground">No answers yet. Be the first to respond!</p>
+        <p className="text-center text-muted-foreground">{t('empty')}</p>
       ) : (
         answers.map((answer) => (
           <Card key={answer.id}>
             <CardContent className="pt-6">
               <p className="text-card-foreground">{answer.answer_text}</p>
               <div className="flex items-center gap-3 text-sm text-muted-foreground mt-3">
-                <span>{answer.profiles?.username || 'Anónimo'}</span>
+                <span>{answer.profiles?.username || t('anonymous')}</span>
                 <span>{new Date(answer.created_at).toLocaleString()}</span>
                 {answer.visibility === 'private' && answer.user_id === currentUser?.id && (
-                  <Badge variant="secondary">Privada</Badge>
+                  <Badge variant="secondary">{t('privateBadge')}</Badge>
                 )}
               </div>
             </CardContent>
@@ -122,7 +124,7 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
       {hasMore && (
         <div className="text-center pt-2">
           <Button variant="outline" onClick={loadMore} disabled={loadingMore}>
-            {loadingMore ? 'Cargando...' : 'Cargar más'}
+            {loadingMore ? t('loadingMore') : t('loadMore')}
           </Button>
         </div>
       )}

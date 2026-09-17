@@ -4,14 +4,17 @@ import { createSupabaseServerClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { headers } from 'next/headers'
 import { revalidatePath } from 'next/cache'
+import { getTranslations } from 'next-intl/server'
 
 export async function signUpWithEmail(formData: FormData) {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
     const username = formData.get('username') as string
 
-    if (!email || !password) return { error: 'Email y contraseña son obligatorios' }
-    if (password.length < 6) return { error: 'La contraseña debe tener al menos 6 caracteres' }
+    const t = await getTranslations('Auth.errors')
+
+    if (!email || !password) return { error: t('missingCredentials') }
+    if (password.length < 6) return { error: t('passwordTooShort') }
 
     const supabase = await createSupabaseServerClient()
     const origin = (await headers()).get('origin')
@@ -33,12 +36,14 @@ export async function signInWithEmail(formData: FormData) {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
 
-    if (!email || !password) return { error: 'Email y contraseña son obligatorios' }
+    const t = await getTranslations('Auth.errors')
+
+    if (!email || !password) return { error: t('missingCredentials') }
 
     const supabase = await createSupabaseServerClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
 
-    if (error) return { error: 'Email o contraseña incorrectos' }
+    if (error) return { error: t('invalidCredentials') }
     redirect('/')
 }
 
@@ -72,12 +77,13 @@ export async function signOut() {
 export async function updateProfile(formData: FormData) {
     const supabase = await createSupabaseServerClient()
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return { error: 'No has iniciado sesión' }
+    const t = await getTranslations('Auth.errors')
+    if (!user) return { error: t('notAuthenticated') }
 
     const username = (formData.get('username') as string)?.trim()
     const fullName = (formData.get('fullName') as string)?.trim()
 
-    if (!username) return { error: 'El nombre de usuario no puede estar vacío' }
+    if (!username) return { error: t('usernameRequired') }
 
     const { error } = await supabase
         .from('profiles')

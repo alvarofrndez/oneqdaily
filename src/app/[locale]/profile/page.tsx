@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { getProfile } from '@/src/features/auth/queries';
 import ProfileForm from '@/src/features/auth/components/ProfileForm';
+import { getTranslations } from 'next-intl/server';
 
 export default async function ProfilePage() {
   const supabase = await createSupabaseServerClient();
@@ -12,10 +13,12 @@ export default async function ProfilePage() {
   const profile = await getProfile(user.id);
   if (!profile) redirect('/login');
 
+  const t = await getTranslations('Auth.Profile');
+
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6">Mi perfil</h1>
+        <h1 className="text-3xl font-bold mb-6">{t('title')}</h1>
         <p className="text-sm text-gray-500 mb-6">{user.email}</p>
         <ProfileForm profile={profile} />
       </div>

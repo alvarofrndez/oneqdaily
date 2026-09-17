@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useContext } from 'react';
+import { useTranslations } from 'next-intl';
 import { submitAnswer } from '@/src/features/questions/actions';
 import { UserContext } from '@/src/components/providers';
 import { Button } from '@/src/components/ui/button';
@@ -9,6 +10,7 @@ import { Label } from '@/src/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/src/components/ui/radio-group';
 
 export default function AnswerForm({ questionId }: { questionId: string }) {
+  const t = useTranslations('Questions.AnswerForm');
   const [answer, setAnswer] = useState('');
   const [visibility, setVisibility] = useState<'public' | 'private'>('public');
   const [submitting, setSubmitting] = useState(false);
@@ -34,7 +36,7 @@ export default function AnswerForm({ questionId }: { questionId: string }) {
       }
     } catch (err) {
       console.error(err);
-      alert('Failed to submit answer');
+      alert(t('unexpectedError'));
     } finally {
       setSubmitting(false);
     }
@@ -43,25 +45,25 @@ export default function AnswerForm({ questionId }: { questionId: string }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <Label htmlFor="answer" className="mb-2 block">Your answer:</Label>
+        <Label htmlFor="answer" className="mb-2 block">{t('label')}</Label>
         <Textarea
           id="answer"
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
-          placeholder="Share your thoughts..."
+          placeholder={t('placeholder')}
           rows={4}
           disabled={submitting}
         />
       </div>
 
       <div className="flex items-center space-x-3 text-sm text-muted-foreground">
-        {user ? <span>Publicando como: <span className="font-medium text-foreground">{user.email}</span></span>
-              : <span>Posting as anonymous</span>}
+        {user ? <span>{t('postingAs')} <span className="font-medium text-foreground">{user.email}</span></span>
+              : <span>{t('postingAnonymous')}</span>}
       </div>
 
       {user && (
         <div>
-          <Label className="mb-2 block">Visibilidad</Label>
+          <Label className="mb-2 block">{t('visibility')}</Label>
           <RadioGroup
             value={visibility}
             onValueChange={(v) => setVisibility(v as 'public' | 'private')}
@@ -69,18 +71,18 @@ export default function AnswerForm({ questionId }: { questionId: string }) {
           >
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="public" id="visibility-public" />
-              <Label htmlFor="visibility-public" className="font-normal">Pública</Label>
+              <Label htmlFor="visibility-public" className="font-normal">{t('public')}</Label>
             </div>
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="private" id="visibility-private" />
-              <Label htmlFor="visibility-private" className="font-normal">Privada (solo tú la ves)</Label>
+              <Label htmlFor="visibility-private" className="font-normal">{t('private')}</Label>
             </div>
           </RadioGroup>
         </div>
       )}
 
       <Button type="submit" disabled={submitting || !answer.trim()} className="w-full">
-        {submitting ? 'Submitting...' : 'Submit Answer'}
+        {submitting ? t('submitting') : t('submit')}
       </Button>
     </form>
   );

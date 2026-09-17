@@ -127,3 +127,46 @@ export async function getAnswersByUser(userId: string): Promise<AnswerWithQuesti
 
   return data as AnswerWithQuestion[]
 }
+
+export async function getAnswersByUserAndQuestion(
+  userId: string,
+  questionId: string
+): Promise<Answer[]> {
+  const supabase = await createSupabaseServerClient()
+  const { data, error } = await supabase
+    .from('answers')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('question_id', questionId)
+    .order('created_at', { ascending: true })
+
+  if (error) {
+    console.error('Error fetching user answers for question:', error)
+    return []
+  }
+
+  return data as Answer[]
+}
+
+export async function getAnswerById(id: string): Promise<{ answer: Answer; question: Question } | null> {
+  const supabase = await createSupabaseServerClient()
+  const { data, error } = await supabase
+    .from('answers')
+    .select('*, questions(*)')
+    .eq('id', id)
+    .single()
+
+  if (error) {
+    console.error('Error fetching answer by ID:', error)
+    return null
+  }
+
+  if (!data) {
+    return null
+  }
+
+  return {
+    answer: data as Answer,
+    question: data.questions as Question
+  }
+}

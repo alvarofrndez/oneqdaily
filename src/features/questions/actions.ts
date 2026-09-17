@@ -2,14 +2,17 @@
 
 import { createAnswer } from './queries'
 import type { InsertAnswer, AnswerVisibility } from './types'
+import { getTranslations } from 'next-intl/server'
 
 export async function submitAnswer(formData: FormData) {
   const questionId = formData.get('questionId') as string
   const answerText = formData.get('answerText') as string
   const requestedVisibility = formData.get('visibility') as string
 
+  const t = await getTranslations('Questions.errors')
+
   if (!questionId || !answerText || answerText.trim() === '') {
-    return { error: 'Invalid input' }
+    return { error: t('invalidInput') }
   }
 
   const { createSupabaseServerClient } = await import('@/lib/supabase/server')
@@ -30,7 +33,7 @@ export async function submitAnswer(formData: FormData) {
   const createdAnswer = await createAnswer(newAnswer)
 
   if (!createdAnswer) {
-    return { error: 'No se pudo publicar la respuesta. Puede que la pregunta aún no esté disponible.' }
+    return { error: t('submitFailed') }
   }
 
   return { success: true, answer: createdAnswer }

@@ -2,7 +2,7 @@
 import type {Metadata} from 'next';
 import {Geist, Geist_Mono} from 'next/font/google';
 import '../globals.css';
-import {getLocale, getMessages} from 'next-intl/server';
+import {getLocale, getMessages, getTranslations} from 'next-intl/server';
 import {routing} from '@/i18n/routing';
 import Providers from '@/src/components/providers';
 import Header from '@/src/components/header';
@@ -12,10 +12,13 @@ import { getProfile } from '@/src/features/auth/queries';
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
 const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: 'Daily Questions',
-  description: 'A simple minimalist web app for daily questions',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('Metadata');
+  return {
+    title: t('title'),
+    description: t('description'),
+  };
+}
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
