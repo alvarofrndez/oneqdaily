@@ -3,6 +3,8 @@
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import type { Question, Answer, InsertAnswer } from './types'
 
+const PAGE_SIZE = 10
+
 export async function getTodayQuestion(): Promise<Question | null> {
   const supabase = await createSupabaseServerClient()
   const today = new Date()
@@ -72,6 +74,32 @@ export async function getAnswersForQuestion(questionId: string): Promise<Answer[
   }
 
   return data as Answer[]
+}
+
+export async function getAnswersPage(
+  questionId: string,
+  page: number
+): Promise<{ answers: Answer[]; hasMore: boolean }> {
+  const supabase = await createSupabaseServerClient()
+  const from = page * PAGE_SIZE
+  const to = from + PAGE_SIZE - 1
+
+  const { data, error, count } = await supabase
+    .from('answers')
+    .select('*, profiles(username, avatar_url)', { count: 'exact' })
+    .eq('question_id', questionId)
+    .order('created_at', { ascending: false })
+    .range(from, to)
+
+  if (error) {
+    console.error('Error fetching answers:', error)
+    return { answers: [], hasMore: false }
+  }
+
+  const answers = (data as Answer[]) ?? []
+  const hasMore = count != null ? from + answers.length < count : answers.length === PAGE_SIZE
+
+  return { answers, hasMore }
 }
 
 export async function getAllQuestions(): Promise<Question[]> {

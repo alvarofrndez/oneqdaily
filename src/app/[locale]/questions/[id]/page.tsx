@@ -1,15 +1,10 @@
-import { getQuestionById } from '@/features/questions/queries'
-import { getAnswersForQuestion } from '@/features/questions/queries'
-import type { Question, Answer } from '@/features/questions/types'
+import { getQuestionById, getAnswersPage } from '@/src/features/questions/queries'
+import AnswerList from '@/src/features/questions/components/AnswerList'
+import AnswerForm from '@/src/features/questions/components/AnswerForm'
 import Link from 'next/link'
 
-export default async function QuestionDetailPage({
-  params,
-}: {
-  params: { id: string }
-}) {
+export default async function QuestionDetailPage({ params }: { params: { id: string } }) {
   const question = await getQuestionById(params.id)
-  const answers = await getAnswersForQuestion(params.id)
 
   if (!question) {
     return (
@@ -24,15 +19,14 @@ export default async function QuestionDetailPage({
     )
   }
 
+  const { answers, hasMore } = await getAnswersPage(question.id, 0)
+
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-start mb-6">
           <h1 className="text-3xl font-bold">Question</h1>
-          <Link
-            href="/questions"
-            className="text-sm text-indigo-600 hover:underline"
-          >
+          <Link href="/questions" className="text-sm text-indigo-600 hover:underline">
             ← Back to all questions
           </Link>
         </div>
@@ -44,29 +38,13 @@ export default async function QuestionDetailPage({
           </p>
         </div>
 
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Answers ({answers.length})</h2>
-          {answers.length === 0 ? (
-            <p className="text-center text-gray-500">No answers yet.</p>
-          ) : (
-            <div className="space-y-4">
-              {answers.map((answer) => (
-                <div key={answer.id} className="border p-4 rounded-lg bg-white">
-                  <p className="text-gray-700">{answer.answer_text}</p>
-                  <div className="flex items-center text-sm text-gray-500 mt-2">
-                    {answer.user_id ? (
-                      <span>Answered by a user</span>
-                    ) : (
-                      <span>Anonymous</span>
-                    )}
-                    <span className="ml-4">
-                      {new Date(answer.created_at).toLocaleString()}
-                    }
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+        <div className="mb-6">
+          <AnswerForm questionId={question.id} />
+        </div>
+
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Answers</h2>
+          <AnswerList questionId={question.id} initialAnswers={answers} initialHasMore={hasMore} />
         </div>
       </div>
     </main>

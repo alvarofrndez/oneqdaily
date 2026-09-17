@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { getAllQuestions } from '@/features/questions/queries';
-import type { Question } from '@/features/questions/types';
+import { getAllQuestions } from '@/src/features/questions/queries';
+import type { Question } from '@/src/features/questions/types';
 
 export default async function QuestionsPage() {
   const questions = await getAllQuestions();
@@ -13,7 +13,7 @@ export default async function QuestionsPage() {
           <p className="text-center text-gray-500">No questions available.</p>
         ) : (
           <ul className="space-y-4">
-            {questions.map((q) => (
+            {questions.map((q: Question) => (
               <li key={q.id} className="border p-4 rounded-lg bg-white">
                 <Link
                   href={`/questions/${q.id}`}

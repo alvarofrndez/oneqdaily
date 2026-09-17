@@ -15,15 +15,7 @@ export default function AnswerForm({ questionId }: { questionId: string }) {
     if (!answer.trim()) return;
 
     setSubmitting(true);
-    // We'll call the server action via fetch? Actually we need to use the action attribute.
-    // We'll handle via a form submission.
-    // We'll rely on the form's action.
-    // For now, we'll just call a function that uses fetch to the action endpoint.
-    // But we have a server action; we can call it directly if we import it?
-    // Server actions cannot be imported in client components? Actually they can be imported as a function that returns a promise.
-    // We'll import submitAnswer from './actions' and call it.
-    // However, submitAnswer expects FormData, not plain object.
-    // We'll create a FormData object.
+
     const formData = new FormData();
     formData.append('questionId', questionId);
     formData.append('answerText', answer);
@@ -60,14 +52,9 @@ export default function AnswerForm({ questionId }: { questionId: string }) {
         />
       </div>
       <div className="flex items-center space-x-3">
-        {user ? (
-          <>
-            <span className="text-sm text-gray-500">Logged in as:</span>
-            <span className="font-medium">{user.email}</span>
-          </>
-        ) : (
+        {!user ? (
           <span className="text-sm text-gray-500">Posting as anonymous</span>
-        )}
+        ) : null}
       </div>
       <button
         type="submit"
