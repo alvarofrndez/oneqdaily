@@ -1,21 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase/client';
+import { useState, useContext } from 'react';
+import { submitAnswer } from '@/src/features/questions/actions';
+import { UserContext } from '@/src/components/providers';
 import type { User } from '@supabase/supabase-js';
 
 export default function AnswerForm({ questionId }: { questionId: string }) {
   const [answer, setAnswer] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    async function getUser() {
-      const { data } = await supabase.auth.getUser();
-      setUser(data.user);
-    }
-    getUser();
-  }, []);
+  const user = useContext(UserContext);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,32 +1,53 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getTodayQuestion } from './queries';
-import type { Question } from './types';
-import { submitAnswer } from './actions';
-import { AnswerList } from './AnswerList';
-import { AnswerForm } from './AnswerForm';
+import { getTodayQuestion } from '../queries';
+import type { Question } from '../types';
+import { submitAnswer } from '../actions';
+import AnswerList from './AnswerList';
+import AnswerForm from './AnswerForm';
 
-export default async function DailyQuestion() {
+export default function DailyQuestion() {
   const [question, setQuestion] = useState<Question | null>(null);
   const [loading, setLoading] = useState(true);
+  const [timeLeft, setTimeLeft] = useState<string>('');
 
-  // Fetch the question on the server (this runs during server rendering)
-  // Actually, we need to fetch in a server component; we can't use useState/useEffect in server component.
-  // So we need to make this a client component and fetch in useEffect, or we make it a server component and fetch directly.
-  // Let's change approach: make this a server component that fetches the question and passes props to client children.
-  // We'll rewrite.
-
-  // For now, we'll keep as client component and fetch in useEffect.
-  // This will cause an extra roundtrip but is acceptable for MVP.
+  async function fetchQuestion() {
+    const q = await getTodayQuestion();
+    setQuestion(q);
+    setLoading(false);
+  }
 
   useEffect(() => {
-    async function fetchQuestion() {
-      const q = await getTodayQuestion();
-      setQuestion(q);
-      setLoading(false);
-    }
     fetchQuestion();
+  }, []);
+
+  useEffect(() => {
+    const tick = () => {
+      const now = new Date();
+      const nextDay = new Date(now);
+      nextDay.setDate(nextDay.getDate() + 1);
+      nextDay.setHours(0, 0, 0, 0);
+      const diffMs = nextDay.getTime() - now.getTime();
+      const diffSec = Math.floor(diffMs / 1000);
+      const hours = Math.floor(diffSec / 3600);
+      const minutes = Math.floor((diffSec % 3600) / 60);
+      const seconds = diffSec % 60;
+      setTimeLeft(
+        `${hours.toString().padStart(2, '0')}:${minutes
+          .toString()
+          .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+      );
+      if (diffSec <= 0) {
+        // Reset to fetch new question for the new day
+        setQuestion(null);
+        setLoading(true);
+        fetchQuestion();
+      }
+    };
+    tick(); // immediate call
+    const interval = setInterval(tick, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) return <p>Loading...</p>;
@@ -34,6 +55,9 @@ export default async function DailyQuestion() {
 
   return (
     <div className="max-w-2xl mx-auto py-8">
+      <div className="mb-4 text-sm text-gray-500">
+        Next question in: <span className="font-mono">{timeLeft}</span>
+      </div>
       <h1 className="text-3xl font-bold mb-6">{question.text}</h1>
       <div className="mb-6">
         <AnswerForm questionId={question.id} />

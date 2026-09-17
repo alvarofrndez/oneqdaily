@@ -1,4 +1,4 @@
-import DailyQuestion from '@/features/questions/components/DailyQuestion';
+import DailyQuestion from '@/src/features/questions/components/DailyQuestion';
 
 export default function Home() {
   return (

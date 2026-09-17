@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { createMiddleware } from 'next-intl/middleware'
+import createMiddleware from 'next-intl/middleware'
 
 export default function middleware(req: NextRequest) {
   return createMiddleware({
