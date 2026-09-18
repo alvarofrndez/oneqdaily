@@ -71,7 +71,7 @@
       "postingAnonymous": "Posting as anonymous",
       "visibility": "Visibility",
       "public": "Public",
-      "private": "Private (only you can see it)",
+      "private": "Private",
       "submit": "Submit answer",
       "submitting": "Submitting...",
       "unexpectedError": "Failed to submit answer"
@@ -81,7 +81,8 @@
       "loadMore": "Load more",
       "loadingMore": "Loading...",
       "anonymous": "Anonymous",
-      "privateBadge": "Private"
+      "privateBadge": "Private",
+      "ago": "ago"
     },
     "AllQuestions": {
       "title": "All Questions",

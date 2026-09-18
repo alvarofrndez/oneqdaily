@@ -1,0 +1,44 @@
+@use 'sass:map';
+
+$breakpoints: (
+  '2xs': 360px,
+  'xs': 480px,
+  'sm': 640px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1280px,
+  '2xl': 1536px,
+);
+
+@mixin flex($direction: row, $justify: flex-start, $align: stretch, $wrap: nowrap, $gap: 0) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+    -webkit-justify-content: $justify;
+    -webkit-align-items: $align;
+    flex-wrap: $wrap;
+    gap: $gap;
+}
+
+@mixin down($size) {
+    @if map.has-key($breakpoints, $size) {
+        $width: map.get($breakpoints, $size);
+        @media (max-width: $width) {
+            @content;
+        }
+    } @else {
+        @error "El breakpoint '#{$size}' no existe. Opciones: #{map.keys($breakpoints)}";
+    }
+}
+
+@mixin up($size) {
+    @if map.has-key($breakpoints, $size) {
+        $width: map.get($breakpoints, $size);
+        @media (min-width: $width) {
+            @content;
+        }
+    } @else {
+        @error "El breakpoint '#{$size}' no existe. Opciones: #{map.keys($breakpoints)}";
+    }
+}

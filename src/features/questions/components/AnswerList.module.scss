@@ -1,0 +1,152 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.loadingContainer {
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-4);
+
+    .skeleton {
+        // size
+        height: 5rem;
+        width: 100%;
+
+        // decoration
+        border-radius: var(--radius-md);
+    }
+}
+
+.listContainer {
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, stretch, nowrap);
+
+    .empty {
+        // margin
+        padding: tokens.$spacing-4 0;
+
+        // decoration
+        text-align: center;
+        color: var(--muted-foreground);
+    }
+
+    .answerItem {
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-3);
+
+        // margin
+        padding: tokens.$spacing-2 0 tokens.$spacing-4 0;
+
+        // decoration
+        border-bottom: 1px solid var(--border);
+        cursor: pointer;
+
+        &:first-child {
+            // margin
+            padding-top: 0;
+        }
+
+        &:last-child {
+            // margin
+            padding-bottom: 0;
+
+            // decoration
+            border-bottom: none;
+        }
+
+        .header {
+            // size
+            width: 100%;
+
+            // display
+            @include mixins.flex(row, space-between, center, nowrap);
+
+            .meta {
+                // display
+                @include mixins.flex(row, flex-start, center, wrap, tokens.$spacing-2);
+
+                // decoration
+                font-size: tokens.$font-size-sm;
+
+                .author {
+                    // decoration
+                    color: var(--foreground);
+                    font-weight: tokens.$font-weight-medium;
+                }
+
+                .dot {
+                    // decoration
+                    color: var(--muted-foreground);
+                }
+
+                .time {
+                    // decoration
+                    color: var(--muted-foreground);
+                }
+
+                .badge {
+                    // margin
+                    margin-left: tokens.$spacing-2;
+                }
+            }
+
+            .likeAction {
+                // display
+                @include mixins.flex(row, flex-end, center, nowrap, tokens.$spacing-2);
+
+                // margin
+                padding: 0;
+
+                // decoration
+                color: var(--muted-foreground);
+                font-size: tokens.$font-size-sm;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+
+                // animation
+                transition: color 150ms ease;
+
+                &:hover {
+                    // decoration
+                    color: var(--foreground);
+                }
+
+                .heartIcon {
+                    // size
+                    width: 1.1rem;
+                    height: 1.1rem;
+                }
+            }
+        }
+
+        .body {
+            // margin
+            margin: 0;
+            padding-left: tokens.$spacing-3;
+
+            // decoration
+            color: var(--foreground);
+            font-size: tokens.$font-size-lg;
+            line-height: 1.5;
+        }
+    }
+
+    .loadMore {
+        // size
+        width: 100%;
+
+        // margin
+        padding-top: tokens.$spacing-4;
+
+        // decoration
+        text-align: center;
+    }
+}

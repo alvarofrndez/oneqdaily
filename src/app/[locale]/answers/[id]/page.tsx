@@ -15,10 +15,6 @@ export default async function AnswerDetailPage({
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect('/login');
-  }
-
   const { id } = await params;
   const t = await getTranslations('Questions.AnswerDetail');
 
@@ -30,9 +26,12 @@ export default async function AnswerDetailPage({
 
   const { answer, question } = answerWithQuestion;
 
-  if (answer.user_id !== user.id) {
-    redirect(`/questions/answered`);
+  if(answer.visibility !== 'public'){
+    if (answer.user_id !== user?.id) {
+      redirect(`/questions/answered`);
+    }
   }
+  
 
   return (
     <main className="min-h-screen bg-background">

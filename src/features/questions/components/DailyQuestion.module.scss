@@ -1,0 +1,129 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.container {
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, center, nowrap, tokens.$spacing-20);
+
+    .questionCard {
+        // size
+        width: min(960px, calc(100% - 2rem));
+
+        // display
+        @include mixins.flex(column, flex-start, center, nowrap, tokens.$spacing-14);
+
+        &Header {
+            // display
+            @include mixins.flex(column, flex-start, center, nowrap, tokens.$spacing-4);
+
+            .nextQuestion {
+                // display
+                @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-1-5);
+
+                // decoration
+                color: var(--muted-foreground);
+                font-size: tokens.$font-size-base;
+                line-height: 1;
+
+                .timeLeft {
+                    // decoration
+                    color: var(--brand-foreground);
+                    font-size: tokens.$font-size-base;
+                }
+            }
+
+            .question {
+                // decoration
+                font-size: tokens.$font-size-6xl;
+                font-family: var(--font-mono);
+                line-height: 1;
+            }
+        }
+
+        &Content {
+            // size
+            width: 100%;
+
+            // display
+            @include mixins.flex(column);
+        }
+    }
+
+    .answersContainer {
+        // size
+        width: 100%;
+
+        // display 
+        @include mixins.flex(column, flex-start, stretch, nowrap, 0);
+
+        .answersContainerTitle {
+            // size
+            width: 100%;
+
+            // display
+            @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-8);
+
+            // margin
+            padding-bottom: tokens.$spacing-4;
+
+            // decoration
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+
+            .title {
+                // decoration
+                font-size: tokens.$font-size-2xl;
+            }
+
+            .toggle {
+                // transition
+                transition: transform 0.3s ease-in-out;
+                
+                &.expandedToggle {
+                    // decoration
+                    transform: rotate(90deg);
+                }
+            }
+        }
+        
+        .answersWrapper {
+            // display
+            display: grid;
+            grid-template-rows: 0fr;
+
+            // margin
+            margin-top: 0;
+
+            // decoration
+            opacity: 0;
+
+            // transition
+            transition: 
+              grid-template-rows 0.35s ease-in-out, 
+              opacity 0.35s ease-in-out, 
+              margin-top 0.35s ease-in-out;
+
+            &.expandedWrapper {
+                // display
+                grid-template-rows: 1fr;
+
+                // margin
+                margin-top: tokens.$spacing-10;
+
+                // decoration
+                opacity: 1;
+            }
+
+            .answersInner {
+                // size
+                width: 100%;
+
+                // decoration
+                overflow: hidden; 
+            }
+        }
+    }
+}

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { UserContext, ProfileContext } from './providers';
 import { signOut } from '@/src/features/auth/actions';
+import ThemeToggle from './theme-toggle';
 
 export default function UserMenu() {
   const t = useTranslations('UserMenu');
@@ -15,6 +16,7 @@ export default function UserMenu() {
   if (!user) {
     return (
       <div className="flex items-center gap-3 text-sm">
+        <ThemeToggle />
         <Link href="/login" className="hover:underline">{t('login')}</Link>
         <Link href="/signup" className="rounded-md bg-indigo-600 px-3 py-1.5 text-white hover:bg-indigo-700">
           {t('signup')}
@@ -32,6 +34,7 @@ export default function UserMenu() {
       </button>
       {open && (
         <div className="absolute right-0 mt-2 w-44 rounded-md border bg-white shadow-lg dark:bg-gray-800 z-10">
+          <ThemeToggle />
           <Link href="/profile" className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
             onClick={() => setOpen(false)}>
             {t('profile')}

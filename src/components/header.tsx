@@ -1,20 +1,23 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import UserMenu from './user-menu';
-import ThemeToggle from './theme-toggle';
+import styles from './header.module.scss'
 
 export default function Header() {
   const t = useTranslations('Header');
 
   return (
-    <header className="border-b bg-white dark:bg-gray-900 dark:border-gray-800">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="font-bold">{t('appName')}</Link>
-        <div className="flex items-center gap-4">
-          <Link href="/questions" className="hover:underline">
+    <header className={styles.header}>
+      <div className={styles.brand}>
+        <Link href="/" className={styles.logo}>logo</Link>
+      </div>
+      <div className={styles.actions}>
+        <div className={styles.routes}>
+          <Link href="/questions" className={styles.route}>
             {t('questions')}
           </Link>
-          <ThemeToggle />
+        </div>
+        <div className={styles.menu}>
           <UserMenu />
         </div>
       </div>

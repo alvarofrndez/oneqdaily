@@ -2,13 +2,15 @@
 
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase/client';
 import { UserContext } from '@/src/components/providers';
 import type { Answer } from '../types';
-import { Card, CardContent } from '@/src/components/ui/card';
 import { Button } from '@/src/components/ui/button';
 import { Badge } from '@/src/components/ui/badge';
 import { Skeleton } from '@/src/components/ui/skeleton';
+import { Heart } from 'lucide-react';
+import styles from './AnswerList.module.scss';
 
 const PAGE_SIZE = 10;
 
@@ -18,8 +20,24 @@ type Props = {
   initialHasMore?: boolean;
 };
 
+const formatRelativeTime = (dateString: string, t: any) => {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  if (diffInMinutes < 60) return `${diffInMinutes || 1}m ${t('ago')}`;
+
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) return `${diffInHours}h ${t('ago')}`;
+
+  const diffInDays = Math.floor(diffInHours / 24);
+  return `${diffInDays}d ${t('ago')}`;
+};
+
 export default function AnswerList({ questionId, initialAnswers, initialHasMore }: Props) {
   const t = useTranslations('Questions.AnswerList');
+  const router = useRouter(); // <-- Instanciamos el router
   const currentUser = useContext(UserContext);
   const [answers, setAnswers] = useState<Answer[]>(initialAnswers ?? []);
   const [hasMore, setHasMore] = useState(initialHasMore ?? true);
@@ -93,36 +111,59 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
 
   if (loading) {
     return (
-      <div className="space-y-4">
-        <Skeleton className="h-20 w-full" />
-        <Skeleton className="h-20 w-full" />
+      <div className={styles.loadingContainer}>
+        <Skeleton className={styles.skeleton} />
+        <Skeleton className={styles.skeleton} />
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className={styles.listContainer}>
       {answers.length === 0 ? (
-        <p className="text-center text-muted-foreground">{t('empty')}</p>
+        <p className={styles.empty}>{t('empty')}</p>
       ) : (
         answers.map((answer) => (
-          <Card key={answer.id}>
-            <CardContent className="pt-6">
-              <p className="text-card-foreground">{answer.answer_text}</p>
-              <div className="flex items-center gap-3 text-sm text-muted-foreground mt-3">
-                <span>{answer.profiles?.username || t('anonymous')}</span>
-                <span>{new Date(answer.created_at).toLocaleString()}</span>
+          <div 
+            key={answer.id} 
+            className={styles.answerItem}
+            onClick={() => router.push(`/answers/${answer.id}`)} // <-- Redirección al hacer clic
+          >
+            
+            {/* Cabecera: Nombre · Tiempo y Botón de Likes */}
+            <div className={styles.header}>
+              <div className={styles.meta}>
+                <span className={styles.author}>
+                  {answer.profiles?.username || t('anonymous')}
+                </span>
+                <span className={styles.dot}>·</span>
+                <span className={styles.time}>
+                  {formatRelativeTime(answer.created_at, t)}
+                </span>
+                
                 {answer.visibility === 'private' && answer.user_id === currentUser?.id && (
-                  <Badge variant="secondary">{t('privateBadge')}</Badge>
+                  <Badge variant="secondary" className={styles.badge}>{t('privateBadge')}</Badge>
                 )}
               </div>
-            </CardContent>
-          </Card>
+
+              <button 
+                className={styles.likeAction}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <Heart className={styles.heartIcon} />
+                <span>{/* answer.likes_count ?? */ 0}</span>
+              </button>
+            </div>
+
+            <p className={styles.body}>{answer.answer_text}</p>
+          </div>
         ))
       )}
 
       {hasMore && (
-        <div className="text-center pt-2">
+        <div className={styles.loadMore}>
           <Button variant="outline" onClick={loadMore} disabled={loadingMore}>
             {loadingMore ? t('loadingMore') : t('loadMore')}
           </Button>

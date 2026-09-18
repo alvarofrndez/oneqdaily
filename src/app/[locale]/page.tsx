@@ -1,11 +1,10 @@
-import DailyQuestion from '@/src/features/questions/components/DailyQuestion';
+import DailyQuestion from '@/src/features/questions/components/DailyQuestion'
+import styles from './page.module.scss'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        <DailyQuestion />
-      </div>
-    </main>
+    <div className={styles.container}>
+      <DailyQuestion />
+    </div>
   );
 }

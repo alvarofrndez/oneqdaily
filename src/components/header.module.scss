@@ -1,0 +1,37 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.header{
+    // size
+    width: 70%;
+    height: tokens.$header-height;
+
+    // position
+    position: fixed;
+    top: 0;
+    left: 50%;
+    z-index: tokens.$z-index-sticky;
+
+    // display
+    @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-16);
+
+    // decoration
+    background-color: var(--background);
+
+    transform: translateX(-50%);
+    .brand{
+
+    }
+
+    .actions{
+        // display
+        @include mixins.flex(row, flex-end, center, nowrap, tokens.$spacing-6);
+
+        .routes{
+
+        }
+
+        .menu{
+        }
+    }
+}

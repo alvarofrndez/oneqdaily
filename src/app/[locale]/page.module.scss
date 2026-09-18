@@ -1,0 +1,13 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.container{
+    width: 100%;
+    min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-4);
+
+    @include mixins.flex(
+        column,
+        center,
+        center
+    );
+}
