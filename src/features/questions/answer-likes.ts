@@ -4,13 +4,13 @@ import type { Answer } from './types'
 /** Select para añadir al de answers: trae el número de likes */
 export const ANSWER_SELECT = '*, profiles(username, avatar_url), answer_likes(count)'
 
-type AnswerRow = Answer & { answer_likes?: { count: number }[] }
+type WithLikeCount<T> = T & { answer_likes?: { count: number }[] }
 
-export async function attachLikeState(
+export async function attachLikeState<T extends Answer = Answer>(
   client: SupabaseClient,
-  rows: AnswerRow[],
+  rows: WithLikeCount<T>[],
   userId?: string
-): Promise<Answer[]> {
+): Promise<T[]> {
   let likedIds = new Set<string>()
 
   if (userId && rows.length > 0) {
@@ -27,9 +27,12 @@ export async function attachLikeState(
     }
   }
 
-  return rows.map(({ answer_likes, ...answer }) => ({
-    ...answer,
-    likes_count: answer_likes?.[0]?.count ?? 0,
-    liked_by_me: likedIds.has(answer.id),
-  }))
+  return rows.map((row) => {
+    const { answer_likes, ...answer } = row
+    return {
+      ...answer,
+      likes_count: answer_likes?.[0]?.count ?? 0,
+      liked_by_me: likedIds.has(row.id),
+    } as unknown as T
+  })
 }

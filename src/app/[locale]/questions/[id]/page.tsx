@@ -43,10 +43,7 @@ export default async function QuestionDetailPage({
 		);
 	}
 
-	const { answers, hasMore } = await getAnswersPage(
-		question.id,
-		0
-	);
+	const { answers, hasMore } = await getAnswersPage(question.id);
 
 	return (
 		<main className={styles.page}>

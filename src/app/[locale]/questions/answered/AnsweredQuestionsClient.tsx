@@ -6,7 +6,7 @@ import { ChevronDown } from 'lucide-react';
 
 import {
 	AnswerWithQuestion,
-	Question,
+	QuestionSummary,
 } from '@/src/features/questions/types';
 import { setAnswerLike } from '@/src/features/questions/actions';
 import LikeButton from '@/src/components/like-button';
@@ -15,7 +15,7 @@ import styles from './AnsweredQuestionsClient.module.scss';
 
 type QuestionGroup = {
 	questionId: string;
-	question: Question | null;
+	question: QuestionSummary | null;
 	answers: AnswerWithQuestion[];
 };
 

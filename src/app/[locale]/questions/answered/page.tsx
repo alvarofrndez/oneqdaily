@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { getAnswersByUser } from '@/src/features/questions/queries';
-import { AnswerWithQuestion, Question } from '@/src/features/questions/types';
+import { AnswerWithQuestion, QuestionSummary } from '@/src/features/questions/types';
 import AnsweredQuestionsClient from './AnsweredQuestionsClient';
 
 export default async function AnsweredQuestionsPage() {
@@ -30,7 +30,7 @@ export default async function AnsweredQuestionsPage() {
 
     acc[questionId].answers.push(answer);
     return acc;
-  }, {} as Record<string, { question: Question | null; answers: AnswerWithQuestion[] }>);
+  }, {} as Record<string, { question: QuestionSummary | null; answers: AnswerWithQuestion[] }>);
 
   const questionsArray = Object.entries(answersByQuestion).map(
     ([questionId, { question, answers }]) => ({
@@ -51,7 +51,6 @@ export default async function AnsweredQuestionsPage() {
         viewFullQuestion: t('viewFullQuestion'),
         expandAll: t('expandAll'),
         collapseAll: t('collapseAll'),
-        likes: t('likes'),
       }}
     />
   );

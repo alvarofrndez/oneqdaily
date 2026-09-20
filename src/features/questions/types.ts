@@ -33,3 +33,5 @@ export type InsertAnswer = {
 export type AnswerWithQuestion = Answer & {
   questions: Pick<Question, 'id' | 'text' | 'display_date'> | null
 }
+
+export type QuestionSummary = Pick<Question, 'id' | 'text' | 'display_date'>
