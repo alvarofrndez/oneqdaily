@@ -8,12 +8,15 @@
     // display
     @include mixins.flex(column, flex-start, center, nowrap, tokens.$spacing-20);
 
+    // margin
+    padding-bottom: tokens.$spacing-6;
+
     .questionCard {
         // size
         width: min(960px, calc(100% - 2rem));
 
         // display
-        @include mixins.flex(column, flex-start, center, nowrap, tokens.$spacing-14);
+        @include mixins.flex(column, flex-start, center, nowrap, tokens.$spacing-8);
 
         &Header {
             // display
@@ -52,12 +55,12 @@
         }
     }
 
-    .answersContainer {
+   .answersContainer {
         // size
         width: 100%;
 
-        // display 
-        @include mixins.flex(column, flex-start, stretch, nowrap, 0);
+        // display
+        @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-6);
 
         .answersContainerTitle {
             // size
@@ -67,7 +70,7 @@
             @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-8);
 
             // margin
-            padding-bottom: tokens.$spacing-4;
+            padding-bottom: tokens.$spacing-3;
 
             // decoration
             border-bottom: 1px solid var(--border);
@@ -81,14 +84,14 @@
             .toggle {
                 // transition
                 transition: transform 0.3s ease-in-out;
-                
+
                 &.expandedToggle {
                     // decoration
                     transform: rotate(90deg);
                 }
             }
         }
-        
+
         .answersWrapper {
             // display
             display: grid;
@@ -101,17 +104,14 @@
             opacity: 0;
 
             // transition
-            transition: 
-              grid-template-rows 0.35s ease-in-out, 
-              opacity 0.35s ease-in-out, 
-              margin-top 0.35s ease-in-out;
+            transition:
+                grid-template-rows 0.35s ease-in-out,
+                opacity 0.35s ease-in-out,
+                margin-top 0.35s ease-in-out;
 
             &.expandedWrapper {
                 // display
                 grid-template-rows: 1fr;
-
-                // margin
-                margin-top: tokens.$spacing-10;
 
                 // decoration
                 opacity: 1;
@@ -122,7 +122,7 @@
                 width: 100%;
 
                 // decoration
-                overflow: hidden; 
+                overflow: hidden;
             }
         }
     }

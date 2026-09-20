@@ -12,7 +12,7 @@
         min-height: 100dvh;
 
         // margin
-        padding-top: calc(tokens.$header-height + tokens.$spacing-4);
+        padding-top: calc(tokens.$header-height + tokens.$spacing-14);
 
         // display
         @include mixins.flex(column, flex-start, center);

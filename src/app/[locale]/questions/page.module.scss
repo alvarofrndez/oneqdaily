@@ -1,0 +1,40 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.page {
+    // size
+    width: 100%;
+    min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-14);
+
+    // display
+    @include mixins.flex(row, center, center);
+
+    // decoration
+    background-color: var(--background);
+
+    .container {
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(
+            column,
+            flex-start,
+            stretch,
+            nowrap,
+            tokens.$spacing-8
+        );
+    }
+
+    .empty {
+        // size
+        width: 100%;
+
+        // decoration
+        color: var(--muted-foreground);
+        font-size: tokens.$font-size-base;
+        line-height: tokens.$line-height-normal;
+        text-align: center;
+    }
+}
+

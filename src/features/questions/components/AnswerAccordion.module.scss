@@ -1,0 +1,74 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.answersContainer {
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-6);
+
+    .answersContainerTitle {
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-8);
+
+        // margin
+        padding-bottom: tokens.$spacing-3;
+
+        // decoration
+        border-bottom: 1px solid var(--border);
+        cursor: pointer;
+
+        .title {
+            // decoration
+            font-size: tokens.$font-size-2xl;
+        }
+
+        .toggle {
+            // transition
+            transition: transform 0.3s ease-in-out;
+
+            &.expandedToggle {
+                // decoration
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    .answersWrapper {
+        // display
+        display: grid;
+        grid-template-rows: 0fr;
+
+        // margin
+        margin-top: 0;
+
+        // decoration
+        opacity: 0;
+
+        // transition
+        transition:
+            grid-template-rows 0.35s ease-in-out,
+            opacity 0.35s ease-in-out,
+            margin-top 0.35s ease-in-out;
+
+        &.expandedWrapper {
+            // display
+            grid-template-rows: 1fr;
+
+            // decoration
+            opacity: 1;
+        }
+
+        .answersInner {
+            // size
+            width: 100%;
+
+            // decoration
+            overflow: hidden;
+        }
+    }
+}

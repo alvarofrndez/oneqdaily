@@ -18,7 +18,7 @@ export default function DailyQuestion() {
   const [question, setQuestion] = useState<Question | null>(null);
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState<string>('');
-  const [isAnswersExpanded, setIsAnswersExpanded] = useState(true);
+  const [isAnswersExpanded, setIsAnswersExpanded] = useState(false);
 
   async function fetchQuestion() {
     const q = await getTodayQuestion();
@@ -73,10 +73,6 @@ export default function DailyQuestion() {
     <div className={styles.container}>
       <div className={styles.questionCard}>
         <div className={styles.questionCardHeader}>
-          <p className={styles.nextQuestion}>
-            {t('nextQuestionIn')}
-            <span className={styles.timeLeft}>{timeLeft}</span>
-          </p>
           <h2 className={styles.question}>{question.text}</h2>
         </div>
         
@@ -90,7 +86,7 @@ export default function DailyQuestion() {
           className={styles.answersContainerTitle}
           onClick={toggleAnswers}
         >
-          <h3 className={styles.title}>{t('answersTitle')}</h3>
+          <h1 className={styles.title}>{t('answersTitle')}</h1>
           
           <ChevronRight 
             size={18} 

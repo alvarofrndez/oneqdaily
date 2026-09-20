@@ -1,0 +1,187 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.page {
+    // size
+    width: 100%;
+    min-height: 100vh;
+
+    // decoration
+    background-color: var(--background);
+
+    .container {
+        // size
+        width: 100%;
+        max-width: tokens.$max-width;
+
+        // margin
+        padding-top: tokens.$spacing-8;
+        padding-bottom: tokens.$spacing-6;
+        margin: 0 auto;
+
+        // display
+        @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-6);
+
+        .header {
+            // size
+            width: 100%;
+
+            // display
+            @include mixins.flex(column, flex-start, center, nowrap, tokens.$spacing-4);
+
+            // margin
+            padding-bottom: tokens.$spacing-2;
+
+            // decoration
+            border-bottom: 1px solid var(--border);
+
+            .info{
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-16);
+
+                .user{
+                    // decoration
+                    font-size: tokens.$font-size-sm;
+                }
+
+                .navigation{
+                    // display
+                    @include mixins.flex(row, flex-end, center, nowrap, tokens.$spacing-2);
+
+                    .link {
+                        // decoration
+                        flex-shrink: 0;
+                        font-size: tokens.$font-size-sm;
+                        line-height: tokens.$line-height-normal;
+                        color: var(--muted-foreground);
+                        text-decoration: none;
+
+                        // transition
+                        transition: all 0.2s ease;
+
+                        &:hover {
+                            // decoration
+                            text-decoration: underline;
+                            color: var(--foreground);
+
+                            // transition
+                            transition: all 0.2s ease;
+                        }
+                    }
+                }
+            }
+
+            .question{
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-16);
+
+                &Text {
+                    // decoration
+                    font-size: tokens.$font-size-2xl;
+                    font-weight: tokens.$font-weight-semibold;
+                    line-height: tokens.$line-height-tight;
+                    color: var(--foreground);
+                }
+
+                &Date{
+                    // decoration
+                    font-size: tokens.$font-size-sm;
+                    color: var(--muted-foreground);
+                }
+            }
+            
+        }
+
+        .empty {
+            // margin
+            padding-top: tokens.$spacing-10;
+            padding-bottom: tokens.$spacing-10;
+
+            // decoration
+            text-align: center;
+            color: var(--muted-foreground);
+        }
+
+        .content {
+            // size
+            width: 100%;
+
+            // display
+            @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-2);
+
+            .answerMeta {
+                // display
+                @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-8);
+
+                .answerDate {
+                    // decoration
+                    color: var(--muted-foreground);
+                    font-size: tokens.$font-size-sm;
+                    line-height: tokens.$line-height-normal;
+                }
+
+                .badge {
+                    // display
+                    display: inline-flex;
+                    align-items: center;
+
+                    // decoration
+                    font-size: tokens.$font-size-sm;
+                    color: var(--muted-foreground);
+                    font-weight: tokens.$font-weight-light;
+                    line-height: tokens.$line-height-normal;
+                }
+
+                .likes {
+                    // display
+                    @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-1);
+
+                    // margin
+                    margin-left: auto;
+
+                    // decoration
+                    color: var(--muted-foreground);
+                    font-size: tokens.$font-size-xs;
+                    line-height: tokens.$line-height-normal;
+                }
+            }
+        }
+    }
+}
+
+@include mixins.down(md) {
+    .header {
+        @include mixins.flex(
+            column,
+            flex-start,
+            flex-start,
+            nowrap,
+            tokens.$spacing-3
+        );
+    }
+}
+
+@include mixins.down(sm) {
+    .container {
+        padding-top: tokens.$spacing-6;
+        padding-bottom: tokens.$spacing-6;
+    }
+
+    .title {
+        font-size: tokens.$font-size-2xl;
+    }
+
+    .group {
+        padding: tokens.$spacing-4;
+    }
+
+    .questionTitle {
+        font-size: tokens.$font-size-lg;
+    }
+}

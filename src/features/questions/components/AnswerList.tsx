@@ -37,7 +37,7 @@ const formatRelativeTime = (dateString: string, t: any) => {
 
 export default function AnswerList({ questionId, initialAnswers, initialHasMore }: Props) {
   const t = useTranslations('Questions.AnswerList');
-  const router = useRouter(); // <-- Instanciamos el router
+  const router = useRouter();
   const currentUser = useContext(UserContext);
   const [answers, setAnswers] = useState<Answer[]>(initialAnswers ?? []);
   const [hasMore, setHasMore] = useState(initialHasMore ?? true);
@@ -127,10 +127,9 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
           <div 
             key={answer.id} 
             className={styles.answerItem}
-            onClick={() => router.push(`/answers/${answer.id}`)} // <-- Redirección al hacer clic
+            onClick={() => router.push(`/answers/${answer.id}`)}
           >
             
-            {/* Cabecera: Nombre · Tiempo y Botón de Likes */}
             <div className={styles.header}>
               <div className={styles.meta}>
                 <span className={styles.author}>
@@ -142,7 +141,7 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
                 </span>
                 
                 {answer.visibility === 'private' && answer.user_id === currentUser?.id && (
-                  <Badge variant="secondary" className={styles.badge}>{t('privateBadge')}</Badge>
+                  <div className={styles.badge}>{t('privateBadge')}</div>
                 )}
               </div>
 
@@ -157,7 +156,10 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
               </button>
             </div>
 
-            <p className={styles.body}>{answer.answer_text}</p>
+            <div
+              className={styles.answerText}
+              dangerouslySetInnerHTML={{ __html: answer.answer_text }}
+            />
           </div>
         ))
       )}

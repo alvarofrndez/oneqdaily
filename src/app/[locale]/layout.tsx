@@ -1,7 +1,7 @@
 import type {Metadata} from 'next';
 import { DM_Sans, Fraunces, DM_Mono } from 'next/font/google';
-import '@/src/components/editor/style.css';
 import '@/src/styles/globals.css';
+import '@/components/editor/style.css';
 import styles from './layout.module.scss'
 import {getLocale, getMessages, getTranslations} from 'next-intl/server';
 import {routing} from '@/i18n/routing';

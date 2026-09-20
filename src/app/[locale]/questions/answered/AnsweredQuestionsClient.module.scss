@@ -1,0 +1,416 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.page {
+    // size
+    width: 100%;
+    min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-14);
+
+    // decoration
+    background-color: var(--background);
+
+    .container {
+        // size
+        width: 100%;
+        max-width: tokens.$max-width;
+
+        // margin
+        padding-top: tokens.$spacing-8;
+        padding-bottom: tokens.$spacing-6;
+        margin: 0 auto;
+
+        // display
+        @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-6);
+
+        .header {
+            // size
+            width: 100%;
+
+            // display
+            @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-16);
+
+            // margin
+            padding-bottom: tokens.$spacing-4;
+
+            // decoration
+            border-bottom: 1px solid var(--border);
+
+            .actions {
+                // display
+                @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-3);
+
+                .actionButton {
+                    // decoration
+                    border: none;
+                    background-color: transparent;
+                    font-size: tokens.$font-size-sm;
+                    line-height: tokens.$line-height-normal;
+                    color: var(--muted-foreground);
+                    cursor: pointer;
+
+                    // transition
+                    transition: color 0.2s ease;
+
+                    &:hover {
+                        // decoration
+                        color: var(--foreground);
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            .backLink {
+                // decoration
+                flex-shrink: 0;
+                font-size: tokens.$font-size-sm;
+                line-height: tokens.$line-height-normal;
+                color: var(--muted-foreground);
+                text-decoration: none;
+
+                // transition
+                transition: all 0.2s ease;
+
+                &:hover {
+                    // decoration
+                    text-decoration: underline;
+                    color: var(--foreground);
+                }
+            }
+        }
+
+        .empty {
+            // margin
+            padding-top: tokens.$spacing-10;
+            padding-bottom: tokens.$spacing-10;
+
+            // decoration
+            text-align: center;
+            color: var(--muted-foreground);
+        }
+
+        .list {
+            // size
+            width: 100%;
+
+            // display
+            @include mixins.flex(column, flex-start, stretch, nowrap, 0);
+
+            .group {
+                // size
+                width: 100%;
+
+                // decoration
+                border-bottom: 1px solid var(--border);
+
+                &:last-of-type {
+                    // decoration
+                    border-bottom: 0;
+                }
+
+                .groupHeader {
+                    // size
+                    width: 100%;
+
+                    // display
+                    @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-4);
+
+                    // margin
+                    padding-top: tokens.$spacing-4;
+                    padding-bottom: tokens.$spacing-4;
+
+                    // decoration
+                    border: none;
+                    background-color: transparent;
+                    text-align: left;
+                    cursor: pointer;
+                    outline: none;
+
+                    // transition
+                    transition: all .2s ease;
+
+
+                    &:hover{
+                        .questionDate {
+                            // decoration
+                            color: var(--foreground);
+                        }
+
+                        .toggle{
+                            // decoration
+                            color: var(--foreground);
+                        }
+                    }
+
+                    .questionText {
+                        // size
+                        flex: 1;
+
+                        // decoration
+                        font-size: tokens.$font-size-base;
+                        font-weight: tokens.$font-weight-medium;
+                        line-height: tokens.$line-height-normal;
+                        color: var(--foreground);
+                    }
+
+                    .questionDate {
+                        // decoration
+                        flex-shrink: 0;
+                        color: var(--muted-foreground);
+                        font-size: tokens.$font-size-xs;
+                        line-height: tokens.$line-height-normal;
+
+                        // transition
+                    transition: all .2s ease;
+                    }
+
+                    .toggle {
+                        // decoration
+                        flex-shrink: 0;
+                        color: var(--muted-foreground);
+
+                        // transition
+                        transition: all 0.3s ease-in-out;
+
+                        &.expandedToggle {
+                            // decoration
+                            transform: rotate(180deg);
+                        }
+                    }
+                }
+
+                .answersWrapper {
+                    // display
+                    display: grid;
+                    grid-template-rows: 0fr;
+
+                    // margin
+                    margin-top: 0;
+
+                    // decoration
+                    opacity: 0;
+
+                    // transition
+                    transition:
+                        grid-template-rows 0.3s ease-in-out,
+                        opacity 0.3s ease-in-out,
+                        margin-top 0.3s ease-in-out;
+
+                    &.expandedWrapper {
+                        // display
+                        grid-template-rows: 1fr;
+
+                        // margin
+                        margin-top: tokens.$spacing-1;
+
+                        // decoration
+                        opacity: 1;
+                    }
+
+                    .answersInner {
+                        // size
+                        width: 100%;
+
+                        // margin
+                        padding-bottom: tokens.$spacing-4;
+
+                        // decoration
+                        overflow: hidden;
+                    }
+                }
+
+                .answers {
+                    // display
+                    @include mixins.flex(column, flex-start, stretch, nowrap, 0);
+                }
+
+                .answer {
+                    // display
+                    display: block;
+
+                    // display
+                    @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-2);
+
+                    // margin
+                    padding-top: tokens.$spacing-3;
+                    padding-bottom: tokens.$spacing-3;
+
+                    // decoration
+                    text-decoration: none;
+                    color: inherit;
+                    transition: all .2s ease;
+
+                    &:not(:first-child) {
+                        // decoration
+                        border-top: 1px dashed var(--border);
+                    }
+
+                    .answerText {
+                        // decoration
+                        font-size: tokens.$font-size-base;
+                        line-height: tokens.$line-height-normal;
+                        color: var(--foreground);
+
+                        // transition
+                        transition: all .2s ease;
+                    }
+
+                    .answerMeta {
+                        // display
+                        @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-2);
+
+                        .badge {
+                            // display
+                            display: inline-flex;
+                            align-items: center;
+
+                            // decoration
+                            font-size: tokens.$font-size-xs;
+                            color: var(--muted-foreground);
+                            font-weight: tokens.$font-weight-light;
+                            line-height: tokens.$line-height-normal;
+                        }
+
+                        .answerDate {
+                            // decoration
+                            color: var(--muted-foreground);
+                            font-size: tokens.$font-size-xs;
+                            line-height: tokens.$line-height-normal;
+                        }
+
+                        .likes {
+                            // display
+                            @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-1);
+
+                            // margin
+                            margin-left: auto;
+
+                            // decoration
+                            color: var(--muted-foreground);
+                            font-size: tokens.$font-size-xs;
+                            line-height: tokens.$line-height-normal;
+                        }
+                    }
+
+                    &:hover {
+                        .answerText {
+                            // decoration
+                            color: var(--muted-foreground);
+                        }
+                    }
+                }
+
+                
+
+                .groupFooter {
+                    // margin
+                    padding-top: tokens.$spacing-2;
+
+                    .viewFullLink {
+                        // decoration
+                        font-size: tokens.$font-size-xs;
+                        color: var(--muted-foreground);
+                        text-decoration: none;
+
+                        // transition
+                        transition: color 0.2s ease;
+
+                        &:hover {
+                            // decoration
+                            text-decoration: underline;
+                            color: var(--foreground);
+                        }
+                    }
+                }
+            }
+
+            .pagination {
+                // display
+                @include mixins.flex(row, center, center, nowrap, tokens.$spacing-2);
+
+                // margin
+                margin-top: tokens.$spacing-4;
+
+                .paginationButton {
+                    // margin
+                    padding: tokens.$spacing-1-5 tokens.$spacing-3;
+
+                    // decoration
+                    border: none;
+                    border-radius: var(--radius-sm);
+                    background-color: transparent;
+                    font-size: tokens.$font-size-sm;
+                    color: var(--foreground);
+                    cursor: pointer;
+
+                    // transition
+                    transition: background-color 0.2s ease, opacity 0.2s ease;
+
+                    &:hover:not(:disabled) {
+                        // decoration
+                        background-color: var(--accent);
+                    }
+
+                    &:disabled {
+                        // decoration
+                        opacity: 0.5;
+                        cursor: not-allowed;
+                    }
+                }
+
+                .paginationInfo {
+                    // margin
+                    padding: tokens.$spacing-1-5 tokens.$spacing-3;
+
+                    // decoration
+                    border-radius: var(--radius-sm);
+                    background-color: var(--accent);
+                    font-size: tokens.$font-size-sm;
+                    color: var(--foreground);
+                }
+            }
+        }
+    }
+}
+
+@include mixins.down(md) {
+    .header {
+        @include mixins.flex(
+            column,
+            flex-start,
+            flex-start,
+            nowrap,
+            tokens.$spacing-3
+        );
+    }
+
+    .groupHeader {
+        @include mixins.flex(
+            column,
+            flex-start,
+            flex-start,
+            nowrap,
+            tokens.$spacing-1
+        );
+    }
+
+    .questionDate {
+        text-align: left;
+    }
+}
+
+@include mixins.down(sm) {
+    .container {
+        padding-top: tokens.$spacing-6;
+        padding-bottom: tokens.$spacing-6;
+    }
+
+    .actions {
+        @include mixins.flex(
+            row,
+            flex-start,
+            center,
+            nowrap,
+            tokens.$spacing-2
+        );
+    }
+}

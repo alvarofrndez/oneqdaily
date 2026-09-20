@@ -2,8 +2,9 @@
 @use '@/src/styles/mixins.scss' as mixins;
 
 .container{
+    // size
     width: 100%;
-    min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-4);
+    min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-14);
 
     @include mixins.flex(
         column,

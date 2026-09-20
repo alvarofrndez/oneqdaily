@@ -1,0 +1,45 @@
+@use '@/src/styles/tokens.scss' as tokens;
+
+.wrapper {
+  width: 100%;
+  
+  .anonymous {
+    // display
+    display: inline-flex;
+    align-items: center;
+
+    // margin
+    padding-inline: tokens.$spacing-1;
+
+    // decoration
+    font-size: tokens.$font-size-sm;
+    color: var(--muted-foreground);
+    white-space: nowrap;
+  }
+
+  .visibility {
+    // display
+    display: inline-flex;
+    align-items: center;
+    gap: tokens.$spacing-2;
+
+    // decoration
+    cursor: pointer;
+
+    .label {
+      // decoration
+      font-size: tokens.$font-size-sm;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .active {
+      color: var(--foreground);
+    }
+  }
+}
+
+
+
+

@@ -116,7 +116,7 @@ export async function getAnswersByUser(userId: string): Promise<AnswerWithQuesti
   const supabase = await createSupabaseServerClient()
   const { data, error } = await supabase
     .from('answers')
-    .select('*, questions(id, text)')
+    .select('*, questions(id, text, display_date)')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
 
@@ -152,7 +152,7 @@ export async function getAnswerById(id: string): Promise<{ answer: Answer; quest
   const supabase = await createSupabaseServerClient()
   const { data, error } = await supabase
     .from('answers')
-    .select('*, questions(*)')
+    .select('*, questions(*), profiles(*)')
     .eq('id', id)
     .single()
 

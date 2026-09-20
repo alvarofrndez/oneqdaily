@@ -89,20 +89,27 @@
       "empty": "No questions available.",
       "postedOn": "Posted on {date}"
     },
-    "AnsweredQuestions": {
-      "title": "My Answers",
-      "empty": "You haven't answered any questions yet.",
-      "answeredOn": "Answered on __DATE__",
-      "private": "Private",
-      "viewQuestion": "View Question",
-      "viewFullQuestion": "View Full Question & All Your Answers",
-      "questionId": "Question ID: __ID__",
-      "backToAllQuestions": "Back to All Questions"
+    "Calendar": {
+      "title": "Calendar",
+      "goBack": "Go back",
+      "previousMonth": "Previous motnh",
+      "nextMonth": "Next motnh",
+      "unlocksIn": "Unlock in"
     },
+    "AnsweredQuestions": {
+			"backToAllQuestions": "Back to all questions",
+			"empty": "You haven't answered any questions yet.",
+			"postedOn": "Posted on: __DATE__",
+			"private": "Private",
+			"answeredOn": "Answered on __DATE__",
+			"viewFullQuestion": "View full question",
+			"expandAll": "Expand all",
+			"collapseAll": "Collapse all",
+			"likes": "Likes"
+		},
     "Detail": {
-      "title": "Question",
-      "notFound": "Question not found.",
-      "back": "← Back to all questions",
+      "back": "Go back",
+      "notFound": "Question not found",
       "postedOn": "Posted on {date}",
       "answersTitle": "Answers"
     },
@@ -117,15 +124,15 @@
     },
     "AnswerDetail":{
       "title": "Answer Detail",
-      "backToQuestionAnswers": "Back to Question Answers",
+      "backToQuestion": "Back to Question",
       "backToAnsweredList": "Back to Your Answers",
-      "answerDetail": "Answer Detail",
       "forQuestion": "For Question: {questionText}",
       "answerNotFound": "Answer not found",
       "yourAnswer": "Your Answer",
       "private": "Private",
       "answeredOn": "Answered on {date}",
-      "postedOn": "Posted on {date}"
+      "postedOn": "Posted on {date}",
+      "postedBy": "Posted by {username}"
     },
     "errors": {
       "invalidInput": "Invalid input",

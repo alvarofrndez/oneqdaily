@@ -1,0 +1,177 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.page {
+    // size
+    width: 100%;
+    min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-14);
+
+    // display
+    @include mixins.flex(column, safe center, center);
+
+    // decoration
+    background-color: var(--background);
+
+    .container {
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(
+            column,
+            flex-start,
+            center,
+            nowrap,
+            tokens.$spacing-10
+        );
+
+        // margin
+        padding-bottom: tokens.$spacing-8;
+
+        .questionCard {
+            // size
+            width: min(960px, calc(100% - 2rem));
+
+            // display
+            @include mixins.flex(
+                column,
+                flex-start,
+                center,
+                nowrap,
+                tokens.$spacing-4
+            );
+
+            // decoration
+            background-color: var(--background);
+
+            .questionHeader {
+                // display
+                @include mixins.flex(
+                    column,
+                    flex-start,
+                    stretch,
+                    nowrap,
+                    tokens.$spacing-3
+                );
+
+                .question {
+                    // decoration
+                    font-size: tokens.$font-size-6xl;
+                    font-family: var(--font-mono);
+                    line-height: 1;
+                }
+            }
+
+            .info {
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(
+                    row,
+                    space-between,
+                    center,
+                    nowrap,
+                    tokens.$spacing-4
+                );
+
+                .questionDate {
+                    // decoration
+                    color: var(--muted-foreground);
+                    font-size: tokens.$font-size-xs;
+                    line-height: tokens.$line-height-normal;
+                }
+
+                .backLink {
+                    // decoration
+                    color: var(--muted-foreground);
+                    font-size: tokens.$font-size-xs;
+                    line-height: tokens.$line-height-normal;
+                    text-decoration: none;
+
+                    // transition
+                    transition:
+                        color 0.2s ease,
+                        text-decoration 0.2s ease;
+
+                    &:hover {
+                        // decoration
+                        color: var(--foreground);
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            .answerForm {
+                // size
+                width: 100%;
+
+                // display
+                @include mixins.flex(
+                    column,
+                    flex-start,
+                    stretch,
+                    nowrap,
+                    0
+                );
+            }
+        }
+
+        .notFound {
+            // size
+            width: 100%;
+
+            // display
+            @include mixins.flex(
+                column,
+                center,
+                center,
+                nowrap,
+                tokens.$spacing-4
+            );
+
+            // margin
+            padding: tokens.$spacing-8 0;
+
+            .notFoundMessage {
+                // decoration
+                color: var(--destructive);
+                font-size: tokens.$font-size-base;
+                line-height: tokens.$line-height-normal;
+                text-align: center;
+            }
+        }
+    }
+}
+
+@include mixins.down(md) {
+    .container {
+        width: min(100% - 1.5rem, 960px);
+        padding-top: tokens.$spacing-6;
+        padding-bottom: tokens.$spacing-6;
+    }
+
+    .questionCard {
+        padding: tokens.$spacing-5;
+    }
+
+    .question {
+        font-size: tokens.$font-size-2xl;
+    }
+}
+
+@include mixins.down(sm) {
+    .container {
+        width: calc(100% - 1rem);
+        gap: tokens.$spacing-8;
+    }
+
+    .questionCard {
+        padding: tokens.$spacing-4;
+        gap: tokens.$spacing-6;
+    }
+
+    .question {
+        font-size: tokens.$font-size-xl;
+    }
+}
