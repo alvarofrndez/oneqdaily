@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ChevronDown, Heart } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 import {
 	AnswerWithQuestion,
 	Question,
 } from '@/src/features/questions/types';
+import { setAnswerLike } from '@/src/features/questions/actions';
+import LikeButton from '@/src/components/like-button';
 
 import styles from './AnsweredQuestionsClient.module.scss';
 
@@ -27,7 +29,6 @@ type Props = {
 		viewFullQuestion: string;
 		expandAll: string;
 		collapseAll: string;
-		likes: string;
 	};
 };
 
@@ -41,10 +42,7 @@ export default function AnsweredQuestionsClient({
 	const questionsPerPage = 5;
 
 	const totalQuestions = questions.length;
-	const totalPages = Math.max(
-		1,
-		Math.ceil(totalQuestions / questionsPerPage)
-	);
+	const totalPages = Math.max(1, Math.ceil(totalQuestions / questionsPerPage));
 
 	const indexOfLastQuestion = currentPage * questionsPerPage;
 	const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
@@ -107,105 +105,104 @@ export default function AnsweredQuestionsClient({
 					<p className={styles.empty}>{translations.empty}</p>
 				) : (
 					<div className={styles.list}>
-						{currentQuestions.map(
-							({ questionId, question, answers }) => {
-								const isExpanded = expandedIds.has(questionId);
+						{currentQuestions.map(({ questionId, question, answers }) => {
+							const isExpanded = expandedIds.has(questionId);
 
-								return (
-									<div key={questionId} className={styles.group}>
-										<button
-											type="button"
-											className={styles.groupHeader}
-											onClick={() => toggleQuestion(questionId)}
-											aria-expanded={isExpanded}
-										>
-											<span className={styles.questionText}>
-												{question?.text}
-											</span>
+							return (
+								<div key={questionId} className={styles.group}>
+									<button
+										type="button"
+										className={styles.groupHeader}
+										onClick={() => toggleQuestion(questionId)}
+										aria-expanded={isExpanded}
+									>
+										<span className={styles.questionText}>
+											{question?.text}
+										</span>
 
-											<span className={styles.questionDate}>
-												{question?.display_date &&
-													new Date(question.display_date).toLocaleDateString()}
-											</span>
+										<span className={styles.questionDate}>
+											{question?.display_date &&
+												new Date(question.display_date).toLocaleDateString()}
+										</span>
 
-											<ChevronDown
-												size={16}
-												className={`${styles.toggle} ${
-													isExpanded ? styles.expandedToggle : ''
-												}`}
-											/>
-										</button>
-
-										<div
-											className={`${styles.answersWrapper} ${
-												isExpanded ? styles.expandedWrapper : ''
+										<ChevronDown
+											size={16}
+											className={`${styles.toggle} ${
+												isExpanded ? styles.expandedToggle : ''
 											}`}
-										>
-											<div className={styles.answersInner}>
-												<div className={styles.answers}>
-													{answers.map((answer) => (
+										/>
+									</button>
+
+									<div
+										className={`${styles.answersWrapper} ${
+											isExpanded ? styles.expandedWrapper : ''
+										}`}
+									>
+										<div className={styles.answersInner}>
+											<div className={styles.answers}>
+												{answers.map((answer) => (
+													<div key={answer.id} className={styles.answer}>
 														<Link
-															key={answer.id}
 															href={`/answers/${answer.id}`}
-															className={styles.answer}
+															className={styles.answerLink}
 														>
-															<div 
+															<div
 																className={styles.answerText}
-																dangerouslySetInnerHTML={{ __html: answer.answer_text }}
+																dangerouslySetInnerHTML={{
+																	__html: answer.answer_text,
+																}}
 															/>
-
-															<div className={styles.answerMeta}>
-																<span className={styles.answerDate}>
-																	{translations.answeredOn.replace(
-																		'__DATE__',
-																		new Date(
-																			answer.created_at
-																		).toLocaleDateString()
-																	)}
-																</span>
-
-                                								{answer.visibility === 'private' && (
-																	<span className={styles.badge}>
-																		{translations.private}
-																	</span>
-																)}
-
-																<span
-																	className={styles.likes}
-																	aria-label={translations.likes}
-																>
-																	<Heart size={14} />
-																	{/*answer.likes_count ??*/ 0}
-																</span>
-															</div>
 														</Link>
-													))}
-												</div>
 
-												<div className={styles.groupFooter}>
-													<Link
-														href={`/questions/answered/${questionId}`}
-														className={styles.viewFullLink}
-													>
-														{translations.viewFullQuestion}
-													</Link>
-												</div>
+														<div className={styles.answerMeta}>
+															<span className={styles.answerDate}>
+																{translations.answeredOn.replace(
+																	'__DATE__',
+																	new Date(
+																		answer.created_at
+																	).toLocaleDateString()
+																)}
+															</span>
+
+															{answer.visibility === 'private' && (
+																<span className={styles.badge}>
+																	{translations.private}
+																</span>
+															)}
+
+															<span className={styles.likes}>
+																<LikeButton
+																	initialLiked={answer.liked_by_me ?? false}
+																	initialCount={answer.likes_count ?? 0}
+																	onToggle={(nextLiked) =>
+																		setAnswerLike(answer.id, nextLiked)
+																	}
+																/>
+															</span>
+														</div>
+													</div>
+												))}
+											</div>
+
+											<div className={styles.groupFooter}>
+												<Link
+													href={`/questions/answered/${questionId}`}
+													className={styles.viewFullLink}
+												>
+													{translations.viewFullQuestion}
+												</Link>
 											</div>
 										</div>
 									</div>
-								);
-							}
-						)}
+								</div>
+							);
+						})}
 
 						{totalPages > 1 && (
 							<div className={styles.pagination}>
 								<button
 									type="button"
-									onClick={() =>
-										setCurrentPage((prev) =>
-											Math.max(1, prev - 1)
-										)
-									}
+									onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
 									disabled={currentPage === 1}
 									className={styles.paginationButton}
 								>
@@ -219,9 +216,7 @@ export default function AnsweredQuestionsClient({
 								<button
 									type="button"
 									onClick={() =>
-										setCurrentPage((prev) =>
-											Math.min(totalPages, prev + 1)
-										)
+										setCurrentPage((prev) => Math.min(totalPages, prev + 1))
 									}
 									disabled={currentPage === totalPages}
 									className={styles.paginationButton}

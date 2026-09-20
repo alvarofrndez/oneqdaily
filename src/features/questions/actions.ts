@@ -38,3 +38,52 @@ export async function submitAnswer(formData: FormData) {
 
   return { success: true, answer: createdAnswer }
 }
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+export async function setAnswerLike(
+  answerId: string,
+  liked: boolean
+): Promise<{ error?: string; liked?: boolean; count?: number }> {
+  if (typeof answerId !== 'string' || !UUID_RE.test(answerId) || typeof liked !== 'boolean') {
+    return { error: 'Invalid input' }
+  }
+
+  const { createSupabaseServerClient } = await import('@/lib/supabase/server')
+  const supabase = await createSupabaseServerClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!user) return { error: 'unauthorized' }
+
+  const { error } = liked
+    ? await supabase
+        .from('answer_likes')
+        .upsert(
+          { answer_id: answerId, user_id: user.id },
+          { onConflict: 'answer_id,user_id', ignoreDuplicates: true }
+        )
+    : await supabase
+        .from('answer_likes')
+        .delete()
+        .eq('answer_id', answerId)
+        .eq('user_id', user.id)
+
+  if (error) {
+    console.error('Error updating like:', error)
+    return { error: 'Failed to update like' }
+  }
+
+  const { count, error: countError } = await supabase
+    .from('answer_likes')
+    .select('*', { count: 'exact', head: true })
+    .eq('answer_id', answerId)
+
+  if (countError) {
+    console.error('Error counting likes:', countError)
+    return { liked }
+  }
+
+  return { liked, count: count ?? 0 }
+}

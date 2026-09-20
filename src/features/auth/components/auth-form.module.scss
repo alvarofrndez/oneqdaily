@@ -1,0 +1,112 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.form {
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-4);
+
+    .field {
+        // display
+        @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-1-5);
+
+        .label {
+            // decoration
+            font-size: tokens.$font-size-sm;
+            line-height: tokens.$line-height-normal;
+            color: var(--muted-foreground);
+        }
+
+        .input {
+            // size
+            width: 100%;
+
+            // margin
+            padding: tokens.$spacing-2 tokens.$spacing-3;
+
+            // decoration
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background-color: transparent;
+            font-size: tokens.$font-size-sm;
+            line-height: tokens.$line-height-normal;
+            color: var(--foreground);
+            outline: none;
+
+            // transition
+            transition: border-color 0.2s ease;
+
+            &::placeholder {
+                // decoration
+                color: var(--muted-foreground);
+            }
+
+            &:hover,
+            &:focus-visible {
+                // decoration
+                border-color: var(--foreground);
+            }
+
+            &:disabled {
+                // decoration
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    .error {
+        // decoration
+        font-size: tokens.$font-size-xs;
+        line-height: tokens.$line-height-normal;
+        color: var(--destructive);
+    }
+
+    .success {
+        // decoration
+        font-size: tokens.$font-size-xs;
+        line-height: tokens.$line-height-normal;
+        color: var(--muted-foreground);
+    }
+
+    .submit {
+        // size
+        width: 100%;
+
+        // margin
+        padding: tokens.$spacing-2 tokens.$spacing-3;
+
+        // decoration
+        border: none;
+        border-radius: var(--radius-sm);
+        background-color: var(--foreground);
+        font-size: tokens.$font-size-sm;
+        line-height: tokens.$line-height-normal;
+        color: var(--background);
+        cursor: pointer;
+
+        // transition
+        transition: opacity 0.2s ease;
+
+        &:hover:not(:disabled) {
+            // decoration
+            opacity: 0.85;
+        }
+
+        &:disabled {
+            // decoration
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+}
+
+// Mensaje suelto (estado de éxito de signup, que sustituye al formulario)
+.message {
+    // decoration
+    font-size: tokens.$font-size-sm;
+    line-height: tokens.$line-height-normal;
+    color: var(--muted-foreground);
+}

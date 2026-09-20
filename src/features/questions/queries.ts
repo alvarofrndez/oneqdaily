@@ -2,8 +2,7 @@
 
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import type { Question, Answer, InsertAnswer, AnswerWithQuestion } from './types'
-
-
+import { ANSWER_SELECT, attachLikeState } from './answer-likes'
 
 export async function getTodayQuestion(): Promise<Question | null> {
   const supabase = await createSupabaseServerClient()
@@ -54,28 +53,26 @@ export async function getAllQuestions(): Promise<Question[]> {
 
 const PAGE_SIZE = 10
 
-export async function getAnswersPage(
-  questionId: string,
-  page: number
-): Promise<{ answers: Answer[]; hasMore: boolean }> {
+export async function getAnswersPage(questionId: string): Promise<{ answers: Answer[]; hasMore: boolean }> {
   const supabase = await createSupabaseServerClient()
-  const from = page * PAGE_SIZE
-  const to = from + PAGE_SIZE - 1
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   const { data, error, count } = await supabase
     .from('answers')
-    .select('*, profiles(username, avatar_url)', { count: 'exact' })
+    .select(ANSWER_SELECT, { count: 'exact' })
     .eq('question_id', questionId)
     .order('created_at', { ascending: false })
-    .range(from, to)
+    .range(0, PAGE_SIZE - 1)
 
   if (error) {
     console.error('Error fetching answers:', error)
     return { answers: [], hasMore: false }
   }
 
-  const answers = (data as Answer[]) ?? []
-  const hasMore = count != null ? from + answers.length < count : answers.length === PAGE_SIZE
+  const answers = await attachLikeState(supabase, (data as Answer[]) ?? [], user?.id)
+  const hasMore = count != null ? answers.length < count : answers.length === PAGE_SIZE
 
   return { answers, hasMore }
 }
@@ -114,9 +111,13 @@ export async function createAnswer(answer: InsertAnswer): Promise<Answer | null>
 
 export async function getAnswersByUser(userId: string): Promise<AnswerWithQuestion[]> {
   const supabase = await createSupabaseServerClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
   const { data, error } = await supabase
     .from('answers')
-    .select('*, questions(id, text, display_date)')
+    .select(`${ANSWER_SELECT}, questions(id, text, display_date)`)
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
 
@@ -125,7 +126,11 @@ export async function getAnswersByUser(userId: string): Promise<AnswerWithQuesti
     return []
   }
 
-  return data as AnswerWithQuestion[]
+  return attachLikeState<AnswerWithQuestion>(
+    supabase,
+    (data ?? []) as unknown as AnswerWithQuestion[],
+    user?.id
+  )
 }
 
 export async function getAnswersByUserAndQuestion(
@@ -133,9 +138,13 @@ export async function getAnswersByUserAndQuestion(
   questionId: string
 ): Promise<Answer[]> {
   const supabase = await createSupabaseServerClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
   const { data, error } = await supabase
     .from('answers')
-    .select('*')
+    .select(ANSWER_SELECT)
     .eq('user_id', userId)
     .eq('question_id', questionId)
     .order('created_at', { ascending: true })
@@ -145,28 +154,34 @@ export async function getAnswersByUserAndQuestion(
     return []
   }
 
-  return data as Answer[]
+  return attachLikeState(supabase, (data ?? []) as unknown as Answer[], user?.id)
 }
 
-export async function getAnswerById(id: string): Promise<{ answer: Answer; question: Question } | null> {
+export async function getAnswerById(
+  id: string
+): Promise<{ answer: Answer; question: Question } | null> {
   const supabase = await createSupabaseServerClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
   const { data, error } = await supabase
     .from('answers')
-    .select('*, questions(*), profiles(*)')
+    .select(`${ANSWER_SELECT}, questions(*)`)
     .eq('id', id)
-    .single()
+    .maybeSingle()
 
   if (error) {
     console.error('Error fetching answer by ID:', error)
     return null
   }
 
-  if (!data) {
-    return null
-  }
+  if (!data) return null
 
-  return {
-    answer: data as Answer,
-    question: data.questions as Question
-  }
+  const { questions, ...row } = data as unknown as Answer & { questions: Question | null }
+  if (!questions) return null
+
+  const [answer] = await attachLikeState(supabase, [row as Answer], user?.id)
+
+  return { answer, question: questions }
 }

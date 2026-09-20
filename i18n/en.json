@@ -7,12 +7,19 @@
     "appName": "Daily Questions",
     "questions": "Questions"
   },
+  "ThemeToggle": {
+    "label": "Theme",
+    "light": "Light theme",
+    "system": "System theme",
+    "dark": "Dark theme"
+  },
   "UserMenu": {
     "login": "Log in",
     "signup": "Sign up",
     "profile": "My profile",
     "answeredQuestions": "My Answers",
-    "logout": "Log out"
+    "logout": "Log out",
+    "theme": "Theme"
   },
   "Auth": {
     "Login": {
@@ -97,23 +104,23 @@
       "unlocksIn": "Unlock in"
     },
     "AnsweredQuestions": {
-			"backToAllQuestions": "Back to all questions",
-			"empty": "You haven't answered any questions yet.",
-			"postedOn": "Posted on: __DATE__",
-			"private": "Private",
-			"answeredOn": "Answered on __DATE__",
-			"viewFullQuestion": "View full question",
-			"expandAll": "Expand all",
-			"collapseAll": "Collapse all",
-			"likes": "Likes"
-		},
+      "backToAllQuestions": "Back to all questions",
+      "empty": "You haven't answered any questions yet.",
+      "postedOn": "Posted on: __DATE__",
+      "private": "Private",
+      "answeredOn": "Answered on __DATE__",
+      "viewFullQuestion": "View full question",
+      "expandAll": "Expand all",
+      "collapseAll": "Collapse all",
+      "likes": "Likes"
+    },
     "Detail": {
       "back": "Go back",
       "notFound": "Question not found",
       "postedOn": "Posted on {date}",
       "answersTitle": "Answers"
     },
-    "AnsweredQuestion":{
+    "AnsweredQuestion": {
       "title": "Question",
       "notFound": "Question not found.",
       "backToAnsweredList": "← Back to yours answers",
@@ -122,7 +129,7 @@
       "postedOn": "Posted on {date}",
       "private": "Private"
     },
-    "AnswerDetail":{
+    "AnswerDetail": {
       "title": "Answer Detail",
       "backToQuestion": "Back to Question",
       "backToAnsweredList": "Back to Your Answers",
@@ -138,5 +145,12 @@
       "invalidInput": "Invalid input",
       "submitFailed": "Could not post the answer. The question may not be available yet."
     }
+  },
+  "Like": {
+    "like": "Like ({count})",
+    "unlike": "Remove like ({count})"
+  },
+  "Loader": {
+    "loading": "Loading"
   }
 }

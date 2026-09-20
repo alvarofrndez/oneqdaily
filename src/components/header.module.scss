@@ -1,7 +1,7 @@
 @use '@/src/styles/tokens.scss' as tokens;
 @use '@/src/styles/mixins.scss' as mixins;
 
-.header{
+.header {
     // size
     width: 70%;
     height: tokens.$header-height;
@@ -19,19 +19,46 @@
     background-color: var(--background);
     transform: translateX(-50%);
 
-    .brand{
-
+    .brand {
+        .logo {
+            // decoration
+            font-size: tokens.$font-size-base;
+            font-weight: tokens.$font-weight-medium;
+            line-height: tokens.$line-height-normal;
+            color: var(--foreground);
+            text-decoration: none;
+        }
     }
 
-    .actions{
+    .actions {
         // display
         @include mixins.flex(row, flex-end, center, nowrap, tokens.$spacing-6);
 
-        .routes{
+        .routes {
+            // display
+            @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-4);
 
-        }
+            .route {
+                // decoration
+                font-size: tokens.$font-size-sm;
+                line-height: tokens.$line-height-normal;
+                color: var(--muted-foreground);
+                text-decoration: none;
 
-        .menu{
+                // transition
+                transition: color 0.2s ease;
+
+                &:hover {
+                    // decoration
+                    color: var(--foreground);
+                }
+            }
         }
+    }
+}
+
+@include mixins.down(md) {
+    .header {
+        width: 100%;
     }
 }

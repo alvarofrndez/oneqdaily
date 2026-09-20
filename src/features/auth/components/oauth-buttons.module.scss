@@ -1,0 +1,44 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.oauth {
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-2);
+
+    .button {
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(row, center, center, nowrap, tokens.$spacing-2);
+
+        // margin
+        padding: tokens.$spacing-2 tokens.$spacing-3;
+
+        // decoration
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        background-color: transparent;
+        font-size: tokens.$font-size-sm;
+        line-height: tokens.$line-height-normal;
+        color: var(--foreground);
+        cursor: pointer;
+
+        // transition
+        transition: background-color 0.2s ease;
+
+        &:hover:not(:disabled) {
+            // decoration
+            background-color: var(--accent);
+        }
+
+        &:disabled {
+            // decoration
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+}

@@ -1,0 +1,176 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+// ---------- Sin sesión ----------
+.auth {
+    // display
+    @include mixins.flex(row, flex-end, center, nowrap, tokens.$spacing-4);
+
+    .login {
+        // decoration
+        font-size: tokens.$font-size-sm;
+        line-height: tokens.$line-height-normal;
+        color: var(--muted-foreground);
+        text-decoration: none;
+
+        // transition
+        transition: color 0.2s ease;
+
+        &:hover {
+            // decoration
+            color: var(--foreground);
+        }
+    }
+
+    .signup {
+        // margin
+        padding: tokens.$spacing-1-5 tokens.$spacing-3;
+
+        // decoration
+        border-radius: var(--radius-sm);
+        background-color: var(--foreground);
+        font-size: tokens.$font-size-sm;
+        line-height: tokens.$line-height-normal;
+        color: var(--background);
+        text-decoration: none;
+
+        // transition
+        transition: opacity 0.2s ease;
+
+        &:hover {
+            // decoration
+            opacity: 0.85;
+        }
+    }
+}
+
+// ---------- Con sesión ----------
+.menu {
+    // position
+    position: relative;
+
+    .trigger {
+        // size
+        max-width: 10rem;
+
+        // decoration
+        border: none;
+        background-color: transparent;
+        font-size: tokens.$font-size-sm;
+        line-height: tokens.$line-height-normal;
+        color: var(--muted-foreground);
+        cursor: pointer;
+        outline: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        // transition
+        transition: color 0.2s ease;
+
+        &:hover,
+        &[aria-expanded='true'] {
+            // decoration
+            color: var(--foreground);
+        }
+
+        &:focus-visible {
+            // decoration
+            outline: 1px solid var(--foreground);
+            outline-offset: 2px;
+        }
+    }
+
+    .panel {
+        // size
+        min-width: 12rem;
+
+        // position
+        position: absolute;
+        top: calc(100% + #{tokens.$spacing-2});
+        right: 0;
+        z-index: tokens.$z-index-sticky;
+
+        // display
+        @include mixins.flex(column, flex-start, stretch, nowrap, 0);
+
+        // margin
+        padding: tokens.$spacing-1;
+
+        // decoration
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        background-color: var(--background);
+
+        .email {
+            // margin
+            padding: tokens.$spacing-2 tokens.$spacing-3;
+
+            // decoration
+            font-size: tokens.$font-size-xs;
+            line-height: tokens.$line-height-normal;
+            color: var(--muted-foreground);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .divider {
+            // size
+            height: 1px;
+
+            // margin
+            margin: tokens.$spacing-1 0;
+
+            // decoration
+            background-color: var(--border);
+        }
+
+        .item {
+            // size
+            width: 100%;
+
+            // display
+            display: block;
+
+            // margin
+            padding: tokens.$spacing-2 tokens.$spacing-3;
+
+            // decoration
+            border: none;
+            border-radius: var(--radius-sm);
+            background-color: transparent;
+            font-size: tokens.$font-size-sm;
+            line-height: tokens.$line-height-normal;
+            color: var(--foreground);
+            text-align: left;
+            text-decoration: none;
+            cursor: pointer;
+            outline: none;
+
+            // transition
+            transition: background-color 0.2s ease;
+
+            &:hover,
+            &:focus-visible {
+                // decoration
+                background-color: var(--accent);
+            }
+        }
+
+        .themeRow {
+            // display
+            @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-4);
+
+            // margin
+            padding: tokens.$spacing-1 tokens.$spacing-3;
+
+            .themeLabel {
+                // decoration
+                font-size: tokens.$font-size-sm;
+                line-height: tokens.$line-height-normal;
+                color: var(--muted-foreground);
+            }
+        }
+    }
+}

@@ -4,32 +4,46 @@ import { useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { updateProfile } from '../actions';
 import type { Profile } from '../types';
+import styles from './auth-form.module.scss';
 
 const initialState: { error?: string; success?: boolean } = {};
 
 export default function ProfileForm({ profile }: { profile: Profile }) {
   const t = useTranslations('Auth.Profile');
-  const [state, formAction, pending] = useActionState(async (_prev: typeof initialState, formData: FormData) => {
-    const result = await updateProfile(formData);
-    return { error: result?.error, success: !!result?.success };
-  }, initialState);
+  const [state, formAction, pending] = useActionState(
+    async (_prev: typeof initialState, formData: FormData) => {
+      const result = await updateProfile(formData);
+      return { error: result?.error, success: !!result?.success };
+    },
+    initialState
+  );
 
   return (
-    <form action={formAction} className="space-y-4 max-w-md">
-      <div>
-        <label htmlFor="username" className="block text-sm font-medium mb-1">{t('username')}</label>
-        <input id="username" name="username" defaultValue={profile.username ?? ''} required
-          className="block w-full rounded-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-gray-300" />
+    <form action={formAction} className={styles.form}>
+      <div className={styles.field}>
+        <label htmlFor="username" className={styles.label}>{t('username')}</label>
+        <input
+          id="username"
+          name="username"
+          defaultValue={profile.username ?? ''}
+          autoComplete="username"
+          required
+          className={styles.input}
+        />
       </div>
-      <div>
-        <label htmlFor="fullName" className="block text-sm font-medium mb-1">{t('fullName')}</label>
-        <input id="fullName" name="fullName" defaultValue={profile.full_name ?? ''}
-          className="block w-full rounded-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-gray-300" />
+      <div className={styles.field}>
+        <label htmlFor="fullName" className={styles.label}>{t('fullName')}</label>
+        <input
+          id="fullName"
+          name="fullName"
+          defaultValue={profile.full_name ?? ''}
+          autoComplete="name"
+          className={styles.input}
+        />
       </div>
-      {state.error && <p className="text-sm text-red-500">{state.error}</p>}
-      {state.success && <p className="text-sm text-green-600">{t('success')}</p>}
-      <button type="submit" disabled={pending}
-        className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">
+      {state.error && <p role="alert" className={styles.error}>{state.error}</p>}
+      {state.success && <p role="status" className={styles.success}>{t('success')}</p>}
+      <button type="submit" disabled={pending} className={styles.submit}>
         {pending ? t('saving') : t('save')}
       </button>
     </form>

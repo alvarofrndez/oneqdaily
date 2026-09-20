@@ -11,6 +11,7 @@ import AnswerList from './AnswerList';
 import AnswerForm from './AnswerForm';
 
 import styles from './DailyQuestion.module.scss';
+import Loader from '@/src/components/loader';
 
 export default function DailyQuestion() {
   const t = useTranslations('Questions.DailyQuestion');
@@ -66,7 +67,7 @@ export default function DailyQuestion() {
     setIsAnswersExpanded((prev) => !prev);
   };
 
-  if (loading) return <p>{t('loading')}</p>;
+  if (loading) return <Loader variant="screen" />;
   if (!question) return <p>{t('noQuestion')}</p>;
 
   return (

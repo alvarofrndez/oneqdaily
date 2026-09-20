@@ -1,0 +1,62 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.like {
+    // display
+    @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-1);
+
+    // margin
+    padding: tokens.$spacing-1 tokens.$spacing-1-5;
+
+    // decoration
+    border: none;
+    border-radius: var(--radius-sm);
+    background-color: transparent;
+    font-size: tokens.$font-size-xs;
+    line-height: tokens.$line-height-normal;
+    color: var(--muted-foreground);
+    cursor: pointer;
+    outline: none;
+
+    // transition
+    transition: color 0.2s ease;
+
+    &:hover {
+        // decoration
+        color: var(--foreground);
+    }
+
+    &:focus-visible {
+        // decoration
+        color: var(--foreground);
+        outline: 1px solid var(--foreground);
+    }
+
+    &.liked {
+        // decoration
+        color: var(--foreground);
+
+        .icon {
+            // decoration
+            fill: currentColor;
+        }
+    }
+
+    &.pending {
+        // decoration
+        cursor: progress;
+    }
+
+    .icon {
+        // decoration
+        flex-shrink: 0;
+
+        // transition
+        transition: fill 0.2s ease;
+    }
+
+    .count {
+        // decoration
+        font-variant-numeric: tabular-nums;
+    }
+}

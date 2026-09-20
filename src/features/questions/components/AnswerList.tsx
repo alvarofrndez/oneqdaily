@@ -7,9 +7,10 @@ import { supabase } from '@/lib/supabase/client';
 import { UserContext } from '@/src/components/providers';
 import type { Answer } from '../types';
 import { Button } from '@/src/components/ui/button';
-import { Badge } from '@/src/components/ui/badge';
 import { Skeleton } from '@/src/components/ui/skeleton';
-import { Heart } from 'lucide-react';
+import LikeButton from '@/src/components/like-button';
+import { setAnswerLike } from '../actions';
+import { ANSWER_SELECT, attachLikeState } from '../answer-likes';
 import styles from './AnswerList.module.scss';
 
 const PAGE_SIZE = 10;
@@ -39,6 +40,7 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
   const t = useTranslations('Questions.AnswerList');
   const router = useRouter();
   const currentUser = useContext(UserContext);
+  const currentUserId = currentUser?.id;
   const [answers, setAnswers] = useState<Answer[]>(initialAnswers ?? []);
   const [hasMore, setHasMore] = useState(initialHasMore ?? true);
   const [loading, setLoading] = useState(initialAnswers === undefined);
@@ -48,7 +50,7 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
     const to = from + PAGE_SIZE - 1;
     const { data, error, count } = await supabase
       .from('answers')
-      .select('*, profiles(username, avatar_url)', { count: 'exact' })
+      .select(ANSWER_SELECT, { count: 'exact' })
       .eq('question_id', questionId)
       .order('created_at', { ascending: false })
       .range(from, to);
@@ -58,10 +60,10 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
       return { answers: [] as Answer[], hasMore: false };
     }
 
-    const page = (data as Answer[]) ?? [];
+    const page = await attachLikeState(supabase, (data as Answer[]) ?? [], currentUserId);
     const more = count != null ? from + page.length < count : page.length === PAGE_SIZE;
     return { answers: page, hasMore: more };
-  }, [questionId]);
+  }, [questionId, currentUserId]);
 
   useEffect(() => {
     if (initialAnswers !== undefined) return;
@@ -85,13 +87,14 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
           const newId = (payload.new as { id: string }).id;
           const { data } = await supabase
             .from('answers')
-            .select('*, profiles(username, avatar_url)')
+            .select(ANSWER_SELECT)
             .eq('id', newId)
             .single();
 
-          if (data) {
-            setAnswers((prev) => (prev.some((a) => a.id === data.id) ? prev : [data as Answer, ...prev]));
-          }
+          if (!data) return;
+
+          const [answer] = await attachLikeState(supabase, [data as Answer], currentUserId);
+          setAnswers((prev) => (prev.some((a) => a.id === answer.id) ? prev : [answer, ...prev]));
         }
       )
       .subscribe();
@@ -99,7 +102,7 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [questionId]);
+  }, [questionId, currentUserId]);
 
   async function loadMore() {
     setLoadingMore(true);
@@ -124,12 +127,11 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
         <p className={styles.empty}>{t('empty')}</p>
       ) : (
         answers.map((answer) => (
-          <div 
-            key={answer.id} 
+          <div
+            key={answer.id}
             className={styles.answerItem}
             onClick={() => router.push(`/answers/${answer.id}`)}
           >
-            
             <div className={styles.header}>
               <div className={styles.meta}>
                 <span className={styles.author}>
@@ -139,21 +141,17 @@ export default function AnswerList({ questionId, initialAnswers, initialHasMore 
                 <span className={styles.time}>
                   {formatRelativeTime(answer.created_at, t)}
                 </span>
-                
-                {answer.visibility === 'private' && answer.user_id === currentUser?.id && (
+
+                {answer.visibility === 'private' && answer.user_id === currentUserId && (
                   <div className={styles.badge}>{t('privateBadge')}</div>
                 )}
               </div>
 
-              <button 
-                className={styles.likeAction}
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                <Heart className={styles.heartIcon} />
-                <span>{/* answer.likes_count ?? */ 0}</span>
-              </button>
+              <LikeButton
+                initialLiked={answer.liked_by_me ?? false}
+                initialCount={answer.likes_count ?? 0}
+                onToggle={(nextLiked) => setAnswerLike(answer.id, nextLiked)}
+              />
             </div>
 
             <div

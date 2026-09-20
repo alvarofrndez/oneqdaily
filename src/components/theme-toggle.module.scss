@@ -1,0 +1,42 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.group {
+    // display
+    @include mixins.flex(row, center, center, nowrap, tokens.$spacing-1);
+
+    .option {
+        // display
+        @include mixins.flex(row, center, center, nowrap, 0);
+
+        // margin
+        padding: tokens.$spacing-1-5;
+
+        // decoration
+        border: none;
+        border-radius: var(--radius-sm);
+        background-color: transparent;
+        color: var(--muted-foreground);
+        cursor: pointer;
+        outline: none;
+
+        // transition
+        transition: color 0.2s ease, background-color 0.2s ease;
+
+        &:hover {
+            // decoration
+            color: var(--foreground);
+        }
+
+        &:focus-visible {
+            // decoration
+            outline: 1px solid var(--foreground);
+        }
+
+        &.active {
+            // decoration
+            background-color: var(--accent);
+            color: var(--foreground);
+        }
+    }
+}

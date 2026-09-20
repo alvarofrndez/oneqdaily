@@ -20,8 +20,9 @@ export type Answer = {
   visibility: AnswerVisibility
   created_at: string
   profiles: AnswerProfile | null
+  likes_count?: number
+  liked_by_me?: boolean
 }
-
 export type InsertAnswer = {
   question_id: string
   user_id: string | null
@@ -30,5 +31,5 @@ export type InsertAnswer = {
 }
 
 export type AnswerWithQuestion = Answer & {
-  questions: Pick<Question, 'id' | 'text'> | null
+  questions: Pick<Question, 'id' | 'text' | 'display_date'> | null
 }

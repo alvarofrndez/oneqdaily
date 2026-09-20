@@ -150,6 +150,7 @@
                         font-weight: tokens.$font-weight-medium;
                         line-height: tokens.$line-height-normal;
                         color: var(--foreground);
+                        font-family: var(--font-mono);
                     }
 
                     .questionDate {

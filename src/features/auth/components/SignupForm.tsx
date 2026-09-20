@@ -3,42 +3,63 @@
 import { useActionState } from 'react';
 import { useTranslations } from 'next-intl';
 import { signUpWithEmail } from '../actions';
+import styles from './auth-form.module.scss';
 
 const initialState: { error?: string; success?: boolean } = {};
 
 export default function SignupForm() {
-    const t = useTranslations('Auth.Signup');
-    const [state, formAction, pending] = useActionState(async (_prev: typeof initialState, formData: FormData) => {
-        const result = await signUpWithEmail(formData);
-        return { error: result?.error, success: !!result?.success };
-    }, initialState);
+  const t = useTranslations('Auth.Signup');
+  const [state, formAction, pending] = useActionState(
+    async (_prev: typeof initialState, formData: FormData) => {
+      const result = await signUpWithEmail(formData);
+      return { error: result?.error, success: !!result?.success };
+    },
+    initialState
+  );
 
-    if (state.success) {
-        return <p className="text-sm text-gray-600">{t('success')}</p>;
-    }
+  if (state.success) {
+    return <p role="status" className={styles.message}>{t('success')}</p>;
+  }
 
-    return (
-        <form action={formAction} className="space-y-4">
-        <div>
-            <label htmlFor="username" className="block text-sm font-medium mb-1">{t('username')}</label>
-            <input id="username" name="username" required
-            className="block w-full rounded-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-gray-300" />
-        </div>
-        <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1">{t('email')}</label>
-            <input id="email" name="email" type="email" required
-            className="block w-full rounded-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-gray-300" />
-        </div>
-        <div>
-            <label htmlFor="password" className="block text-sm font-medium mb-1">{t('password')}</label>
-            <input id="password" name="password" type="password" required minLength={6}
-            className="block w-full rounded-md border-0 py-1.5 px-3 shadow-sm ring-1 ring-inset ring-gray-300" />
-        </div>
-        {state.error && <p className="text-sm text-red-500">{state.error}</p>}
-        <button type="submit" disabled={pending}
-            className="w-full rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">
-            {pending ? t('submitting') : t('submit')}
-        </button>
-        </form>
-    );
+  return (
+    <form action={formAction} className={styles.form}>
+      <div className={styles.field}>
+        <label htmlFor="username" className={styles.label}>{t('username')}</label>
+        <input
+          id="username"
+          name="username"
+          autoComplete="username"
+          required
+          className={styles.input}
+        />
+      </div>
+      <div className={styles.field}>
+        <label htmlFor="email" className={styles.label}>{t('email')}</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+          className={styles.input}
+        />
+      </div>
+      <div className={styles.field}>
+        <label htmlFor="password" className={styles.label}>{t('password')}</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autoComplete="new-password"
+          required
+          minLength={6}
+          className={styles.input}
+        />
+      </div>
+      {state.error && <p role="alert" className={styles.error}>{state.error}</p>}
+      <button type="submit" disabled={pending} className={styles.submit}>
+        {pending ? t('submitting') : t('submit')}
+      </button>
+    </form>
+  );
 }

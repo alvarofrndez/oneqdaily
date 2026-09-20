@@ -84,9 +84,10 @@
                 &Text {
                     // decoration
                     font-size: tokens.$font-size-2xl;
-                    font-weight: tokens.$font-weight-semibold;
+                    font-weight: tokens.$font-weight-medium;
                     line-height: tokens.$line-height-tight;
                     color: var(--foreground);
+                    font-family: var(--font-mono);
                 }
 
                 &Date{
