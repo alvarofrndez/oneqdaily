@@ -470,6 +470,21 @@
 
 @include mixins.down(xs) {
     .auth {
+        .login,
+        .signup {
+            min-width: 2.25rem;
+            width: 2.25rem;
+            padding: 0;
+
+            span {
+                display: none;
+            }
+
+            svg{
+                display: block;
+            }
+        }
+
         .login {
             padding-inline: tokens.$spacing-1-5;
         }
@@ -499,25 +514,6 @@
                 nowrap,
                 0
             );
-        }
-    }
-}
-
-@include mixins.down('2xs') {
-    .auth {
-        .login,
-        .signup {
-            min-width: 2.25rem;
-            width: 2.25rem;
-            padding: 0;
-
-            span {
-                display: none;
-            }
-
-            svg{
-                display: block;
-            }
         }
     }
 }
