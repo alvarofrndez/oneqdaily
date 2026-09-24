@@ -2,50 +2,41 @@
 @use '@/src/styles/mixins.scss' as mixins;
 
 .page {
-    // size
     width: 100%;
-    min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-14);
+    min-height: 100dvh;
 
-    // display
-    @include mixins.flex(column, safe center, center);
+    padding-bottom: tokens.$spacing-10;
 
-    // decoration
     background-color: var(--background);
 
     .container {
-        // size
-        width: 100%;
+        width: min(960px, 100%);
+        margin: 0 auto;
 
-        // display
         @include mixins.flex(
             column,
             flex-start,
-            center,
+            stretch,
             nowrap,
             tokens.$spacing-10
         );
 
-        // margin
-        padding-bottom: tokens.$spacing-8;
-
         .questionCard {
-            // size
-            width: min(960px, calc(100% - 2rem));
+            width: 100%;
 
-            // display
             @include mixins.flex(
                 column,
                 flex-start,
-                center,
+                stretch,
                 nowrap,
                 tokens.$spacing-4
             );
 
-            // decoration
             background-color: var(--background);
 
             .questionHeader {
-                // display
+                width: 100%;
+
                 @include mixins.flex(
                     column,
                     flex-start,
@@ -55,18 +46,29 @@
                 );
 
                 .question {
-                    // decoration
-                    font-size: tokens.$font-size-6xl;
+                    margin: 0;
+
+                    font-size: clamp(
+                        tokens.$font-size-3xl,
+                        6vw,
+                        tokens.$font-size-6xl
+                    );
+
                     font-family: var(--font-mono);
-                    line-height: 1;
+                    font-weight: tokens.$font-weight-medium;
+                    line-height: 1.05;
+                    letter-spacing: -0.035em;
+
+                    color: var(--foreground);
+
+                    overflow-wrap: anywhere;
+                    word-break: break-word;
                 }
             }
 
             .info {
-                // size
                 width: 100%;
 
-                // display
                 @include mixins.flex(
                     row,
                     space-between,
@@ -76,52 +78,67 @@
                 );
 
                 .questionDate {
-                    // decoration
+                    margin: 0;
+
                     color: var(--muted-foreground);
                     font-size: tokens.$font-size-xs;
                     line-height: tokens.$line-height-normal;
                 }
 
                 .backLink {
-                    // decoration
+                    min-height: 2.25rem;
+
+                    @include mixins.flex(
+                        row,
+                        center,
+                        center,
+                        nowrap,
+                        tokens.$spacing-1-5
+                    );
+
+                    padding:
+                        tokens.$spacing-1
+                        tokens.$spacing-2;
+
+                    border-radius: var(--radius-sm);
+
                     color: var(--muted-foreground);
+
                     font-size: tokens.$font-size-xs;
-                    line-height: tokens.$line-height-normal;
+                    line-height: 1;
+
                     text-decoration: none;
 
-                    // transition
                     transition:
-                        color 0.2s ease,
-                        text-decoration 0.2s ease;
+                        color 0.18s ease,
+                        background-color 0.18s ease;
 
                     &:hover {
-                        // decoration
                         color: var(--foreground);
-                        text-decoration: underline;
+                        background-color: var(--accent);
+                    }
+
+                    &:focus-visible {
+                        outline: 2px solid var(--foreground);
+                        outline-offset: 2px;
+                    }
+
+                    svg {
+                        flex-shrink: 0;
                     }
                 }
             }
 
             .answerForm {
-                // size
                 width: 100%;
-
-                // display
-                @include mixins.flex(
-                    column,
-                    flex-start,
-                    stretch,
-                    nowrap,
-                    0
-                );
+                padding-top: tokens.$spacing-3;
             }
         }
 
         .notFound {
-            // size
             width: 100%;
+            min-height: 40dvh;
 
-            // display
             @include mixins.flex(
                 column,
                 center,
@@ -130,48 +147,146 @@
                 tokens.$spacing-4
             );
 
-            // margin
-            padding: tokens.$spacing-8 0;
-
             .notFoundMessage {
-                // decoration
+                margin: 0;
+
                 color: var(--destructive);
                 font-size: tokens.$font-size-base;
                 line-height: tokens.$line-height-normal;
                 text-align: center;
+            }
+
+            .backLink {
+                min-height: 2.5rem;
+
+                @include mixins.flex(
+                    row,
+                    center,
+                    center,
+                    nowrap,
+                    tokens.$spacing-2
+                );
+
+                padding:
+                    tokens.$spacing-2
+                    tokens.$spacing-3;
+
+                border: 1px solid var(--border);
+                border-radius: var(--radius-sm);
+
+                color: var(--foreground);
+
+                font-size: tokens.$font-size-sm;
+                text-decoration: none;
+
+                transition:
+                    background-color 0.18s ease,
+                    border-color 0.18s ease;
+
+                &:hover {
+                    background-color: var(--accent);
+                }
+
+                &:focus-visible {
+                    outline: 2px solid var(--foreground);
+                    outline-offset: 2px;
+                }
             }
         }
     }
 }
 
 @include mixins.down(md) {
-    .container {
-        width: min(100% - 1.5rem, 960px);
-        padding-top: tokens.$spacing-6;
-        padding-bottom: tokens.$spacing-6;
-    }
+    .page {
+        .container {
+            gap: tokens.$spacing-8;
+        }
 
-    .questionCard {
-        padding: tokens.$spacing-5;
-    }
-
-    .question {
-        font-size: tokens.$font-size-2xl;
+        .questionCard {
+            .questionHeader {
+                .question {
+                    font-size: clamp(
+                        tokens.$font-size-3xl,
+                        7vw,
+                        tokens.$font-size-5xl
+                    );
+                }
+            }
+        }
     }
 }
 
 @include mixins.down(sm) {
-    .container {
-        width: calc(100% - 1rem);
-        gap: tokens.$spacing-8;
-    }
+    .page {
+        padding-bottom: tokens.$spacing-6;
 
-    .questionCard {
-        padding: tokens.$spacing-4;
-        gap: tokens.$spacing-6;
-    }
+        .container {
+            gap: tokens.$spacing-8;
+        }
 
-    .question {
-        font-size: tokens.$font-size-xl;
+        .questionCard {
+            gap: tokens.$spacing-4;
+
+            .questionHeader {
+                .question {
+                    font-size: clamp(
+                        1.75rem,
+                        8.5vw,
+                        tokens.$font-size-4xl
+                    );
+
+                    line-height: 1.08;
+                }
+            }
+
+            .info {
+                @include mixins.flex(
+                    column,
+                    flex-start,
+                    flex-start,
+                    nowrap,
+                    tokens.$spacing-2
+                );
+
+                padding-bottom: tokens.$spacing-1;
+
+                .backLink {
+                    width: fit-content;
+                    
+                }
+            }
+
+            .answerForm {
+                padding-top: tokens.$spacing-2;
+            }
+        }
+    }
+}
+
+@include mixins.down(xs) {
+    .page {
+        .container {
+            gap: tokens.$spacing-6;
+        }
+
+        .questionCard {
+            .questionHeader {
+                .question {
+                    font-size: 1.75rem;
+                    line-height: 1.1;
+                }
+            }
+
+            .info {
+                .questionDate,
+                .backLink {
+                    font-size: tokens.$font-size-2xs;
+                }
+            }
+        }
+
+        .notFound {
+            min-height: 50dvh;
+        }
     }
 }

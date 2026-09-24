@@ -1,7 +1,9 @@
 import Link from 'next/link';
+import { MessageCircleQuestion } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import UserMenu from './user-menu';
-import styles from './header.module.scss'
+import styles from './header.module.scss';
 
 export default function Header() {
   const t = useTranslations('Header');
@@ -9,14 +11,20 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.brand}>
-        <Link href="/" className={styles.logo}>logo</Link>
+        <Link href="/" className={styles.logo} aria-label="Home">
+          logo
+        </Link>
       </div>
+
       <div className={styles.actions}>
-        <div className={styles.routes}>
+        <nav className={styles.navigation} aria-label="Main navigation">
           <Link href="/questions" className={styles.route}>
-            {t('questions')}
+            <span className={styles.routeLabel}>
+              {t('questions')}
+            </span>
           </Link>
-        </div>
+        </nav>
+
         <div className={styles.menu}>
           <UserMenu />
         </div>

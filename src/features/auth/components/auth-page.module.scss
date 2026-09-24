@@ -88,3 +88,17 @@
         padding-right: tokens.$spacing-4;
     }
 }
+
+@include mixins.downHeight(md){
+    .page{
+        min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-8);
+
+    }
+}
+
+@include mixins.downHeight(sm){
+    .page{
+        min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-4);
+
+    }
+}

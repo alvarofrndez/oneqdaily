@@ -18,3 +18,26 @@
         @include mixins.flex(column, flex-start, center);
     }
 }
+
+@include mixins.down('md'){
+    .container{
+        // size
+        width: 80%;
+    }
+}
+
+@include mixins.downHeight(md){
+    .container{
+        .main{
+            padding-top: calc(tokens.$header-height + tokens.$spacing-8);
+        }
+    }
+}
+
+@include mixins.downHeight(sm){
+    .container{
+        .main{
+            padding-top: calc(tokens.$header-height + tokens.$spacing-4);
+        }
+    }
+}

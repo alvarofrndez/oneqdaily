@@ -1,175 +1,526 @@
 @use '@/src/styles/tokens.scss' as tokens;
 @use '@/src/styles/mixins.scss' as mixins;
 
-// ---------- Sin sesión ----------
 .auth {
-    // display
-    @include mixins.flex(row, flex-end, center, nowrap, tokens.$spacing-4);
+    @include mixins.flex(
+        row,
+        flex-end,
+        center,
+        nowrap,
+        tokens.$spacing-2
+    );
 
-    .login {
-        // decoration
+    .login,
+    .signup {
+        min-height: tokens.$spacing-9;
+
+        @include mixins.flex(
+            row,
+            center,
+            center,
+            nowrap,
+            tokens.$spacing-2
+        );
+
+        padding: 0 tokens.$spacing-3;
+
+        border-radius: var(--radius-sm);
+
         font-size: tokens.$font-size-sm;
-        line-height: tokens.$line-height-normal;
-        color: var(--muted-foreground);
+        line-height: 1;
+        font-weight: tokens.$font-weight-medium;
+
         text-decoration: none;
 
-        // transition
-        transition: color 0.2s ease;
+        transition:
+            color 0.18s ease,
+            background-color 0.18s ease,
+            border-color 0.18s ease,
+            transform 0.18s ease;
+
+        &:focus-visible {
+            outline: 2px solid var(--foreground);
+            outline-offset: 2px;
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
+
+        svg{
+            display: none;
+        }
+    }
+
+    .login {
+        color: var(--foreground);
+        background: transparent;
+        border: 1px solid transparent;
 
         &:hover {
-            // decoration
-            color: var(--foreground);
+            background: var(--accent);
+            border-color: var(--border);
         }
     }
 
     .signup {
-        // margin
-        padding: tokens.$spacing-1-5 tokens.$spacing-3;
-
-        // decoration
-        border-radius: var(--radius-sm);
-        background-color: var(--foreground);
-        font-size: tokens.$font-size-sm;
-        line-height: tokens.$line-height-normal;
         color: var(--background);
-        text-decoration: none;
-
-        // transition
-        transition: opacity 0.2s ease;
+        background: var(--foreground);
+        border: 1px solid var(--foreground);
 
         &:hover {
-            // decoration
-            opacity: 0.85;
+            opacity: 0.88;
         }
     }
-}
 
-// ---------- Con sesión ----------
-.menu {
-    // position
-    position: relative;
+    .themeMenu {
+        position: relative;
+    }
 
-    .trigger {
-        // size
-        max-width: 10rem;
+    .themeTrigger {
 
-        // decoration
-        border: none;
-        background-color: transparent;
-        font-size: tokens.$font-size-sm;
-        line-height: tokens.$line-height-normal;
+        @include mixins.flex(
+            row,
+            center,
+            center,
+            nowrap,
+            0
+        );
+
+        padding: tokens.$spacing-2;
+
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
+
+        background: transparent;
         color: var(--muted-foreground);
-        cursor: pointer;
-        outline: none;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
 
-        // transition
-        transition: color 0.2s ease;
+        cursor: pointer;
+
+        transition:
+            color 0.18s ease,
+            background-color 0.18s ease,
+            border-color 0.18s ease;
 
         &:hover,
         &[aria-expanded='true'] {
-            // decoration
             color: var(--foreground);
+            background: var(--accent);
+            border-color: var(--border);
         }
 
         &:focus-visible {
-            // decoration
-            outline: 1px solid var(--foreground);
+            outline: 2px solid var(--foreground);
             outline-offset: 2px;
         }
     }
 
-    .panel {
-        // size
-        min-width: 12rem;
+    .themePanel {
+        width: max-content;
 
-        // position
         position: absolute;
         top: calc(100% + #{tokens.$spacing-2});
         right: 0;
         z-index: tokens.$z-index-sticky;
 
-        // display
-        @include mixins.flex(column, flex-start, stretch, nowrap, 0);
-
         // margin
-        padding: tokens.$spacing-1;
+        padding: 3px;
 
         // decoration
         border: 1px solid var(--border);
         border-radius: var(--radius-sm);
-        background-color: var(--background);
+    }
 
-        .email {
-            // margin
-            padding: tokens.$spacing-2 tokens.$spacing-3;
+    .themeHeader {
+        @include mixins.flex(
+            row,
+            space-between,
+            center,
+            nowrap,
+            tokens.$spacing-3
+        );
 
-            // decoration
-            font-size: tokens.$font-size-xs;
-            line-height: tokens.$line-height-normal;
-            color: var(--muted-foreground);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+        padding: tokens.$spacing-1 tokens.$spacing-2;
+
+        font-size: tokens.$font-size-xs;
+        font-weight: tokens.$font-weight-medium;
+        color: var(--muted-foreground);
+
+        svg {
+            opacity: 0.7;
         }
+    }
+}
 
-        .divider {
-            // size
-            height: 1px;
+/* -------------------------------------------------
+   Authenticated user menu
+------------------------------------------------- */
 
-            // margin
-            margin: tokens.$spacing-1 0;
+.menu {
+    position: relative;
 
-            // decoration
-            background-color: var(--border);
-        }
+    .trigger {
+        min-height: 2.25rem;
+        max-width: 13rem;
 
-        .item {
-            // size
-            width: 100%;
+        @include mixins.flex(
+            row,
+            center,
+            center,
+            nowrap,
+            tokens.$spacing-2
+        );
 
-            // display
-            display: block;
+        padding: tokens.$spacing-1 tokens.$spacing-2;
 
-            // margin
-            padding: tokens.$spacing-2 tokens.$spacing-3;
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
 
-            // decoration
-            border: none;
-            border-radius: var(--radius-sm);
-            background-color: transparent;
-            font-size: tokens.$font-size-sm;
-            line-height: tokens.$line-height-normal;
+        background: transparent;
+        color: var(--muted-foreground);
+
+        font-size: tokens.$font-size-sm;
+        font-weight: tokens.$font-weight-medium;
+        line-height: 1;
+
+        cursor: pointer;
+        outline: none;
+
+        transition:
+            color 0.18s ease,
+            background-color 0.18s ease,
+            border-color 0.18s ease;
+
+        &:hover,
+        &[aria-expanded='true'] {
             color: var(--foreground);
-            text-align: left;
-            text-decoration: none;
-            cursor: pointer;
-            outline: none;
+            background: var(--accent);
+            border-color: var(--border);
+        }
 
-            // transition
-            transition: background-color 0.2s ease;
+        &:focus-visible {
+            outline: 2px solid var(--foreground);
+            outline-offset: 2px;
+        }
+    }
 
-            &:hover,
-            &:focus-visible {
-                // decoration
-                background-color: var(--accent);
+    .avatar {
+        width: 1.75rem;
+        height: 1.75rem;
+        flex-shrink: 0;
+
+        display: none;
+
+        border-radius: 999px;
+
+        background: var(--accent);
+        color: var(--foreground);
+    }
+
+    .triggerName {
+        min-width: 0;
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .chevron {
+        flex-shrink: 0;
+
+        transition: transform 0.18s ease;
+    }
+
+    .trigger[aria-expanded='true'] {
+        .chevron {
+            transform: rotate(180deg);
+        }
+    }
+
+    .panel {
+        width: 17rem;
+        max-width: calc(100vw - 24px);
+
+        position: absolute;
+        top: calc(100% + #{tokens.$spacing-2});
+        right: 0;
+        z-index: tokens.$z-index-sticky;
+
+        @include mixins.flex(
+            column,
+            flex-start,
+            stretch,
+            nowrap,
+            0
+        );
+
+        padding: tokens.$spacing-1;
+
+        background: var(--background);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+
+        box-shadow:
+            0 12px 32px rgb(0 0 0 / 0.1),
+            0 3px 8px rgb(0 0 0 / 0.05);
+
+        animation: menu-in 0.15s ease-out;
+    }
+
+    .account {
+        @include mixins.flex(
+            row,
+            flex-start,
+            center,
+            nowrap,
+            tokens.$spacing-3
+        );
+
+        padding: tokens.$spacing-3;
+    }
+
+    .accountIcon {
+        width: 2rem;
+        height: 2rem;
+        flex-shrink: 0;
+
+        @include mixins.flex(
+            row,
+            center,
+            center,
+            nowrap,
+            0
+        );
+
+        border-radius: 999px;
+
+        background: var(--accent);
+        color: var(--foreground);
+    }
+
+    .accountInfo {
+        min-width: 0;
+
+        @include mixins.flex(
+            column,
+            center,
+            stretch,
+            nowrap,
+            tokens.$spacing-1
+        );
+    }
+
+    .accountName {
+        overflow: hidden;
+
+        font-size: tokens.$font-size-sm;
+        font-weight: tokens.$font-weight-medium;
+        line-height: 1.2;
+        color: var(--foreground);
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .email {
+        display: block;
+        overflow: hidden;
+
+        font-size: tokens.$font-size-xs;
+        line-height: 1.2;
+        color: var(--muted-foreground);
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .divider {
+        height: 1px;
+        margin: tokens.$spacing-1 0;
+
+        background: var(--border);
+    }
+
+    .item {
+        width: 100%;
+        min-height: 2.5rem;
+
+        @include mixins.flex(
+            row,
+            flex-start,
+            center,
+            nowrap,
+            tokens.$spacing-3
+        );
+
+        padding: 0 tokens.$spacing-3;
+
+        border: 0;
+        border-radius: var(--radius-sm);
+
+        background: transparent;
+        color: var(--foreground);
+
+        font-size: tokens.$font-size-sm;
+        line-height: 1;
+
+        text-align: left;
+        text-decoration: none;
+
+        cursor: pointer;
+        outline: none;
+
+        transition:
+            background-color 0.18s ease,
+            color 0.18s ease;
+
+        svg {
+            flex-shrink: 0;
+            color: var(--muted-foreground);
+            transition: color 0.18s ease;
+        }
+
+        &:hover,
+        &:focus-visible {
+            background: var(--accent);
+
+            svg {
+                color: var(--foreground);
             }
         }
 
-        .themeRow {
-            // display
-            @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-4);
+        &:focus-visible {
+            outline: 2px solid var(--foreground);
+            outline-offset: -2px;
+        }
+    }
 
-            // margin
-            padding: tokens.$spacing-1 tokens.$spacing-3;
+    .themeRow {
+        min-height: 2.75rem;
 
-            .themeLabel {
-                // decoration
-                font-size: tokens.$font-size-sm;
-                line-height: tokens.$line-height-normal;
-                color: var(--muted-foreground);
+        @include mixins.flex(
+            row,
+            space-between,
+            center,
+            nowrap,
+            tokens.$spacing-4
+        );
+
+        padding: tokens.$spacing-1 tokens.$spacing-3;
+    }
+
+    .themeLabel {
+        min-width: 0;
+
+        @include mixins.flex(
+            row,
+            flex-start,
+            center,
+            nowrap,
+            tokens.$spacing-2
+        );
+
+        font-size: tokens.$font-size-sm;
+        line-height: 1;
+        color: var(--muted-foreground);
+
+        svg {
+            flex-shrink: 0;
+        }
+    }
+
+    .logout {
+        color: var(--muted-foreground);
+
+        &:hover,
+        &:focus-visible {
+            color: var(--foreground);
+        }
+    }
+}
+
+@keyframes menu-in {
+    from {
+        opacity: 0;
+        transform: translateY(-4px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@include mixins.down(sm) {
+    .auth {
+        gap: tokens.$spacing-1;
+
+        .login,
+        .signup {
+            padding-inline: tokens.$spacing-2;
+        }
+    }
+
+    .menu {
+        .trigger {
+            max-width: 9rem;
+        }
+
+        .panel {
+            width: min(17rem, calc(100vw - 16px));
+        }
+    }
+}
+
+@include mixins.down(xs) {
+    .auth {
+        .login {
+            padding-inline: tokens.$spacing-1-5;
+        }
+
+        .signup {
+            padding-inline: tokens.$spacing-2;
+        }
+    }
+
+    .menu {
+        .trigger {
+            max-width: 2.25rem;
+            width: 2.25rem;
+            padding: 0;
+        }
+
+        .triggerName,
+        .chevron {
+            display: none;
+        }
+
+        .avatar{
+            @include mixins.flex(
+                row,
+                center,
+                center,
+                nowrap,
+                0
+            );
+        }
+    }
+}
+
+@include mixins.down('2xs') {
+    .auth {
+        .login,
+        .signup {
+            min-width: 2.25rem;
+            width: 2.25rem;
+            padding: 0;
+
+            span {
+                display: none;
+            }
+
+            svg{
+                display: block;
             }
         }
     }

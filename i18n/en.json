@@ -101,7 +101,12 @@
       "goBack": "Go back",
       "previousMonth": "Previous motnh",
       "nextMonth": "Next motnh",
-      "unlocksIn": "Unlock in"
+      "unlocksIn": "Unlock in",
+      "dayView": "days",
+      "listView": "list",
+      "today": "Today",
+      "nexDay": "Next day",
+      "noQuestions": "empty"
     },
     "AnsweredQuestions": {
       "backToAllQuestions": "Back to all questions",

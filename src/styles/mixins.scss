@@ -42,3 +42,25 @@ $breakpoints: (
         @error "El breakpoint '#{$size}' no existe. Opciones: #{map.keys($breakpoints)}";
     }
 }
+
+@mixin downHeight($size) {
+    @if map.has-key($breakpoints, $size) {
+        $height: map.get($breakpoints, $size);
+        @media (max-height: $height) {
+            @content;
+        }
+    } @else {
+        @error "El breakpoint '#{$size}' no existe. Opciones: #{map.keys($breakpoints)}";
+    }
+}
+
+@mixin upHeight($size) {
+    @if map.has-key($breakpoints, $size) {
+        $height: map.get($breakpoints, $size);
+        @media (min-height: $height) {
+            @content;
+        }
+    } @else {
+        @error "El breakpoint '#{$size}' no existe. Opciones: #{map.keys($breakpoints)}";
+    }
+}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useContext, useEffect } from 'react';
+
 import { useTranslations } from 'next-intl';
 
 import { useEditor } from '@tiptap/react';
@@ -14,156 +15,280 @@ import Color from '@tiptap/extension-color';
 import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
 
-import { RichTextEditor, Link, CodeBlock } from '@/components/editor';
+import {
+    RichTextEditor,
+    Link,
+    CodeBlock,
+} from '@/components/editor';
 
 import { UserContext } from '@/src/components/providers';
+
 import { Label } from '@/src/components/ui/label';
 import { Switch } from '@/src/components/ui/switch';
 
 import styles from './AnswerInput.module.scss';
 
 interface AnswerInputProps {
-  value: string;
-  onChange: (html: string, text: string) => void;
-  visibility: 'public' | 'private';
-  onVisibilityChange: (visibility: 'public' | 'private') => void;
-  disabled?: boolean;
-  /** Contenido que se renderiza a la derecha del footer del editor (p.ej. el botón de enviar) */
-  footerActions?: React.ReactNode;
+    value: string;
+    onChange: (
+        html: string,
+        text: string
+    ) => void;
+    visibility:
+        | 'public'
+        | 'private';
+    onVisibilityChange: (
+        visibility:
+            | 'public'
+            | 'private'
+    ) => void;
+    disabled?: boolean;
+    footerActions?: React.ReactNode;
 }
 
 export default function AnswerInput({
-  value,
-  onChange,
-  visibility,
-  onVisibilityChange,
-  disabled = false,
-  footerActions,
+    value,
+    onChange,
+    visibility,
+    onVisibilityChange,
+    disabled = false,
+    footerActions,
 }: AnswerInputProps) {
-  const t = useTranslations('Questions.AnswerForm');
-  const user = useContext(UserContext);
+    const t = useTranslations(
+        'Questions.AnswerForm'
+    );
 
-  const isPrivate = visibility === 'private';
+    const user =
+        useContext(UserContext);
 
-  const editor = useEditor({
-    immediatelyRender: false,
-    extensions: [
-      StarterKit.configure({
-        heading: { levels: [1, 2, 3] },
-        codeBlock: false,
-      }),
-      Link,
-      Underline,
-      TextStyle,
-      Color.configure({ types: ['textStyle'] }),
-      Highlight.configure({ multicolor: true }),
-      Subscript,
-      Superscript,
-      TextAlign.configure({ types: ['heading', 'paragraph'] }),
-      Placeholder.configure({ placeholder: t('placeholder') }),
-      CodeBlock,
-    ],
-    content: value,
-    editable: !disabled,
-    onUpdate: ({ editor }) => {
-      onChange(editor.getHTML(), editor.getText());
-    },
-  });
+    const isPrivate =
+        visibility === 'private';
 
-  useEffect(() => {
-    if (!editor) return;
-    const currentHtml = editor.getHTML();
-    if (currentHtml !== value) {
-      editor.commands.setContent(value || '', { emitUpdate: false });
-    }
-  }, [editor, value]);
+    const editor = useEditor({
+        immediatelyRender: false,
 
-  useEffect(() => {
-    if (!editor) return;
-    editor.setEditable(!disabled);
-  }, [editor, disabled]);
+        extensions: [
+            StarterKit.configure({
+                heading: {
+                    levels: [1, 2, 3],
+                },
+                codeBlock: false,
+            }),
 
-  const handleVisibilityChange = (checked: boolean) => {
-    onVisibilityChange(checked ? 'private' : 'public');
-  };
+            Link,
+            Underline,
+            TextStyle,
 
-  return (
-    <div className={styles.wrapper}>
-      <RichTextEditor editor={editor} variant="default">
-        <RichTextEditor.Toolbar>
-          <RichTextEditor.ControlsGroup>
-            <RichTextEditor.Bold />
-            <RichTextEditor.Italic />
-            <RichTextEditor.Underline />
-            <RichTextEditor.Strikethrough />
-            <RichTextEditor.Code />
-            <RichTextEditor.ClearFormatting />
-          </RichTextEditor.ControlsGroup>
+            Color.configure({
+                types: ['textStyle'],
+            }),
 
-          <RichTextEditor.ControlsGroup>
-            <RichTextEditor.H1 />
-            <RichTextEditor.H2 />
-            <RichTextEditor.H3 />
-          </RichTextEditor.ControlsGroup>
+            Highlight.configure({
+                multicolor: true,
+            }),
 
-          <RichTextEditor.ControlsGroup>
-            <RichTextEditor.BulletList />
-            <RichTextEditor.OrderedList />
-            <RichTextEditor.Blockquote />
-            <RichTextEditor.Hr />
-          </RichTextEditor.ControlsGroup>
+            Subscript,
+            Superscript,
 
-          <RichTextEditor.ControlsGroup>
-            <RichTextEditor.AlignLeft />
-            <RichTextEditor.AlignCenter />
-            <RichTextEditor.AlignRight />
-            <RichTextEditor.AlignJustify />
-          </RichTextEditor.ControlsGroup>
+            TextAlign.configure({
+                types: [
+                    'heading',
+                    'paragraph',
+                ],
+            }),
 
-          <RichTextEditor.ControlsGroup>
-            <RichTextEditor.Link />
-            <RichTextEditor.Unlink />
-          </RichTextEditor.ControlsGroup>
+            Placeholder.configure({
+                placeholder:
+                    t('placeholder'),
+            }),
 
-          <RichTextEditor.ControlsGroup>
-            <RichTextEditor.Highlight />
-            <RichTextEditor.Subscript />
-            <RichTextEditor.Superscript />
-            <RichTextEditor.CodeBlock />
-          </RichTextEditor.ControlsGroup>
+            CodeBlock,
+        ],
 
-          <RichTextEditor.ControlsGroup>
-            <RichTextEditor.Undo />
-            <RichTextEditor.Redo />
-          </RichTextEditor.ControlsGroup>
-        </RichTextEditor.Toolbar>
+        content: value,
 
-        <RichTextEditor.Content />
+        editable: !disabled,
 
-        <RichTextEditor.Footer>
-          {!user ? (
-            <span className={styles.anonymous}>{t('postingAnonymous')}</span>
-          ) : (
-            <div className={styles.visibility}>
-              <Switch
-                id="answer-visibility"
-                size="sm"
-                checked={isPrivate}
-                onCheckedChange={handleVisibilityChange}
-                disabled={disabled}
-              />
-              <Label
-                htmlFor="answer-visibility"
-                className={isPrivate ? styles.active : undefined}
-              >
-                {t('private')}
-              </Label>
-            </div>
-          )}
+        onUpdate: ({
+            editor,
+        }) => {
+            onChange(
+                editor.getHTML(),
+                editor.getText()
+            );
+        },
+    });
 
-          {footerActions}
-        </RichTextEditor.Footer>
-      </RichTextEditor>
-    </div>
-  );
+    useEffect(() => {
+        if (!editor) return;
+
+        const currentHtml =
+            editor.getHTML();
+
+        if (currentHtml !== value) {
+            editor.commands.setContent(
+                value || '',
+                {
+                    emitUpdate: false,
+                }
+            );
+        }
+    }, [editor, value]);
+
+    useEffect(() => {
+        if (!editor) return;
+
+        editor.setEditable(
+            !disabled
+        );
+    }, [editor, disabled]);
+
+    const handleVisibilityChange = (
+        checked: boolean
+    ) => {
+        onVisibilityChange(
+            checked
+                ? 'private'
+                : 'public'
+        );
+    };
+
+    return (
+        <div
+            className={
+                styles.wrapper
+            }
+        >
+            <RichTextEditor
+                editor={editor}
+                variant="default"
+            >
+                <RichTextEditor.Toolbar>
+                    <RichTextEditor.ControlsGroup>
+                        <RichTextEditor.Bold />
+                        <RichTextEditor.Italic />
+                        <RichTextEditor.Underline />
+                        <RichTextEditor.Strikethrough />
+                        <RichTextEditor.Code />
+                        <RichTextEditor.ClearFormatting />
+                    </RichTextEditor.ControlsGroup>
+
+                    <RichTextEditor.ControlsGroup>
+                        <RichTextEditor.H1 />
+                        <RichTextEditor.H2 />
+                        <RichTextEditor.H3 />
+                    </RichTextEditor.ControlsGroup>
+
+                    <RichTextEditor.ControlsGroup>
+                        <RichTextEditor.BulletList />
+                        <RichTextEditor.OrderedList />
+                        <RichTextEditor.Blockquote />
+                        <RichTextEditor.Hr />
+                    </RichTextEditor.ControlsGroup>
+
+                    <RichTextEditor.ControlsGroup>
+                        <RichTextEditor.AlignLeft />
+                        <RichTextEditor.AlignCenter />
+                        <RichTextEditor.AlignRight />
+                        <RichTextEditor.AlignJustify />
+                    </RichTextEditor.ControlsGroup>
+
+                    <RichTextEditor.ControlsGroup>
+                        <RichTextEditor.Link />
+                        <RichTextEditor.Unlink />
+                    </RichTextEditor.ControlsGroup>
+
+                    <RichTextEditor.ControlsGroup>
+                        <RichTextEditor.Highlight />
+                        <RichTextEditor.Subscript />
+                        <RichTextEditor.Superscript />
+                        <RichTextEditor.CodeBlock />
+                    </RichTextEditor.ControlsGroup>
+
+                    <RichTextEditor.ControlsGroup>
+                        <RichTextEditor.Undo />
+                        <RichTextEditor.Redo />
+                    </RichTextEditor.ControlsGroup>
+                </RichTextEditor.Toolbar>
+
+                <RichTextEditor.Content />
+
+                <RichTextEditor.Footer>
+                    <div
+                        className={
+                            styles.footer
+                        }
+                    >
+                        <div
+                            className={
+                                styles.footerMeta
+                            }
+                        >
+                            {!user ? (
+                                <span
+                                    className={
+                                        styles.anonymous
+                                    }
+                                >
+                                    {t(
+                                        'postingAnonymous'
+                                    )}
+                                </span>
+                            ) : (
+                                <div
+                                    className={
+                                        styles.visibility
+                                    }
+                                >
+                                    <Switch
+                                        id="answer-visibility"
+                                        size="sm"
+                                        checked={
+                                            isPrivate
+                                        }
+                                        onCheckedChange={
+                                            handleVisibilityChange
+                                        }
+                                        disabled={
+                                            disabled
+                                        }
+                                    />
+
+                                    <Label
+                                        htmlFor="answer-visibility"
+                                        className={`
+                                            ${
+                                                styles.visibilityLabel
+                                            }
+                                            ${
+                                                isPrivate
+                                                    ? styles.active
+                                                    : ''
+                                            }
+                                        `}
+                                    >
+                                        {t(
+                                            'private'
+                                        )}
+                                    </Label>
+                                </div>
+                            )}
+                        </div>
+
+                        {footerActions ? (
+                            <div
+                                className={
+                                    styles.footerActions
+                                }
+                            >
+                                {
+                                    footerActions
+                                }
+                            </div>
+                        ) : null}
+                    </div>
+                </RichTextEditor.Footer>
+            </RichTextEditor>
+        </div>
+    );
 }

@@ -1,18 +1,44 @@
 @use '@/src/styles/tokens.scss' as tokens;
 @use '@/src/styles/mixins.scss' as mixins;
 
+.form {
+    width: 100%;
+}
+
 .submit {
-  width: fit-content;
+    width: fit-content;
+    min-height: 2.5rem;
 
-  font-size: tokens.$font-size-sm;
-  font-weight: tokens.$font-weight-normal;
+    padding-inline: tokens.$spacing-4;
 
-  border-radius: var(--radius-sm);
+    font-size: tokens.$font-size-sm;
+    font-weight: tokens.$font-weight-medium;
 
-  cursor: pointer;
+    border-radius: var(--radius-sm);
 
-  &:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
+    cursor: pointer;
+
+    transition:
+        opacity 0.18s ease,
+        transform 0.18s ease;
+
+    &:active:not(:disabled) {
+        transform: translateY(1px);
+    }
+
+    &:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--foreground);
+        outline-offset: 2px;
+    }
+}
+
+@include mixins.down(sm) {
+    .submit {
+        width: 100%;
+    }
 }

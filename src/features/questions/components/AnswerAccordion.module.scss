@@ -2,73 +2,117 @@
 @use '@/src/styles/mixins.scss' as mixins;
 
 .answersContainer {
-    // size
     width: 100%;
 
-    // display
-    @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-6);
+    @include mixins.flex(
+        column,
+        flex-start,
+        stretch,
+        nowrap,
+        tokens.$spacing-6
+    );
 
     .answersContainerTitle {
-        // size
         width: 100%;
+        min-height: 3rem;
 
-        // display
-        @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-8);
+        @include mixins.flex(
+            row,
+            space-between,
+            center,
+            nowrap,
+            tokens.$spacing-4
+        );
 
-        // margin
         padding-bottom: tokens.$spacing-3;
 
-        // decoration
+        border: 0;
         border-bottom: 1px solid var(--border);
+
+        background: transparent;
+        color: var(--foreground);
+
+        text-align: left;
+
         cursor: pointer;
 
+        transition:
+            color 0.18s ease,
+            background-color 0.18s ease;
+
+        &:hover {
+            color: var(--foreground);
+            background-color: var(--accent);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--foreground);
+            outline-offset: 2px;
+            border-radius: var(--radius-sm);
+        }
+
         .title {
-            // decoration
+            margin: 0;
+
             font-size: tokens.$font-size-2xl;
+            font-weight: tokens.$font-weight-semibold;
+            line-height: tokens.$line-height-tight;
         }
 
         .toggle {
-            // transition
-            transition: transform 0.3s ease-in-out;
+            flex-shrink: 0;
+
+            color: var(--muted-foreground);
+
+            transition:
+                transform 0.3s ease-in-out,
+                color 0.18s ease;
 
             &.expandedToggle {
-                // decoration
                 transform: rotate(90deg);
+                color: var(--foreground);
             }
         }
     }
 
     .answersWrapper {
-        // display
         display: grid;
+
         grid-template-rows: 0fr;
 
-        // margin
         margin-top: 0;
 
-        // decoration
         opacity: 0;
 
-        // transition
         transition:
             grid-template-rows 0.35s ease-in-out,
             opacity 0.35s ease-in-out,
             margin-top 0.35s ease-in-out;
 
         &.expandedWrapper {
-            // display
             grid-template-rows: 1fr;
-
-            // decoration
             opacity: 1;
         }
 
         .answersInner {
-            // size
             width: 100%;
+            min-width: 0;
 
-            // decoration
             overflow: hidden;
+        }
+    }
+}
+
+@include mixins.down(sm) {
+    .answersContainer {
+        gap: tokens.$spacing-4;
+
+        .answersContainerTitle {
+            padding-bottom: tokens.$spacing-2;
+
+            .title {
+                font-size: tokens.$font-size-lg;
+            }
         }
     }
 }

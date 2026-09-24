@@ -1,45 +1,130 @@
 @use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
 
 .wrapper {
-  width: 100%;
-  
-  .anonymous {
-    // display
-    display: inline-flex;
-    align-items: center;
+    width: 100%;
+    min-width: 0;
 
-    // margin
-    padding-inline: tokens.$spacing-1;
+    .footer {
+        width: 100%;
+        min-width: 0;
 
-    // decoration
-    font-size: tokens.$font-size-sm;
-    color: var(--muted-foreground);
-    white-space: nowrap;
-  }
+        @include mixins.flex(
+            row,
+            space-between,
+            center,
+            nowrap,
+            tokens.$spacing-4
+        );
+    }
 
-  .visibility {
-    // display
-    display: inline-flex;
-    align-items: center;
-    gap: tokens.$spacing-2;
+    .footerMeta {
+        min-width: 0;
 
-    // decoration
-    cursor: pointer;
+        @include mixins.flex(
+            row,
+            flex-start,
+            center,
+            nowrap,
+            tokens.$spacing-3
+        );
+    }
 
-    .label {
-      // decoration
-      font-size: tokens.$font-size-sm;
-      color: var(--muted-foreground);
-      cursor: pointer;
-      white-space: nowrap;
+    .footerActions {
+        flex-shrink: 0;
+    }
+
+    .anonymous {
+        display: inline-flex;
+        align-items: center;
+
+        min-height: 2.25rem;
+
+        padding-inline: tokens.$spacing-1;
+
+        color: var(--muted-foreground);
+
+        font-size: tokens.$font-size-sm;
+        line-height: tokens.$line-height-normal;
+        white-space: nowrap;
+    }
+
+    .visibility {
+        @include mixins.flex(
+            row,
+            flex-start,
+            center,
+            nowrap,
+            tokens.$spacing-2
+        );
+    }
+
+    .visibilityLabel {
+        color: var(--muted-foreground);
+
+        font-size: tokens.$font-size-sm;
+        line-height: 1;
+
+        cursor: pointer;
+        white-space: nowrap;
+
+        transition: color 0.18s ease;
     }
 
     .active {
-      color: var(--foreground);
+        color: var(--foreground);
     }
-  }
 }
 
+/*
+ * El editor puede contener más controles que el viewport.
+ * Evitamos que provoque scroll horizontal en toda la página.
+ */
+.wrapper :global([role='toolbar']) {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
 
+    scrollbar-width: thin;
 
+    -webkit-overflow-scrolling: touch;
+}
 
+@include mixins.down(sm) {
+    .wrapper {
+        .footer {
+            @include mixins.flex(
+                column,
+                flex-start,
+                stretch,
+                nowrap,
+                tokens.$spacing-3
+            );
+        }
+
+        .footerMeta {
+            width: 100%;
+        }
+
+        .footerActions {
+            width: 100%;
+        }
+
+        .anonymous {
+            padding-inline: 0;
+        }
+
+        .visibility {
+            min-height: 2.5rem;
+        }
+    }
+}
+
+@include mixins.down(xs) {
+    .wrapper {
+        .anonymous,
+        .visibilityLabel {
+            font-size: tokens.$font-size-xs;
+        }
+    }
+}

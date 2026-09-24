@@ -9,6 +9,9 @@
     // display
     @include mixins.flex(row, center, center);
 
+    // margin
+    padding-bottom: tokens.$spacing-6;
+
     // decoration
     background-color: var(--background);
 
