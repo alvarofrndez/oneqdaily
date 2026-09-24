@@ -9,6 +9,7 @@ import Providers from '@/src/components/providers';
 import Header from '@/src/components/header';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { getProfile } from '@/src/features/auth/queries';
+import { SITE_MODE } from '@/config/site';
 
 const dmSans = DM_Sans({ variable: '--font-sans', subsets: ['latin'], });
 const fraunces = Fraunces({ variable: '--font-heading', subsets: ['latin'], });
@@ -26,12 +27,43 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
 }
 
-export default async function LocaleLayout({ children }: { children: React.ReactNode }) {
+export default async function LocaleLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const locale = await getLocale();
+
+  if (SITE_MODE !== 'live') {
+    return (
+        <html
+            lang={locale}
+            suppressHydrationWarning
+            className={`${dmSans.variable} ${fraunces.variable} ${dmMono.variable} h-full antialiased`}
+        >
+            <head>
+                <link
+                    rel="icon"
+                    href="/logo-light.svg"
+                    type="image/svg+xml"
+                />
+            </head>
+
+            <body>
+                {children}
+            </body>
+        </html>
+    );
+}
+
   const messages = await getMessages();
 
   const supabase = await createSupabaseServerClient();
-  const { data: { user } } = await supabase.auth.getUser();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const profile = user ? await getProfile(user.id) : null;
 
   return (
@@ -41,12 +73,23 @@ export default async function LocaleLayout({ children }: { children: React.React
       className={`${dmSans.variable} ${fraunces.variable} ${dmMono.variable} h-full antialiased`}
     >
       <head>
-        <link rel="icon" href="/logo-light.svg" type="image/svg+xml" />
+        <link
+          rel="icon"
+          href="/logo-light.svg"
+          type="image/svg+xml"
+        />
       </head>
+
       <body>
-        <Providers messages={messages} locale={locale} user={user} profile={profile}>
+        <Providers
+          messages={messages}
+          locale={locale}
+          user={user}
+          profile={profile}
+        >
           <div className={styles.container}>
             <Header />
+
             <main className={styles.main}>
               {children}
             </main>

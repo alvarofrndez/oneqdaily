@@ -1,10 +1,22 @@
 {
   "Metadata": {
-    "title": "Daily Questions",
-    "description": "A simple minimalist web app for daily questions"
+    "title": "One question daily",
+    "description": "A simple minimalist web app for one question daily"
+  },
+  "Maintenance": {
+    "eyebrow": "One question daily",
+    "title": "We are taking a little pause.",
+    "description": "One question daily is temporarily unavailable while we work behind the scenes. We’ll be back soon.",
+    "status": "Maintenance mode"
+  },
+  "Launch": {
+    "eyebrow": "One question daily",
+    "title": "Something worth asking is coming.",
+    "description": "One question. Every day. A small pause to think, reflect and answer.",
+    "status": "Launching soon"
   },
   "Header": {
-    "appName": "Daily Questions",
+    "appName": "One question daily",
     "questions": "Questions",
     "about": "About"
   },

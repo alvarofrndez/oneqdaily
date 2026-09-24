@@ -1,0 +1,118 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.container {
+    // size
+    width: 100%;
+    min-height: 100vh;
+
+    // display
+    @include mixins.flex(
+        column,
+        center,
+        center,
+        nowrap,
+        tokens.$spacing-8
+    );
+
+    // margin
+    padding: tokens.$spacing-8 tokens.$spacing-6;
+}
+
+.content {
+    // size
+    width: min(100%, 760px);
+
+    // display
+    @include mixins.flex(
+        column,
+        center,
+        center,
+        nowrap,
+        tokens.$spacing-8
+    );
+
+    // decoration
+    text-align: center;
+}
+
+.header{
+    @include mixins.flex(row, center, center, wrap, tokens.$spacing-3);
+}
+
+.eyebrow {
+    // decoration
+    font-family: var(--font-mono);
+    font-size: tokens.$font-size-sm;
+    font-weight: tokens.$font-weight-medium;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+}
+
+.title {
+    // size
+    width: 100%;
+
+    // decoration
+    font-family: var(--font-mono);
+    font-size: clamp(
+        tokens.$font-size-4xl,
+        8vw,
+        tokens.$font-size-6xl
+    );
+    font-weight: tokens.$font-weight-medium;
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    color: var(--foreground);
+    text-wrap: balance;
+}
+
+.description {
+    // size
+    max-width: 540px;
+
+    // decoration
+    font-family: var(--font-sans);
+    font-size: tokens.$font-size-lg;
+    line-height: 1.6;
+    color: var(--muted-foreground);
+    text-wrap: balance;
+}
+
+.divider {
+    // size
+    width: 100%;
+    height: 1px;
+
+    // decoration
+    background: var(--border);
+}
+
+.status {
+    // display
+    @include mixins.flex(
+        row,
+        center,
+        center,
+        nowrap,
+        tokens.$spacing-3
+    );
+
+    // decoration
+    font-family: var(--font-mono);
+    font-size: tokens.$font-size-sm;
+    font-weight: tokens.$font-weight-medium;
+    color: var(--foreground);
+}
+
+.statusDot {
+    // size
+    width: 7px;
+    height: 7px;
+
+    // decoration
+    border-radius: 50%;
+    background: var(--brand-foreground);
+}
