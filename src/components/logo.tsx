@@ -7,16 +7,16 @@ export default function Logo() {
       <Image
         src="/logo-light.svg"
         alt="Logo"
-        width={30}
-        height={30}
+        width={40}
+        height={40}
         className={styles.light}
       />
 
       <Image
         src="/logo-dark.svg"
         alt="Logo"
-        width={30}
-        height={30}
+        width={40}
+        height={40}
         className={styles.dark}
       />
     </div>
