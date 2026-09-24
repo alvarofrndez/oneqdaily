@@ -66,6 +66,7 @@ export default async function AboutPage() {
         </div>
 
         <section className={styles.hero}>
+          <h1 className={styles.eyebrow}>{t('hero.eyebrow')}</h1>
           <h1 className={styles.title}>{t('hero.title')}</h1>
           <p className={styles.subtitle}>{t('hero.subtitle')}</p>
 

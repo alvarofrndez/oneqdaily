@@ -1,0 +1,124 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.ticker {
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(
+        column,
+        center,
+        center,
+        nowrap,
+        tokens.$spacing-4
+    );
+
+    // margin
+    padding: tokens.$spacing-8 tokens.$spacing-4 tokens.$spacing-5;
+
+    // decoration
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: color-mix(in oklch, var(--background) 70%, transparent);
+    backdrop-filter: blur(6px);
+}
+
+.label {
+    // decoration
+    font-size: tokens.$font-size-xs;
+    line-height: tokens.$line-height-normal;
+    color: var(--muted-foreground);
+}
+
+.question {
+    // size
+    width: 100%;
+    min-height: 7.5rem;
+
+    // display
+    @include mixins.flex(row, center, center);
+
+    // decoration
+    font-family: var(--font-mono);
+    font-size: clamp(
+        tokens.$font-size-xl,
+        4.5vw,
+        tokens.$font-size-3xl
+    );
+    font-weight: tokens.$font-weight-medium;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--foreground);
+    text-align: center;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+}
+
+.caret {
+    // size
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+
+    // margin
+    margin-left: 3px;
+    vertical-align: text-bottom;
+
+    // decoration
+    background: var(--brand-foreground);
+    animation: blink 1s steps(1) infinite;
+}
+
+.next {
+    // size
+    min-height: 2.25rem;
+
+    // display
+    @include mixins.flex(row, center, center, nowrap, tokens.$spacing-1-5);
+
+    // margin
+    padding: tokens.$spacing-1 tokens.$spacing-3;
+
+    // decoration
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--muted-foreground);
+    font-size: tokens.$font-size-xs;
+    line-height: 1;
+    cursor: pointer;
+
+    // transition
+    transition:
+        color 0.18s ease,
+        background-color 0.18s ease,
+        border-color 0.18s ease;
+
+    &:hover {
+        color: var(--foreground);
+        background: var(--accent);
+        border-color: var(--border);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--foreground);
+        outline-offset: 2px;
+    }
+
+    svg {
+        flex-shrink: 0;
+    }
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .caret {
+        animation: none;
+    }
+}

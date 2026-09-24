@@ -10,6 +10,8 @@ import Header from '@/src/components/header';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { getProfile } from '@/src/features/auth/queries';
 import { SITE_MODE } from '@/config/site';
+import Footer from '@/src/components/footer';
+import { NextIntlClientProvider } from 'next-intl';
 
 const dmSans = DM_Sans({ variable: '--font-sans', subsets: ['latin'], });
 const fraunces = Fraunces({ variable: '--font-heading', subsets: ['latin'], });
@@ -33,6 +35,7 @@ export default async function LocaleLayout({
   children: React.ReactNode;
 }) {
   const locale = await getLocale();
+  const messages = await getMessages();
 
   if (SITE_MODE !== 'live') {
     return (
@@ -50,13 +53,14 @@ export default async function LocaleLayout({
             </head>
 
             <body>
+              <NextIntlClientProvider locale={locale} messages={messages}>
                 {children}
+              </NextIntlClientProvider>
             </body>
         </html>
     );
-}
+  }
 
-  const messages = await getMessages();
 
   const supabase = await createSupabaseServerClient();
 
@@ -93,6 +97,7 @@ export default async function LocaleLayout({
             <main className={styles.main}>
               {children}
             </main>
+            <Footer user={user} profile={profile} />
           </div>
         </Providers>
       </body>

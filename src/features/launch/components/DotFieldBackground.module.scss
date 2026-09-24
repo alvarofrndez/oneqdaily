@@ -1,0 +1,34 @@
+.background {
+    // position
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+
+    // posición inicial de la luz (se actualiza desde el componente)
+    --x: 50vw;
+    --y: 40vh;
+
+    // luz de marca que sigue al cursor (real o fantasma)
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+
+        background: radial-gradient(
+            460px circle at var(--x) var(--y),
+            color-mix(in oklch, var(--brand) 24%, transparent),
+            transparent 70%
+        );
+    }
+}
+
+.canvas {
+    // position (por encima de la luz)
+    position: relative;
+
+    // size
+    display: block;
+    width: 100%;
+    height: 100%;
+}

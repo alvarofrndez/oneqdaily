@@ -6,6 +6,10 @@
     width: 100%;
     min-height: 100vh;
 
+    // position (por encima del fondo interactivo)
+    position: relative;
+    z-index: 1;
+
     // display
     @include mixins.flex(
         column,
@@ -36,7 +40,7 @@
     text-align: center;
 }
 
-.header{
+.header {
     @include mixins.flex(row, center, center, wrap, tokens.$spacing-3);
 }
 
@@ -115,4 +119,65 @@
     // decoration
     border-radius: 50%;
     background: var(--brand-foreground);
+    animation: pulse 2s ease-out infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 color-mix(in oklch, var(--brand-foreground) 45%, transparent);
+    }
+
+    70%,
+    100% {
+        box-shadow: 0 0 0 8px transparent;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .statusDot {
+        animation: none;
+    }
+}
+
+// ---------- Legibilidad sobre el campo de puntos ----------
+// Un halo del color de fondo despeja los puntos justo alrededor de las letras.
+.eyebrow,
+.title,
+.description,
+.status {
+    text-shadow:
+        0 0 18px var(--background),
+        0 0 6px var(--background);
+}
+
+// ---------- Entrada orquestada (una sola vez, al cargar) ----------
+// Coincide con el anillo que hace florecer el logo en el fondo.
+.content > * {
+    animation: enter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+    @for $i from 1 through 8 {
+        &:nth-child(#{$i}) {
+            animation-delay: #{0.35 + ($i - 1) * 0.09}s;
+        }
+    }
+}
+
+@keyframes enter {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+        filter: blur(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .content > * {
+        animation: none;
+    }
 }

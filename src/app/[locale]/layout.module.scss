@@ -5,6 +5,9 @@
     // size
     width: 70%;
 
+    // display
+    @include mixins.flex(column, flex-start, stretch, nowrap, 0);
+
     .main{
         // size
         width: 100%;

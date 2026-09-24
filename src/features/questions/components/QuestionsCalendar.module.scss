@@ -246,7 +246,6 @@
         }
 
         .today {
-            
             .dayNumber {
                 // display
                 @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-6);
@@ -273,11 +272,6 @@
                     // transition
                     transition: all 0.2s ease;                    
                 }
-            }
-
-            .questions .question {
-                // decoration
-                color: var(--brand-foreground);
             }
 
             &:hover{

@@ -1,0 +1,459 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.page {
+    // size
+    width: 100%;
+    min-height: calc(100dvh - tokens.$header-height);
+
+    // margin
+    padding-top: tokens.$spacing-10;
+    padding-bottom: tokens.$spacing-16;
+
+    // decoration
+    background-color: var(--background);
+
+    .container {
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-16);
+    }
+
+    .topNav {
+        // display
+        @include mixins.flex(row, flex-end, center, nowrap, 0);
+
+        .backLink {
+            // display
+            @include mixins.flex(row, center, center, nowrap, tokens.$spacing-1-5);
+
+            // margin
+            padding: tokens.$spacing-1 tokens.$spacing-2;
+
+            // decoration
+            border-radius: var(--radius-sm);
+            color: var(--muted-foreground);
+            font-size: tokens.$font-size-sm;
+            line-height: 1;
+            text-decoration: none;
+
+            // transition
+            transition: color 0.18s ease, background-color 0.18s ease;
+
+            &:hover {
+                // decoration
+                color: var(--foreground);
+                background-color: var(--accent);
+            }
+
+            &:focus-visible {
+                // decoration
+                outline: 2px solid var(--foreground);
+                outline-offset: 2px;
+            }
+        }
+    }
+
+    .hero {
+        @include mixins.flex(column, flex-start, flex-start, nowrap, tokens.$spacing-3);
+    }
+
+    .eyebrow {
+        margin: 0;
+
+        color: var(--muted-foreground);
+        font-size: tokens.$font-size-xs;
+        font-weight: tokens.$font-weight-medium;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    .title {
+        margin: 0;
+
+        
+        font-size: clamp(tokens.$font-size-3xl, 4vw, tokens.$font-size-4xl);
+        font-weight: tokens.$font-weight-medium;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        color: var(--foreground);
+    }
+
+    .subtitle {
+        margin: 0;
+
+        color: var(--muted-foreground);
+        font-size: tokens.$font-size-base;
+        line-height: tokens.$line-height-relaxed;
+    }
+
+    .meta {
+        margin: 0;
+
+        color: var(--muted-foreground);
+        font-size: tokens.$font-size-xs;
+    }
+
+    // ---------- Secciones ----------
+    .section {
+        @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-4);
+    }
+
+    .sectionTitle {
+        margin: 0;
+
+        
+        font-size: tokens.$font-size-2xl;
+        font-weight: tokens.$font-weight-medium;
+        line-height: tokens.$line-height-tight;
+        color: var(--foreground);
+    }
+
+    .lead {
+        margin: 0;
+
+        color: var(--muted-foreground);
+        font-size: tokens.$font-size-base;
+        line-height: tokens.$line-height-relaxed;
+    }
+
+    .paragraph {
+        margin: 0;
+
+        color: var(--foreground);
+        font-size: tokens.$font-size-base;
+        line-height: tokens.$line-height-relaxed;
+    }
+
+    // ---------- Listas con numeración (cláusulas) ----------
+    .clauseList {
+        @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-3);
+
+        counter-reset: clause;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .clause {
+        position: relative;
+        padding-left: tokens.$spacing-8;
+
+        color: var(--foreground);
+        font-size: tokens.$font-size-base;
+        line-height: tokens.$line-height-relaxed;
+
+        counter-increment: clause;
+
+        &::before {
+            content: counter(clause) '.';
+
+            position: absolute;
+            left: 0;
+
+            color: var(--brand-foreground);
+            font-weight: tokens.$font-weight-semibold;
+            font-family: var(--font-mono);
+        }
+    }
+
+    // ---------- Lista simple (viñetas) ----------
+    .bulletList {
+        @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-2-5);
+
+        margin: 0;
+        padding-left: tokens.$spacing-5;
+
+        color: var(--foreground);
+        font-size: tokens.$font-size-base;
+        line-height: tokens.$line-height-relaxed;
+    }
+
+    // ---------- Tabla clave/valor (qué datos recogemos) ----------
+    .dataTable {
+        width: 100%;
+
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+    }
+
+    .dataRow {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+        gap: tokens.$spacing-4;
+
+        padding: tokens.$spacing-3 tokens.$spacing-4;
+
+        border-bottom: 1px solid var(--border);
+
+        &:last-child {
+            border-bottom: 0;
+        }
+
+        &:nth-child(odd) {
+            background-color: var(--accent);
+        }
+    }
+
+    .dataKey {
+        color: var(--foreground);
+        font-size: tokens.$font-size-sm;
+        font-weight: tokens.$font-weight-semibold;
+    }
+
+    .dataValue {
+        color: var(--muted-foreground);
+        font-size: tokens.$font-size-sm;
+        line-height: tokens.$line-height-relaxed;
+    }
+
+    // ---------- Nota / callout ----------
+    .note {
+        padding: tokens.$spacing-4;
+
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--brand);
+        border-radius: var(--radius-sm);
+        background-color: var(--accent);
+
+        color: var(--foreground);
+        font-size: tokens.$font-size-sm;
+        line-height: tokens.$line-height-relaxed;
+    }
+
+    // ---------- Pasos (how it works) ----------
+    .stepsGrid {
+        width: 100%;
+
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: tokens.$spacing-6;
+
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .step {
+        @include mixins.flex(column, flex-start, flex-start, nowrap, tokens.$spacing-1-5);
+
+        padding-top: tokens.$spacing-4;
+
+        border-top: 1px solid var(--border);
+    }
+
+    .stepNumber {
+        color: var(--brand-foreground);
+        font-family: var(--font-mono);
+        font-size: tokens.$font-size-sm;
+        font-weight: tokens.$font-weight-semibold;
+    }
+
+    .stepTitle {
+        margin: 0;
+
+        color: var(--foreground);
+        font-size: tokens.$font-size-base;
+        font-weight: tokens.$font-weight-semibold;
+    }
+
+    .stepDescription {
+        margin: 0;
+
+        color: var(--muted-foreground);
+        font-size: tokens.$font-size-sm;
+        line-height: tokens.$line-height-relaxed;
+    }
+
+    // ---------- Timeline vertical (día en la vida) ----------
+    .timeline {
+        @include mixins.flex(column, flex-start, stretch, nowrap, 0);
+
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .timelineItem {
+        position: relative;
+        padding: 0 0 tokens.$spacing-6 tokens.$spacing-6;
+
+        border-left: 1px solid var(--border);
+
+        &:last-child {
+            padding-bottom: 0;
+            border-left-color: transparent;
+        }
+
+        &::before {
+            content: '';
+
+            position: absolute;
+            top: 0.35rem;
+            left: -0.3125rem;
+
+            width: 0.625rem;
+            height: 0.625rem;
+
+            border-radius: var(--radius-full);
+            background-color: var(--brand);
+        }
+    }
+
+    .timelineTime {
+        display: block;
+
+        margin-bottom: tokens.$spacing-1;
+
+        color: var(--brand-foreground);
+        font-family: var(--font-mono);
+        font-size: tokens.$font-size-xs;
+        font-weight: tokens.$font-weight-semibold;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .timelineTitle {
+        margin: 0 0 tokens.$spacing-1;
+
+        color: var(--foreground);
+        font-size: tokens.$font-size-base;
+        font-weight: tokens.$font-weight-semibold;
+    }
+
+    .timelineDescription {
+        margin: 0;
+
+        color: var(--muted-foreground);
+        font-size: tokens.$font-size-sm;
+        line-height: tokens.$line-height-relaxed;
+    }
+
+    // ---------- FAQ ----------
+    .faqGroup {
+        @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-3);
+    }
+
+    .faqCategory {
+        margin: 0;
+
+        color: var(--muted-foreground);
+        font-size: tokens.$font-size-xs;
+        font-weight: tokens.$font-weight-semibold;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .faqList {
+        @include mixins.flex(column, flex-start, stretch, nowrap, 0);
+    }
+
+    .faqItem {
+        padding: tokens.$spacing-4 0;
+
+        border-bottom: 1px solid var(--border);
+
+        &:first-of-type {
+            padding-top: 0;
+        }
+    }
+
+    .faqQuestion {
+        color: var(--foreground);
+        font-size: tokens.$font-size-base;
+        font-weight: tokens.$font-weight-medium;
+        cursor: pointer;
+        list-style: none;
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--foreground);
+            outline-offset: 2px;
+        }
+    }
+
+    .faqAnswer {
+        margin: tokens.$spacing-2 0 0;
+
+        color: var(--muted-foreground);
+        font-size: tokens.$font-size-sm;
+        line-height: tokens.$line-height-relaxed;
+    }
+
+    // ---------- CTA final ----------
+    .ctaSection {
+        @include mixins.flex(column, center, center, nowrap, tokens.$spacing-4);
+
+        padding: tokens.$spacing-10 tokens.$spacing-4;
+
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        background-color: var(--accent);
+        text-align: center;
+    }
+
+    .ctaTitle {
+        margin: 0;
+
+        font-size: tokens.$font-size-xl;
+        font-weight: tokens.$font-weight-medium;
+        color: var(--foreground);
+    }
+
+    .ctaSubtitle {
+        margin: 0;
+
+        color: var(--muted-foreground);
+        font-size: tokens.$font-size-sm;
+        line-height: tokens.$line-height-relaxed;
+    }
+
+    .ctaButton {
+        min-height: 2.5rem;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 0 tokens.$spacing-4;
+
+        border: 1px solid var(--foreground);
+        border-radius: var(--radius-sm);
+        background-color: var(--foreground);
+
+        color: var(--background);
+        font-size: tokens.$font-size-sm;
+        font-weight: tokens.$font-weight-medium;
+        text-decoration: none;
+
+        transition: opacity 0.18s ease;
+
+        &:hover {
+            opacity: 0.85;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--foreground);
+            outline-offset: 2px;
+        }
+    }
+}
+
+@include mixins.down(sm) {
+    .page {
+        .stepsGrid {
+            grid-template-columns: 1fr;
+        }
+
+        .dataRow {
+            grid-template-columns: 1fr;
+            gap: tokens.$spacing-1;
+        }
+    }
+}

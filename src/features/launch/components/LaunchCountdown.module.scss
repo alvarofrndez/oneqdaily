@@ -1,0 +1,116 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.countdown {
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(
+        column,
+        center,
+        center,
+        nowrap,
+        tokens.$spacing-4
+    );
+}
+
+.label {
+    // display
+    @include mixins.flex(row, center, center, nowrap, tokens.$spacing-1-5);
+
+    // decoration
+    font-size: tokens.$font-size-sm;
+    line-height: tokens.$line-height-normal;
+    color: var(--muted-foreground);
+}
+
+.units {
+    // size
+    width: min(100%, 460px);
+
+    // display
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: tokens.$spacing-3;
+}
+
+.unit {
+    // display
+    @include mixins.flex(
+        column,
+        center,
+        center,
+        nowrap,
+        tokens.$spacing-1-5
+    );
+
+    // margin
+    padding: tokens.$spacing-4 tokens.$spacing-2;
+
+    // decoration
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: color-mix(in oklch, var(--background) 70%, transparent);
+    backdrop-filter: blur(6px);
+}
+
+.value {
+    // decoration
+    font-family: var(--font-mono);
+    font-size: tokens.$font-size-3xl;
+    font-weight: tokens.$font-weight-medium;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--foreground);
+    font-variant-numeric: tabular-nums;
+
+    // transition
+    animation: tick 0.3s ease-out;
+}
+
+.unitLabel {
+    // decoration
+    font-size: tokens.$font-size-xs;
+    line-height: 1;
+    color: var(--muted-foreground);
+}
+
+.done {
+    // decoration
+    font-family: var(--font-mono);
+    font-size: tokens.$font-size-lg;
+    color: var(--brand-foreground);
+}
+
+@keyframes tick {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@include mixins.down(xs) {
+    .units {
+        gap: tokens.$spacing-2;
+    }
+
+    .unit {
+        padding: tokens.$spacing-3 tokens.$spacing-1;
+    }
+
+    .value {
+        font-size: tokens.$font-size-2xl;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .value {
+        animation: none;
+    }
+}

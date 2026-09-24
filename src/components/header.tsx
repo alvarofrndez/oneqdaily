@@ -20,9 +20,6 @@ export default function Header() {
 
       <div className={styles.actions}>
         <nav className={styles.navigation} aria-label="Main navigation">
-          <Link href="/about" className={styles.route}>
-            <span className={styles.routeLabel}>{t('about')}</span>
-          </Link>
           <Link href="/questions" className={styles.route}>
             <span className={styles.routeLabel}>
               {t('questions')}

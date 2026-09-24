@@ -60,7 +60,7 @@
     // ---------- Hero ----------
     .hero {
         // display
-        @include mixins.flex(column, flex-start, center, nowrap, tokens.$spacing-4);
+        @include mixins.flex(column, flex-start, flex-start, nowrap, tokens.$spacing-3);
 
         // decoration
         text-align: center;
