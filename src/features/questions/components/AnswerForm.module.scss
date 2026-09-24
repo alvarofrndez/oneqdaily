@@ -2,36 +2,45 @@
 @use '@/src/styles/mixins.scss' as mixins;
 
 .form {
+    // size
     width: 100%;
+
+    // display
+    @include mixins.flex(row, center, flex-start);
 }
 
 .submit {
+    // size
     width: fit-content;
     min-height: 2.5rem;
 
+    // margin
     padding-inline: tokens.$spacing-4;
 
+    // decoration
     font-size: tokens.$font-size-sm;
     font-weight: tokens.$font-weight-medium;
-
     border-radius: var(--radius-sm);
-
     cursor: pointer;
 
+    // transition
     transition:
         opacity 0.18s ease,
         transform 0.18s ease;
 
     &:active:not(:disabled) {
+        // decoration
         transform: translateY(1px);
     }
 
     &:disabled {
+        // decoration
         opacity: 0.55;
         cursor: not-allowed;
     }
 
     &:focus-visible {
+        // decoration
         outline: 2px solid var(--foreground);
         outline-offset: 2px;
     }
@@ -39,6 +48,7 @@
 
 @include mixins.down(sm) {
     .submit {
+        // size
         width: 100%;
     }
 }

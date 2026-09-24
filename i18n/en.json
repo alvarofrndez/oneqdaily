@@ -89,7 +89,8 @@
       "loadingMore": "Loading...",
       "anonymous": "Anonymous",
       "privateBadge": "Private",
-      "ago": "ago"
+      "ago": "ago",
+      "loading": "Loading"
     },
     "AllQuestions": {
       "title": "All Questions",

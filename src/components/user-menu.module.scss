@@ -152,10 +152,6 @@
     }
 }
 
-/* -------------------------------------------------
-   Authenticated user menu
-------------------------------------------------- */
-
 .menu {
     position: relative;
 
@@ -171,7 +167,7 @@
             tokens.$spacing-2
         );
 
-        padding: tokens.$spacing-1 tokens.$spacing-2;
+        padding: tokens.$spacing-1 tokens.$spacing-0-5 tokens.$spacing-1 tokens.$spacing-2;
 
         border: 1px solid transparent;
         border-radius: var(--radius-sm);

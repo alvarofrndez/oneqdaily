@@ -3,23 +3,17 @@
 
 .page {
     width: 100%;
-    min-height: calc(
-        100dvh -
-        tokens.$header-height -
-        tokens.$spacing-14
-    );
+    min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-10);
 
+    // margin
+    padding-top: tokens.$spacing-10;
+
+    // decoration
     background-color: var(--background);
 
     .container {
         width: 100%;
         max-width: tokens.$max-width;
-
-        margin: 0 auto;
-        padding:
-            tokens.$spacing-8
-            tokens.$spacing-4
-            tokens.$spacing-6;
 
         @include mixins.flex(
             column,
@@ -716,11 +710,6 @@
 @include mixins.down(md) {
     .page {
         .container {
-            width: calc(100% - 1.5rem);
-
-            padding-top:
-                tokens.$spacing-6;
-
             .header {
                 gap: tokens.$spacing-6;
             }
@@ -752,14 +741,7 @@
 @include mixins.down(sm) {
     .page {
         .container {
-            width: calc(100% - 1rem);
-
             gap: tokens.$spacing-5;
-
-            padding-top:
-                tokens.$spacing-5;
-            padding-bottom:
-                tokens.$spacing-5;
 
             .header {
                 @include mixins.flex(
@@ -941,8 +923,6 @@
 @include mixins.down(xs) {
     .page {
         .container {
-            width: calc(100% - 0.75rem);
-
             .header {
                 .actions {
                     .actionButton {

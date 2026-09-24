@@ -4,15 +4,13 @@
 .container{
     // size
     width: 70%;
-    min-height: 100dvh;
 
     .main{
         // size
         width: 100%;
-        min-height: 100dvh;
 
-        // margin
-        padding-top: calc(tokens.$header-height + tokens.$spacing-14);
+        // position
+        position: relative;
 
         // display
         @include mixins.flex(column, flex-start, center);
@@ -26,18 +24,9 @@
     }
 }
 
-@include mixins.downHeight(md){
+@include mixins.down('sm'){
     .container{
-        .main{
-            padding-top: calc(tokens.$header-height + tokens.$spacing-8);
-        }
-    }
-}
-
-@include mixins.downHeight(sm){
-    .container{
-        .main{
-            padding-top: calc(tokens.$header-height + tokens.$spacing-4);
-        }
+        // size
+        width: 90%;
     }
 }

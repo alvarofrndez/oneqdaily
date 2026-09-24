@@ -4,7 +4,7 @@
 .page {
     // size
     width: 100%;
-    min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-14);
+    min-height: calc(100dvh - tokens.$header-height);
 
     // display
     @include mixins.flex(column, center, center);

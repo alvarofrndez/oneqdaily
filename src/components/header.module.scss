@@ -3,14 +3,8 @@
 
 .header {
     // size
-    width: min(1120px, calc(100% - 32px));
+    width: 100%;
     height: tokens.$header-height;
-
-    // position
-    position: fixed;
-    top: 0;
-    left: 50%;
-    z-index: tokens.$z-index-sticky;
 
     // display
     @include mixins.flex(
@@ -21,12 +15,8 @@
         tokens.$spacing-8
     );
 
-    // margin
-    padding: 0 tokens.$spacing-3;
-
     // decoration
     background-color: var(--background);
-    transform: translateX(-50%);
 
     .brand {
         min-width: 0;
@@ -117,8 +107,6 @@
 
 @include mixins.down(md) {
     .header {
-        width: calc(100% - 24px);
-
         @include mixins.flex(
             row,
             space-between,
@@ -126,8 +114,6 @@
             nowrap,
             tokens.$spacing-3
         );
-
-        padding: 0 tokens.$spacing-2;
 
         .actions {
             gap: tokens.$spacing-3;
@@ -137,8 +123,6 @@
 
 @include mixins.down(sm) {
     .header {
-        width: calc(100% - 16px);
-
         .actions {
             gap: tokens.$spacing-2;
         }
@@ -147,7 +131,6 @@
 
 @include mixins.down(xs) {
     .header {
-
         .brand {
             .logo {
                 font-size: tokens.$font-size-sm;

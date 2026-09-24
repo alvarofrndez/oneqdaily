@@ -78,21 +78,6 @@ export default async function QuestionDetailPage({
                     }
                     aria-labelledby="question-title"
                 >
-                    <div
-                        className={
-                            styles.questionHeader
-                        }
-                    >
-                        <h1
-                            id="question-title"
-                            className={
-                                styles.question
-                            }
-                        >
-                            {question.text}
-                        </h1>
-                    </div>
-
                     <div className={styles.info}>
                         <p
                             className={
@@ -121,6 +106,21 @@ export default async function QuestionDetailPage({
                                 {t('back')}
                             </span>
                         </Link>
+                    </div>
+
+                    <div
+                        className={
+                            styles.questionHeader
+                        }
+                    >
+                        <h1
+                            id="question-title"
+                            className={
+                                styles.question
+                            }
+                        >
+                            {question.text}
+                        </h1>
                     </div>
 
                     <div

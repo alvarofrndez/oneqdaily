@@ -2,8 +2,7 @@
 @use '@/src/styles/mixins.scss' as mixins;
 
 .wrapper {
-    width: 100%;
-    min-width: 0;
+    width: min(960px, 100%);
 
     .footer {
         width: 100%;

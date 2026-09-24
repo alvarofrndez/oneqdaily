@@ -2,17 +2,17 @@
 @use '@/src/styles/mixins.scss' as mixins;
 
 .page {
+    // size
     width: 100%;
-    min-height: 100dvh;
+    min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-10);
 
+    // margin
+    padding-top: tokens.$spacing-10;
     padding-bottom: tokens.$spacing-10;
 
     background-color: var(--background);
 
     .container {
-        width: min(960px, 100%);
-        margin: 0 auto;
-
         @include mixins.flex(
             column,
             flex-start,
@@ -46,6 +46,8 @@
                 );
 
                 .question {
+                    width: 100%;
+
                     margin: 0;
 
                     font-size: clamp(
@@ -57,10 +59,9 @@
                     font-family: var(--font-mono);
                     font-weight: tokens.$font-weight-medium;
                     line-height: 1.05;
+                    text-align: center;
                     letter-spacing: -0.035em;
-
                     color: var(--foreground);
-
                     overflow-wrap: anywhere;
                     word-break: break-word;
                 }
