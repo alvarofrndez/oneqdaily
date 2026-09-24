@@ -114,7 +114,7 @@ function isMonthBefore(
     );
 }
 
-function formatCountdown(milliseconds: number) {
+function formatCountdown(milliseconds: number | null) {
     if (milliseconds === null) return '--:--:--';
 
     const totalSeconds = Math.max(0, Math.floor(milliseconds / 1000));
