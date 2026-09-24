@@ -40,6 +40,9 @@ export default async function LocaleLayout({ children }: { children: React.React
       suppressHydrationWarning
       className={`${dmSans.variable} ${fraunces.variable} ${dmMono.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="icon" href="/logo-light.svg" type="image/svg+xml" />
+      </head>
       <body>
         <Providers messages={messages} locale={locale} user={user} profile={profile}>
           <div className={styles.container}>
