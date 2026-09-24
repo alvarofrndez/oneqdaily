@@ -19,8 +19,7 @@
         tokens.$spacing-8
     );
 
-    // margin
-    padding: tokens.$spacing-8 tokens.$spacing-6;
+    
 }
 
 .content {
@@ -36,8 +35,12 @@
         tokens.$spacing-8
     );
 
+    // margin
+    padding: tokens.$spacing-8 tokens.$spacing-6;
+
     // decoration
     text-align: center;
+    
 }
 
 .header {
@@ -179,5 +182,18 @@
 @media (prefers-reduced-motion: reduce) {
     .content > * {
         animation: none;
+    }
+}
+
+@include mixins.downHeight(lg){
+    .container {
+        // display
+        @include mixins.flex(
+            column,
+            flex-start,
+            center,
+            nowrap,
+            tokens.$spacing-8
+        );
     }
 }
