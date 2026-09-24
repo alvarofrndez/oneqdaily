@@ -2,49 +2,71 @@
 @use '@/src/styles/mixins.scss' as mixins;
 
 .loader {
-    // display
-    @include mixins.flex(column, center, center, nowrap, tokens.$spacing-4);
-
     // size
     width: 100%;
 
-    // decoration
-    color: var(--brand-foreground);
+    // display
+    @include mixins.flex(column, center, center, nowrap, tokens.$spacing-5);
 
-    .glyph {
-        // position
-        position: relative;
+    .grid {
+        // display
+        display: grid;
+        grid-template-columns: repeat(19, var(--cell));
+        grid-auto-rows: var(--cell);
+        place-items: center;
+
+        // transition
+        animation: appear 0.4s ease-out both;
+    }
+
+    .dot {
+        // variables
+        --rest-opacity: 0.14;
+        --peak-opacity: 0.45;
+        --peak-scale: 1.5;
 
         // size
-        font-size: 4rem;
-        line-height: 1;
+        width: calc(var(--cell) * 0.5);
+        height: calc(var(--cell) * 0.5);
 
         // decoration
-        font-weight: tokens.$font-weight-medium;
-        color: var(--border);
-        user-select: none;
+        border-radius: var(--radius-full);
+        background-color: var(--muted-foreground);
+        opacity: var(--rest-opacity);
 
-        .fill {
-            // position
-            position: absolute;
-            inset: 0;
+        // transition
+        animation: ripple 2.4s ease-in-out infinite;
+        animation-delay: calc(var(--distance) * 0.07s);
 
-            // decoration
-            color: var(--brand-foreground);
-            clip-path: inset(100% 0 0 0);
+        &.main {
+            --rest-opacity: 0.3;
+            --peak-opacity: 1;
+            --peak-scale: 1.35;
 
-            // transition
-            animation: fill 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+            background-color: var(--foreground);
+        }
+
+        &.accent {
+            --rest-opacity: 0.55;
+            --peak-opacity: 1;
+            --peak-scale: 1.5;
+
+            background-color: var(--accent-color);
+            animation-name: rippleAccent;
         }
     }
 
     .label {
         // decoration
+        font-family: var(--font-mono);
         font-size: tokens.$font-size-xs;
         line-height: tokens.$line-height-normal;
-        color: var(--muted-foreground);
-        letter-spacing: 0.08em;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
+        color: var(--muted-foreground);
+
+        // transition
+        animation: appear 0.4s ease-out 0.1s both;
     }
 
     .srOnly {
@@ -61,13 +83,17 @@
         white-space: nowrap;
     }
 
-    // ---------- Tamaños ----------
-    &.sm .glyph {
-        font-size: 2rem;
+    // ---------- Tamaños (--cell = paso de la rejilla) ----------
+    &.sm {
+        --cell: 0.2rem;
     }
 
-    &.lg .glyph {
-        font-size: 8rem;
+    &.md {
+        --cell: 0.34rem;
+    }
+
+    &.lg {
+        --cell: 0.56rem;
     }
 
     // ---------- Variantes ----------
@@ -96,24 +122,61 @@
     }
 }
 
-@keyframes fill {
-    0% {
-        clip-path: inset(100% 0 0 0);
-    }
-
-    50% {
-        clip-path: inset(0 0 0 0);
-    }
-
+// La onda sale del centro; el resto del ciclo es reposo.
+@keyframes ripple {
+    0%,
+    50%,
     100% {
-        clip-path: inset(0 0 100% 0);
+        opacity: var(--rest-opacity);
+        transform: scale(1);
+    }
+
+    16% {
+        opacity: var(--peak-opacity);
+        transform: scale(var(--peak-scale));
     }
 }
 
+// Igual, pero solo el acento lleva glow (así no se animan sombras en todos los puntos).
+@keyframes rippleAccent {
+    0%,
+    50%,
+    100% {
+        opacity: var(--rest-opacity);
+        transform: scale(1);
+        box-shadow: 0 0 0 0 transparent;
+    }
+
+    16% {
+        opacity: var(--peak-opacity);
+        transform: scale(var(--peak-scale));
+        box-shadow: 0 0 0.75rem
+            color-mix(in oklch, var(--accent-color) 60%, transparent);
+    }
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Sin movimiento: el logo se muestra completo y estático.
 @media (prefers-reduced-motion: reduce) {
-    .loader .glyph .fill {
-        // decoration
+    .loader .grid,
+    .loader .label,
+    .loader .dot {
         animation: none;
-        clip-path: inset(50% 0 0 0);
+    }
+
+    .loader .dot.main,
+    .loader .dot.accent {
+        opacity: 1;
     }
 }

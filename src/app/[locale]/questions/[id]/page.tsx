@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 
 import { ArrowLeft } from 'lucide-react';
 
@@ -12,6 +12,7 @@ import AnswerAccordion from '@/src/features/questions/components/AnswerAccordion
 import AnswerForm from '@/src/features/questions/components/AnswerForm';
 
 import styles from './page.module.scss';
+import { formatDateKey } from '@/lib/time';
 
 export default async function QuestionDetailPage({
     params,
@@ -19,6 +20,8 @@ export default async function QuestionDetailPage({
     params: { id: string };
 }) {
     const { id } = await params;
+
+    const locale = await getLocale();
 
     const question = await getQuestionById(id);
 
@@ -85,9 +88,7 @@ export default async function QuestionDetailPage({
                             }
                         >
                             {t('postedOn', {
-                                date: new Date(
-                                    question.display_date
-                                ).toLocaleDateString(),
+                                date: formatDateKey(question.display_date, locale),
                             })}
                         </p>
 
@@ -97,11 +98,6 @@ export default async function QuestionDetailPage({
                                 styles.backLink
                             }
                         >
-                            <ArrowLeft
-                                size={15}
-                                strokeWidth={1.8}
-                                aria-hidden="true"
-                            />
                             <span>
                                 {t('back')}
                             </span>

@@ -3,13 +3,14 @@
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 import type { Question, Answer, InsertAnswer, AnswerWithQuestion } from './types'
 import { ANSWER_SELECT, attachLikeState } from './answer-likes'
+import { getAppDateKey } from '@/lib/time'
 
 export async function getTodayQuestion(): Promise<Question | null> {
   const supabase = await createSupabaseServerClient()
   const { data, error } = await supabase
     .from('questions')
     .select('*')
-    .eq('display_date', new Date().toISOString().slice(0, 10))
+    .eq('display_date', getAppDateKey())
     .maybeSingle()
 
   if (error) {
@@ -26,6 +27,7 @@ export async function getQuestionById(id: string): Promise<Question | null> {
     .from('questions')
     .select('*')
     .eq('id', id)
+    .lte('display_date', getAppDateKey())
     .maybeSingle()
 
   if (error) {
@@ -41,6 +43,7 @@ export async function getAllQuestions(): Promise<Question[]> {
   const { data, error } = await supabase
     .from('questions')
     .select('*')
+    .lte('display_date', getAppDateKey())
     .order('display_date', { ascending: false })
 
   if (error) {

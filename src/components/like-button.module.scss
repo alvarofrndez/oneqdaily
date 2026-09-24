@@ -19,22 +19,24 @@
     transition: color 0.2s ease;
 
     &:hover {
-        // decoration
-        color: var(--foreground);
+        .icon {
+            // decoration
+            color: var(--brand-foreground);
+        }
     }
 
     &:focus-visible {
-        // decoration
-        color: var(--foreground);
-        outline: 1px solid var(--foreground);
+        .icon {
+            // decoration
+            color: var(--brand-foreground);
+            outline: 1px solid var(--brand-foreground);
+        }
     }
 
     &.liked {
-        // decoration
-        color: var(--foreground);
-
         .icon {
             // decoration
+            color: var(--brand-foreground);
             fill: currentColor;
         }
     }

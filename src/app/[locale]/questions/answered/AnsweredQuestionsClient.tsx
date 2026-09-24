@@ -22,6 +22,9 @@ import LikeButton from '@/src/components/like-button';
 
 import styles from './AnsweredQuestionsClient.module.scss';
 
+import { useLocale } from 'next-intl';
+import { formatDateKey, formatInstant } from '@/lib/time';
+
 type QuestionGroup = {
     questionId: string;
     question: QuestionSummary | null;
@@ -45,6 +48,7 @@ export default function AnsweredQuestionsClient({
     questions,
     translations,
 }: Props) {
+    const locale = useLocale();
     const [currentPage, setCurrentPage] =
         useState(1);
 
@@ -169,12 +173,6 @@ export default function AnsweredQuestionsClient({
                             styles.backLink
                         }
                     >
-                        <ArrowLeft
-                            size={15}
-                            strokeWidth={1.8}
-                            aria-hidden="true"
-                        />
-
                         <span>
                             {
                                 translations.backToAllQuestions
@@ -252,9 +250,7 @@ export default function AnsweredQuestionsClient({
                                                             styles.questionDate
                                                         }
                                                     >
-                                                        {new Date(
-                                                            question.display_date
-                                                        ).toLocaleDateString()}
+                                                        {formatDateKey(question.display_date, locale)}
                                                     </span>
                                                 )}
                                             </span>
@@ -348,9 +344,7 @@ export default function AnsweredQuestionsClient({
                                                                         >
                                                                             {translations.answeredOn.replace(
                                                                                 '__DATE__',
-                                                                                new Date(
-                                                                                    answer.created_at
-                                                                                ).toLocaleDateString()
+                                                                                formatInstant(answer.created_at, locale)
                                                                             )}
                                                                         </span>
 

@@ -7,7 +7,7 @@ import {
   LOGO_ACCENT_PATH,
   LOGO_MAIN_PATH,
   LOGO_VIEWBOX,
-} from '../logo';
+} from '@/lib/logo';
 
 import styles from './DotFieldBackground.module.scss';
 

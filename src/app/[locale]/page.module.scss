@@ -4,11 +4,15 @@
 .container{
     // size
     width: 100%;
-    min-height: calc(100dvh - tokens.$header-height);
+    min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-10);
 
+    // display
     @include mixins.flex(
         column,
         center,
         center
     );
+
+    // margin
+    padding-top: tokens.$spacing-10;
 }

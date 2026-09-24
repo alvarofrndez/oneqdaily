@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { ChevronRight } from 'lucide-react';
 
+import { useServerDateKey } from '@/src/components/server-clock';
 import { getTodayQuestion } from '../queries';
 import type { Question } from '../types';
 
@@ -17,51 +18,30 @@ export default function DailyQuestion() {
   const t = useTranslations('Questions.DailyQuestion');
 
   const [question, setQuestion] = useState<Question | null>(null);
+  const [questionDay, setQuestionDay] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [timeLeft, setTimeLeft] = useState<string>('');
   const [isAnswersExpanded, setIsAnswersExpanded] = useState(false);
 
-  async function fetchQuestion() {
-    const q = await getTodayQuestion();
-    setQuestion(q);
-    setLoading(false);
-  }
+  const todayKey = useServerDateKey();
 
   useEffect(() => {
-    fetchQuestion();
-  }, []);
+    if (todayKey === null || todayKey === questionDay) return;
 
-  useEffect(() => {
-    const tick = () => {
-      const now = new Date();
-      const nextDay = new Date(now);
-      
-      nextDay.setDate(nextDay.getDate() + 1);
-      nextDay.setHours(0, 0, 0, 0);
-      
-      const diffSec = Math.floor((nextDay.getTime() - now.getTime()) / 1000);
-      const hours = Math.floor(diffSec / 3600);
-      const minutes = Math.floor((diffSec % 3600) / 60);
-      const seconds = diffSec % 60;
-      
-      setTimeLeft(
-        `${hours.toString().padStart(2, '0')}:${minutes
-          .toString()
-          .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-      );
-      
-      if (diffSec <= 0) {
-        setQuestion(null);
-        setLoading(true);
-        fetchQuestion();
-      }
+    let active = true;
+    setLoading(true);
+
+    getTodayQuestion().then((today) => {
+      if (!active) return;
+
+      setQuestion(today);
+      setQuestionDay(todayKey);
+      setLoading(false);
+    });
+
+    return () => {
+      active = false;
     };
-
-    tick();
-    const interval = setInterval(tick, 1000);
-    
-    return () => clearInterval(interval);
-  }, []);
+  }, [todayKey, questionDay]);
 
   const toggleAnswers = () => {
     setIsAnswersExpanded((prev) => !prev);
@@ -76,7 +56,7 @@ export default function DailyQuestion() {
         <div className={styles.questionCardHeader}>
           <h2 className={styles.question}>{question.text}</h2>
         </div>
-        
+
         <div className={styles.questionCardContent}>
           <AnswerForm questionId={question.id} />
         </div>
@@ -88,13 +68,13 @@ export default function DailyQuestion() {
           onClick={toggleAnswers}
         >
           <h1 className={styles.title}>{t('answersTitle')}</h1>
-          
-          <ChevronRight 
-            size={18} 
-            className={`${styles.toggle} ${isAnswersExpanded ? styles.expandedToggle : ''}`} 
+
+          <ChevronRight
+            size={18}
+            className={`${styles.toggle} ${isAnswersExpanded ? styles.expandedToggle : ''}`}
           />
         </div>
-        
+
         <div className={`${styles.answersWrapper} ${isAnswersExpanded ? styles.expandedWrapper : ''}`}>
           <div className={styles.answersInner}>
             <AnswerList questionId={question.id} />

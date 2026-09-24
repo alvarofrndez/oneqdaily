@@ -18,7 +18,6 @@ import {
 
 import type { Answer } from '../types';
 
-import { Button } from '@/src/components/ui/button';
 import { Skeleton } from '@/src/components/ui/skeleton';
 import LikeButton from '@/src/components/like-button';
 
@@ -32,6 +31,7 @@ import {
 } from '../answer-likes';
 
 import styles from './AnswerList.module.scss';
+import { useServerNow } from '@/src/components/server-clock';
 
 const PAGE_SIZE = 10;
 
@@ -41,18 +41,10 @@ type Props = {
     initialHasMore?: boolean;
 };
 
-const formatRelativeTime = (
-    dateString: string,
-    t: any
-) => {
-    const date = new Date(dateString);
-    const now = new Date();
-
-    const diffInSeconds = Math.floor(
-        (
-            now.getTime() -
-            date.getTime()
-        ) / 1000
+const formatRelativeTime = (dateString: string, now: number, t: any) => {
+    const diffInSeconds = Math.max(
+        0,
+        Math.floor((now - new Date(dateString).getTime()) / 1000)
     );
 
     const diffInMinutes = Math.floor(
@@ -114,6 +106,8 @@ export default function AnswerList({
 
     const [loadingMore, setLoadingMore] =
         useState(false);
+
+    const serverNow = useServerNow(30_000);
 
     const fetchPage = useCallback(
         async (from: number) => {
@@ -417,10 +411,7 @@ export default function AnswerList({
                                         styles.time
                                     }
                                 >
-                                    {formatRelativeTime(
-                                        answer.created_at,
-                                        t
-                                    )}
+                                    {formatRelativeTime(answer.created_at, serverNow ?? Date.now(), t)}
                                 </span>
 
                                 {answer.visibility ===
@@ -490,8 +481,10 @@ export default function AnswerList({
                         styles.loadMore
                     }
                 >
-                    <Button
-                        variant="outline"
+                    <button
+                        className={
+                            styles.loadMoreButton
+                        }
                         onClick={loadMore}
                         disabled={
                             loadingMore
@@ -504,7 +497,7 @@ export default function AnswerList({
                             : t(
                                   'loadMore'
                               )}
-                    </Button>
+                    </button>
                 </div>
             )}
         </div>

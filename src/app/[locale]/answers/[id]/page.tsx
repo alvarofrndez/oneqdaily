@@ -1,11 +1,12 @@
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
-import { getTranslations } from 'next-intl/server';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { getAnswerById } from '@/src/features/questions/queries';
 import { setAnswerLike } from '@/src/features/questions/actions';
 import LikeButton from '@/src/components/like-button';
 import styles from './page.module.scss';
+import { getLocale, getTranslations } from 'next-intl/server';
+import { formatDateKey, formatInstant } from '@/lib/time';
 
 export default async function AnswerDetailPage({
   params,
@@ -20,6 +21,7 @@ export default async function AnswerDetailPage({
 
   const { id } = await params;
   const t = await getTranslations('Questions.AnswerDetail');
+  const locale = await getLocale();
 
   const answerWithQuestion = await getAnswerById(id);
 
@@ -67,7 +69,7 @@ export default async function AnswerDetailPage({
             <p className={styles.questionText}>{question.text}</p>
             <div className={styles.questionDate}>
               {t('postedOn', {
-                date: new Date(question.display_date).toLocaleDateString(),
+                date: formatDateKey(question.display_date, locale),
               })}
             </div>
           </div>
@@ -82,7 +84,7 @@ export default async function AnswerDetailPage({
           <div className={styles.answerMeta}>
             <span className={styles.answerDate}>
               {t('answeredOn', {
-                date: new Date(answer.created_at).toLocaleDateString(),
+                date: formatInstant(answer.created_at, locale)
               })}
             </span>
 

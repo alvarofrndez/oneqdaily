@@ -97,26 +97,16 @@
                         tokens.$spacing-1-5
                     );
 
-                    padding:
-                        tokens.$spacing-1
-                        tokens.$spacing-2;
-
-                    border-radius: var(--radius-sm);
-
                     color: var(--muted-foreground);
-
                     font-size: tokens.$font-size-xs;
                     line-height: 1;
-
                     text-decoration: none;
 
-                    transition:
-                        color 0.18s ease,
-                        background-color 0.18s ease;
+                    transition: all .2s ease,;
 
                     &:hover {
+                        text-decoration: underline;
                         color: var(--foreground);
-                        background-color: var(--accent);
                     }
 
                     &:focus-visible {

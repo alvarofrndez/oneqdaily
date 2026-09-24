@@ -2,6 +2,7 @@ import { getAllQuestions } from '@/src/features/questions/queries';
 import { getTranslations } from 'next-intl/server';
 import QuestionsCalendar from '@/src/features/questions/components/QuestionsCalendar';
 import styles from './page.module.scss';
+import { getAppDateKey } from '@/lib/time';
 
 export default async function QuestionsPage() {
   const questions = await getAllQuestions();
@@ -21,7 +22,7 @@ export default async function QuestionsPage() {
             {t('empty')}
           </p>
         ) : (
-          <QuestionsCalendar questions={calendarQuestions} />
+          <QuestionsCalendar questions={calendarQuestions} today={getAppDateKey()} />
         )}
       </div>
     </section>

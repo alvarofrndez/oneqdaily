@@ -12,6 +12,7 @@ import { getProfile } from '@/src/features/auth/queries';
 import { SITE_MODE } from '@/config/site';
 import Footer from '@/src/components/footer';
 import { NextIntlClientProvider } from 'next-intl';
+import Breadcrumbs from '@/src/components/breadcrumbs';
 
 const dmSans = DM_Sans({ variable: '--font-sans', subsets: ['latin'], });
 const fraunces = Fraunces({ variable: '--font-heading', subsets: ['latin'], });
@@ -69,6 +70,7 @@ export default async function LocaleLayout({
   } = await supabase.auth.getUser();
 
   const profile = user ? await getProfile(user.id) : null;
+  const serverNow = Date.now();
 
   return (
     <html
@@ -90,9 +92,11 @@ export default async function LocaleLayout({
           locale={locale}
           user={user}
           profile={profile}
+          serverNow={serverNow}
         >
           <div className={styles.container}>
             <Header />
+            <Breadcrumbs />
 
             <main className={styles.main}>
               {children}

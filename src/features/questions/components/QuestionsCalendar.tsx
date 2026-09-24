@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 
 import styles from './QuestionsCalendar.module.scss';
+import { useServerNow } from '@/src/components/server-clock';
+import { getAppDateKey, getNextDayStart } from '@/lib/time';
 
 type CalendarQuestion = {
     id: string;
@@ -23,6 +25,7 @@ type CalendarQuestion = {
 
 type QuestionsCalendarProps = {
     questions: CalendarQuestion[];
+    today: string;
 };
 
 type MobileView = 'day' | 'list';
@@ -32,13 +35,18 @@ const WEEK_DAYS = Array.from({ length: 7 }, (_, index) => {
 });
 
 function getDateKey(value: string | Date) {
-    const date = value instanceof Date ? value : new Date(value);
+    if (typeof value === 'string') return value.slice(0, 10);
 
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const year = value.getFullYear();
+    const month = String(value.getMonth() + 1).padStart(2, '0');
+    const day = String(value.getDate()).padStart(2, '0');
 
     return `${year}-${month}-${day}`;
+}
+
+function fromDateKey(key: string) {
+    const [year, month, day] = key.split('-').map(Number);
+    return new Date(year, month - 1, day);
 }
 
 function getCalendarDays(
@@ -107,10 +115,9 @@ function isMonthBefore(
 }
 
 function formatCountdown(milliseconds: number) {
-    const totalSeconds = Math.max(
-        0,
-        Math.floor(milliseconds / 1000)
-    );
+    if (milliseconds === null) return '--:--:--';
+
+    const totalSeconds = Math.max(0, Math.floor(milliseconds / 1000));
 
     const hours = Math.floor(
         totalSeconds / 3600
@@ -131,50 +138,35 @@ function formatCountdown(milliseconds: number) {
 
 export default function QuestionsCalendar({
     questions,
+    today: initialToday,
 }: QuestionsCalendarProps) {
     const locale = useLocale();
     const t = useTranslations('Questions.Calendar');
 
-    const [now, setNow] = useState(
-        () => new Date()
-    );
+    // Reloj del servidor. Hasta que el cliente monta (null) se usa el día que
+    // mandó el servidor, así el primer render coincide con el SSR.
+    const serverNow = useServerNow();
+    const todayKey =
+        serverNow === null ? initialToday : getAppDateKey(serverNow);
 
-    const [currentMonth, setCurrentMonth] = useState(
-        () =>
-            new Date(
-                now.getFullYear(),
-                now.getMonth(),
-                1
-            )
-    );
-
-    const [mobileView, setMobileView] =
-        useState<MobileView>('day');
-
-    const [selectedDate, setSelectedDate] =
-        useState(() => new Date(
-            now.getFullYear(),
-            now.getMonth(),
-            now.getDate()
-        ));
-
-    useEffect(() => {
-        const interval = window.setInterval(() => {
-            setNow(new Date());
-        }, 1000);
-
-        return () => {
-            window.clearInterval(interval);
-        };
-    }, []);
-
-    const today = now;
+    const today = fromDateKey(todayKey);
 
     const tomorrow = new Date(
         today.getFullYear(),
         today.getMonth(),
         today.getDate() + 1
     );
+
+    const [currentMonth, setCurrentMonth] = useState(() => {
+        const initial = fromDateKey(initialToday);
+        return new Date(initial.getFullYear(), initial.getMonth(), 1);
+    });
+
+    const [mobileView, setMobileView] =
+        useState<MobileView>('day');
+
+    const [selectedDate, setSelectedDate] =
+        useState(() => fromDateKey(initialToday));
 
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
@@ -256,7 +248,7 @@ export default function QuestionsCalendar({
         getDateKey(date) === getDateKey(selectedDate);
 
     const tomorrowCountdown =
-        tomorrow.getTime() - now.getTime();
+        serverNow === null ? null : getNextDayStart(serverNow) - serverNow;
 
     const canGoNextMonth = isMonthBefore(
         currentMonth,

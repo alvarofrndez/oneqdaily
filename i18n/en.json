@@ -1,7 +1,7 @@
 {
   "Metadata": {
     "title": "One question daily",
-    "description": "A simple minimalist web app for one question daily"
+    "description": "A simple minimalist web web for one question daily"
   },
   "Maintenance": {
     "eyebrow": "One question daily",
@@ -94,6 +94,20 @@
       "usernameRequired": "Username cannot be empty"
     }
   },
+  "Breadcrumbs": {
+    "label": "Breadcrumb",
+    "home": "Home",
+    "questions": "Questions",
+    "question": "Question",
+    "answered": "My answers",
+    "answer": "Answer",
+    "profile": "My profile",
+    "about": "About",
+    "howItWorks": "How it works",
+    "faq": "FAQ",
+    "privacy": "Privacy policy",
+    "terms": "Terms of service"
+  },
   "Footer": {
     "navigationLabel": "Footer navigation",
     "brand": {
@@ -119,7 +133,7 @@
         "terms": "Terms of service"
       }
     },
-    "copyright": "© {year} One question dailys. All rights reserved."
+    "copyright": "© {year} One question daily. All rights reserved."
   },
   "Questions": {
     "DailyQuestion": {
@@ -163,8 +177,10 @@
       "dayView": "days",
       "listView": "list",
       "today": "Today",
-      "nexDay": "Next day",
-      "noQuestions": "empty"
+      "nextDay": "Next day",
+      "previousDay": "Previous day",
+      "noQuestions": "empty",
+      "viewMode": "viewMode"
     },
     "AnsweredQuestions": {
       "backToAllQuestions": "Back to all questions",
@@ -215,33 +231,33 @@
   },
   "About": {
     "meta": {
-      "title": "About One question dailys — a daily space for reflection",
-      "description": "Discover what One question dailys is, how the One question daily works, why public and private answers coexist, and how a small daily habit can add up over time."
+      "title": "About One question daily — a daily space for reflection",
+      "description": "Discover what One question daily is, how the One question daily works, why public and private answers coexist, and how a small daily habit can add up over time."
     },
     "backHome": "Back to home",
     "hero": {
       "eyebrow": "About us",
       "title": "One question daily. A lifetime of reflection.",
-      "subtitle": "One question dailys is a small, focused space where one new question appears every day, and you decide how much of your answer to share with the world.",
+      "subtitle": "One question daily is a small, focused space where one new question appears every day, and you decide how much of your answer to share with the world.",
       "ctaPrimary": "Answer today's question",
       "ctaSecondary": "Browse the archive",
       "stat": "{count, plural, =0 {No questions published yet} one {# question published so far} other {# questions published so far}}"
     },
     "intro": {
-      "title": "What is One question dailys?",
+      "title": "What is One question daily?",
       "paragraphs": [
-        "One question dailys is a minimalist web application built around a simple idea: every day, a single new question appears, and everyone answers the same question at the same time.",
+        "One question daily is a minimalist web application built around a simple idea: every day, a single new question appears, and everyone answers the same question at the same time.",
         "There is no feed to scroll, no algorithm deciding what you see, and no pressure to post constantly. Just one question, once a day, for anyone who wants to stop for a moment and think.",
         "The project started as a small personal experiment in daily journaling and has grown into a shared space where public and private reflection live side by side."
       ]
     },
     "howItWorks": {
-      "title": "How One question dailys works",
+      "title": "How One question daily works",
       "lead": "The whole experience is built around four simple steps that repeat every day.",
       "steps": [
         {
           "title": "A new question every day",
-          "description": "At midnight, the question of the day changes automatically. Everyone who visits One question dailys on a given day sees the exact same prompt, which keeps the experience simple and consistent."
+          "description": "At midnight, the question of the day changes automatically. Everyone who visits One question daily on a given day sees the exact same prompt, which keeps the experience simple and consistent."
         },
         {
           "title": "Answer publicly or privately",
@@ -260,47 +276,47 @@
     "philosophy": {
       "title": "Why a single One question daily?",
       "paragraphs": [
-        "Most platforms are built to maximize the time you spend on them. One question dailys is designed to do the opposite: ask one meaningful question, get a short and honest answer, and let you get on with your day.",
-        "Writing a little bit, regularly, is one of the simplest habits people describe as helpful for organizing their thoughts, noticing patterns in how they feel, and remembering what mattered on a given day. One question dailys tries to make that habit as frictionless as possible by removing the blank page: the question is already there, every day, waiting for you.",
+        "Most platforms are built to maximize the time you spend on them. One question daily is designed to do the opposite: ask one meaningful question, get a short and honest answer, and let you get on with your day.",
+        "Writing a little bit, regularly, is one of the simplest habits people describe as helpful for organizing their thoughts, noticing patterns in how they feel, and remembering what mattered on a given day. One question daily tries to make that habit as frictionless as possible by removing the blank page: the question is already there, every day, waiting for you.",
         "Because the same question is shown to everyone, answering it also becomes a small, shared ritual. You are never the only person thinking about that particular question on that particular day."
       ]
     },
     "privacy": {
       "title": "Public by choice, private by default control",
       "paragraphs": [
-        "Every answer on One question dailys carries an explicit visibility setting that you choose before publishing it. Public answers are attached to your username and can be seen by any visitor to that question's page. Private answers are stored under your account but are never shown to anyone else, including in the answered-questions history of other users.",
+        "Every answer on One question daily carries an explicit visibility setting that you choose before publishing it. Public answers are attached to your username and can be seen by any visitor to that question's page. Private answers are stored under your account but are never shown to anyone else, including in the answered-questions history of other users.",
         "You can change how you answer each question independently: nothing forces you to keep the same visibility for every entry. Some days you might want to share your answer with the community; other days you might prefer to keep it just for yourself.",
         "Answers posted without an account are treated as anonymous public answers: visible to everyone, but not linked back to a personal profile."
       ]
     },
     "features": {
-      "title": "What you get with One question dailys",
+      "title": "What you get with One question daily",
       "items": [
         { "title": "One rotating question", "description": "A new question is published automatically every day, so you never have to think about what to write about." },
         { "title": "Public or private answers", "description": "Decide, answer by answer, whether your reflection stays private or becomes part of the public conversation." },
         { "title": "Rich text answers", "description": "Format your answers with headings, lists, links and highlights, using a distraction-free editor." },
         { "title": "Likes on public answers", "description": "Show appreciation for answers you connect with, without leaving a comment or starting a thread." },
         { "title": "A full question archive", "description": "Browse every past question in a calendar view, and jump straight into any day you missed." },
-        { "title": "Bilingual interface", "description": "Use One question dailys in English, with more languages planned as the project grows." }
+        { "title": "Bilingual interface", "description": "Use One question daily in English, with more languages planned as the project grows." }
       ]
     },
     "community": {
       "title": "A small project, built in the open",
       "paragraphs": [
-        "One question dailys is an independent project, not a large company product. It is built and maintained with a strong focus on simplicity, privacy and respect for people's time.",
-        "There is no engagement-optimized notifications built into the experience. The goal is for the app to be genuinely useful for a couple of minutes a day, and then get out of your way."
+        "One question daily is an independent project, not a large company product. It is built and maintained with a strong focus on simplicity, privacy and respect for people's time.",
+        "There is no engagement-optimized notifications built into the experience. The goal is for the web to be genuinely useful for a couple of minutes a day, and then get out of your way."
       ]
     },
     "faq": {
       "title": "Frequently asked questions",
       "items": [
         { "question": "Do I need an account to answer the One question daily?", "answer": "No. You can answer the question of the day without signing up, and your answer will be posted as an anonymous public answer. Creating a free account lets you choose private answers, like other people's answers, and keep a personal history of everything you've written." },
-        { "question": "How often does the question change?", "answer": "A new question is published once every day, at midnight. The same question stays active for the entire day for every visitor, and One question dailys then automatically moves on to the next one." },
+        { "question": "How often does the question change?", "answer": "A new question is published once every day, at midnight. The same question stays active for the entire day for every visitor, and One question daily then automatically moves on to the next one." },
         { "question": "Who can see my private answers?", "answer": "Only you. Private answers are saved to your account exactly like public ones, but they are never shown on the public question page or in anyone else's view of the archive." },
         { "question": "Can I see questions from previous days?", "answer": "Yes. The archive page shows every past question in a calendar, so you can revisit any day and read, or answer, the question that was posted then." },
-        { "question": "Is One question dailys free to use?", "answer": "Yes. Answering the One question daily, browsing the archive and reading public answers is free." },
-        { "question": "What languages is One question dailys available in?", "answer": "One question dailys is currently available in English, and the interface follows your preferred language automatically when possible." },
-        { "question": "Can I edit or delete an answer after posting it?", "answer": "Not at the moment: once an answer is submitted it stays as it is, so it's worth taking a moment before posting. This may change as One question dailys evolves." }
+        { "question": "Is One question daily free to use?", "answer": "Yes. Answering the One question daily, browsing the archive and reading public answers is free." },
+        { "question": "What languages is One question daily available in?", "answer": "One question daily is currently available in English, and the interface follows your preferred language automatically when possible." },
+        { "question": "Can I edit or delete an answer after posting it?", "answer": "Not at the moment: once an answer is submitted it stays as it is, so it's worth taking a moment before posting. This may change as One question daily evolves." }
       ]
     },
     "cta": {
@@ -311,23 +327,23 @@
   },
   "Privacy": {
     "meta": {
-      "title": "Privacy Policy — One question dailys",
-      "description": "Learn what data One question dailys collects, how public and private answers are handled, which cookies are used for authentication, and what rights you have over your data."
+      "title": "Privacy Policy — One question daily",
+      "description": "Learn what data One question daily collects, how public and private answers are handled, which cookies are used for authentication, and what rights you have over your data."
     },
     "backHome": "Back to home",
     "hero": {
       "eyebrow": "Legal",
       "title": "Privacy policy",
-      "subtitle": "This page explains what information One question dailys collects, why, and how the distinction between public and private answers actually works under the hood.",
+      "subtitle": "This page explains what information One question daily collects, why, and how the distinction between public and private answers actually works under the hood.",
       "lastUpdated": "Last updated: this policy is reviewed periodically as the product evolves."
     },
     "intro": {
       "title": "Overview",
-      "paragraph": "One question dailys is a small, independent daily-journaling application. This policy describes the personal data processed when you use the site, whether or not you create an account, and applies to every page of the service."
+      "paragraph": "One question daily is a small, independent daily-journaling application. This policy describes the personal data processed when you use the site, whether or not you create an account, and applies to every page of the service."
     },
     "dataCollected": {
       "title": "What data we collect",
-      "lead": "Depending on how you use One question dailys, we may process the following categories of data:",
+      "lead": "Depending on how you use One question daily, we may process the following categories of data:",
       "rows": [
         { "key": "Account data", "value": "Email address and password, managed securely through our authentication provider (Supabase Auth). We never see or store your raw password." },
         { "key": "Profile data", "value": "Username, full name and avatar URL, which you can edit at any time from your profile page." },
@@ -356,11 +372,11 @@
     },
     "cookies": {
       "title": "Cookies",
-      "paragraph": "One question dailys uses a small number of strictly necessary cookies set by our authentication provider to keep you signed in between requests. These cookies are read and refreshed by the site itself on every page load; we do not use third-party advertising or cross-site tracking cookies."
+      "paragraph": "One question daily uses a small number of strictly necessary cookies set by our authentication provider to keep you signed in between requests. These cookies are read and refreshed by the site itself on every page load; we do not use third-party advertising or cross-site tracking cookies."
     },
     "thirdParties": {
       "title": "Third-party services",
-      "lead": "We rely on a small number of infrastructure providers to run One question dailys:",
+      "lead": "We rely on a small number of infrastructure providers to run One question daily:",
       "items": [
         "Supabase — hosts our database and handles authentication, including optional sign-in with Google or GitHub.",
         "Google and GitHub — only if you explicitly choose to sign in using one of these providers.",
@@ -384,7 +400,7 @@
     },
     "minors": {
       "title": "Children's privacy",
-      "paragraph": "One question dailys is not directed at children, and we do not knowingly collect personal data from children under the age required by applicable law in their jurisdiction. If you believe a minor has created an account, please contact us so we can remove it."
+      "paragraph": "One question daily is not directed at children, and we do not knowingly collect personal data from children under the age required by applicable law in their jurisdiction. If you believe a minor has created an account, please contact us so we can remove it."
     },
     "changes": {
       "title": "Changes to this policy",
@@ -400,32 +416,32 @@
   },
   "Terms": {
     "meta": {
-      "title": "Terms of Service — One question dailys",
-      "description": "The rules for using One question dailys: accounts, acceptable use of public and private answers, content ownership, and limitations of liability."
+      "title": "Terms of Service — One question daily",
+      "description": "The rules for using One question daily: accounts, acceptable use of public and private answers, content ownership, and limitations of liability."
     },
     "backHome": "Back to home",
     "hero": {
       "eyebrow": "Legal",
       "title": "Terms of service",
-      "subtitle": "These terms govern your use of One question dailys. By creating an account or submitting an answer, you agree to the rules described on this page.",
+      "subtitle": "These terms govern your use of One question daily. By creating an account or submitting an answer, you agree to the rules described on this page.",
       "lastUpdated": "Last updated: these terms are reviewed periodically as the product evolves."
     },
     "acceptance": {
       "title": "Acceptance of terms",
       "clauses": [
-        "By accessing or using One question dailys, you agree to be bound by these terms of service and by our privacy policy.",
+        "By accessing or using One question daily, you agree to be bound by these terms of service and by our privacy policy.",
         "If you do not agree with any part of these terms, you should not use the service.",
         "We may update these terms from time to time; continued use of the service after an update constitutes acceptance of the revised terms."
       ]
     },
     "service": {
       "title": "Description of the service",
-      "paragraph": "One question dailys publishes a single new question each day. Registered and unregistered visitors may submit a text answer to that question, choosing between a public visibility (shown to other visitors) or, for registered users, a private visibility (visible only to the author)."
+      "paragraph": "One question daily publishes a single new question each day. Registered and unregistered visitors may submit a text answer to that question, choosing between a public visibility (shown to other visitors) or, for registered users, a private visibility (visible only to the author)."
     },
     "accounts": {
       "title": "Accounts",
       "clauses": [
-        "You may use One question dailys without an account to submit anonymous public answers, or create a free account to unlock private answers, likes and a personal answer history.",
+        "You may use One question daily without an account to submit anonymous public answers, or create a free account to unlock private answers, likes and a personal answer history.",
         "You are responsible for maintaining the confidentiality of your account credentials and for all activity that occurs under your account.",
         "You must provide accurate information when creating an account and keep your profile information reasonably up to date.",
         "One person may not create multiple accounts for the purpose of manipulating likes or circumventing these terms."
@@ -434,7 +450,7 @@
     "content": {
       "title": "User content and acceptable use",
       "clauses": [
-        "You retain ownership of the answers you write. By submitting a public answer, you grant One question dailys a non-exclusive license to display that content on the relevant question page and in any archive or listing of public answers.",
+        "You retain ownership of the answers you write. By submitting a public answer, you grant One question daily a non-exclusive license to display that content on the relevant question page and in any archive or listing of public answers.",
         "Private answers are stored on your behalf and are not licensed for public display; they remain visible only to you within the application.",
         "You are solely responsible for the content of your answers, whether public or private."
       ],
@@ -449,11 +465,11 @@
     },
     "visibility": {
       "title": "Visibility settings are your responsibility",
-      "paragraph": "You are responsible for choosing the correct visibility (public or private) before submitting each answer. One question dailys is not responsible for the consequences of an answer being published publicly when you intended it to remain private, or vice versa, though we design the interface to make this choice clear before you submit."
+      "paragraph": "You are responsible for choosing the correct visibility (public or private) before submitting each answer. One question daily is not responsible for the consequences of an answer being published publicly when you intended it to remain private, or vice versa, though we design the interface to make this choice clear before you submit."
     },
     "intellectualProperty": {
       "title": "Intellectual property",
-      "paragraph": "The One question dailys name, interface design and underlying source code are the property of their respective owners and are not licensed to you by virtue of using the service. This does not affect your ownership of the answers you write, as described above."
+      "paragraph": "The One question daily name, interface design and underlying source code are the property of their respective owners and are not licensed to you by virtue of using the service. This does not affect your ownership of the answers you write, as described above."
     },
     "termination": {
       "title": "Suspension and termination",
@@ -466,9 +482,9 @@
     "liability": {
       "title": "Disclaimer and limitation of liability",
       "clauses": [
-        "One question dailys is provided on an \"as is\" and \"as available\" basis, without warranties of any kind, express or implied.",
+        "One question daily is provided on an \"as is\" and \"as available\" basis, without warranties of any kind, express or implied.",
         "We do not guarantee that the service will be uninterrupted, error-free, or available at all times.",
-        "To the maximum extent permitted by applicable law, One question dailys and its operators shall not be liable for any indirect, incidental or consequential damages arising from your use of the service."
+        "To the maximum extent permitted by applicable law, One question daily and its operators shall not be liable for any indirect, incidental or consequential damages arising from your use of the service."
       ]
     },
     "governingLaw": {
@@ -486,23 +502,23 @@
   },
   "FaqPage": {
     "meta": {
-      "title": "Frequently Asked Questions — One question dailys",
-      "description": "Answers to common questions about accounts, public and private answers, likes, the question archive, and how One question dailys works day to day."
+      "title": "Frequently Asked Questions — One question daily",
+      "description": "Answers to common questions about accounts, public and private answers, likes, the question archive, and how One question daily works day to day."
     },
     "backHome": "Back to home",
     "hero": {
       "eyebrow": "Support",
       "title": "Frequently asked questions",
-      "subtitle": "Everything you might want to know about how One question dailys works, grouped by topic. Can't find your answer here? Check the how it works page for more detail."
+      "subtitle": "Everything you might want to know about how One question daily works, grouped by topic. Can't find your answer here? Check the how it works page for more detail."
     },
     "categories": [
       {
         "title": "General",
         "items": [
-          { "question": "What is One question dailys?", "answer": "A minimalist daily journaling app: one new question is published every day, and anyone can answer it, publicly or privately." },
-          { "question": "Is One question dailys free?", "answer": "Yes. Reading questions, answering them and browsing public answers is completely free." },
-          { "question": "Do I need to install anything?", "answer": "No, One question dailys runs entirely in your browser, on desktop or mobile, with no app to install." },
-          { "question": "Which languages are supported?", "answer": "The interface is currently available in English and Spanish, and follows your browser or account language preference automatically." }
+          { "question": "What is One question daily?", "answer": "A minimalist daily journaling web: one new question is published every day, and anyone can answer it, publicly or privately." },
+          { "question": "Is One question daily free?", "answer": "Yes. Reading questions, answering them and browsing public answers is completely free." },
+          { "question": "Do I need to install anything?", "answer": "No, One question daily runs entirely in your browser, on desktop or mobile, with no web to install." },
+          { "question": "Which languages are supported?", "answer": "The interface is currently available in English, and follows your browser or account language preference automatically." }
         ]
       },
       {
@@ -530,7 +546,7 @@
         "items": [
           { "question": "Who can see a private answer?", "answer": "Only you. Private answers never appear on the public question page or in anyone else's view of the archive." },
           { "question": "Can I change an answer from public to private afterwards?", "answer": "Not at the moment, since answers cannot currently be edited after submission. Choose the visibility carefully before posting." },
-          { "question": "Does One question dailys sell my data?", "answer": "No. We do not sell personal data to third parties. See our privacy policy for full details." },
+          { "question": "Does One question daily sell my data?", "answer": "No. We do not sell personal data to third parties. See our privacy policy for full details." },
           { "question": "Are anonymous answers really anonymous?", "answer": "Yes, answers submitted without an account are not linked to any profile and are shown simply as anonymous public answers." }
         ]
       },
@@ -545,24 +561,24 @@
     ],
     "cta": {
       "title": "Still have a question?",
-      "subtitle": "Take a look at how One question dailys works in more detail, or jump straight into today's question.",
+      "subtitle": "Take a look at how One question daily works in more detail, or jump straight into today's question.",
       "button": "See today's question"
     }
   },
   "HowItWorksPage": {
     "meta": {
-      "title": "How One question dailys Works",
+      "title": "How One question daily Works",
       "description": "A detailed walkthrough of how the One question daily rotates, how public and private answers work, how likes are counted, and how the question archive is organized."
     },
     "backHome": "Back to home",
     "hero": {
       "eyebrow": "Guide",
-      "title": "How One question dailys works, step by step",
+      "title": "How One question daily works, step by step",
       "subtitle": "A closer look at what happens behind the scenes every time you open the app, answer a question, or like someone else's reflection."
     },
     "lifecycle": {
       "title": "The lifecycle of a question",
-      "lead": "Every question published on One question dailys goes through the same simple lifecycle.",
+      "lead": "Every question published on One question daily goes through the same simple lifecycle.",
       "steps": [
         { "title": "One question is scheduled per day", "description": "Each question in our archive has an assigned display date. Only the question whose date matches today is shown as the active question." },
         { "title": "It becomes active at midnight", "description": "As soon as a new day starts, the previous question is retired to the archive and the next scheduled question becomes the one everyone answers." },
@@ -609,14 +625,14 @@
     "accounts": {
       "title": "Accounts and sign-in options",
       "paragraphs": [
-        "You can use One question dailys fully anonymously for public answers, or create a free account using your email and a password.",
+        "You can use One question daily fully anonymously for public answers, or create a free account using your email and a password.",
         "Accounts can also be created or accessed instantly using Google or GitHub sign-in, without needing to remember a separate password.",
         "Once logged in, your profile page lets you update your username and full name, which are shown next to your public answers."
       ]
     },
     "cta": {
       "title": "Ready to try it yourself?",
-      "subtitle": "The best way to understand One question dailys is to answer today's question.",
+      "subtitle": "The best way to understand One question daily is to answer today's question.",
       "button": "Go to today's question"
     }
   },
