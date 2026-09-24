@@ -20,37 +20,6 @@
 
     .brand {
         min-width: 0;
-
-        .logo {
-            display: inline-flex;
-            align-items: center;
-
-            font-size: tokens.$font-size-base;
-            font-weight: tokens.$font-weight-semibold;
-            line-height: 1;
-            color: var(--foreground);
-
-            text-decoration: none;
-            letter-spacing: -0.02em;
-
-            transition:
-                opacity 0.18s ease,
-                transform 0.18s ease;
-
-            &:hover {
-                opacity: 0.78;
-            }
-
-            &:focus-visible {
-                outline: 2px solid var(--foreground);
-                outline-offset: 4px;
-                border-radius: var(--radius-sm);
-            }
-
-            &:active {
-                transform: scale(0.98);
-            }
-        }
     }
 
     .actions {
@@ -125,16 +94,6 @@
     .header {
         .actions {
             gap: tokens.$spacing-2;
-        }
-    }
-}
-
-@include mixins.down(xs) {
-    .header {
-        .brand {
-            .logo {
-                font-size: tokens.$font-size-sm;
-            }
         }
     }
 }

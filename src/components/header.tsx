@@ -4,6 +4,8 @@ import { useTranslations } from 'next-intl';
 
 import UserMenu from './user-menu';
 import styles from './header.module.scss';
+import Image from 'next/image';
+import Logo from './logo';
 
 export default function Header() {
   const t = useTranslations('Header');
@@ -12,7 +14,7 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.brand}>
         <Link href="/" className={styles.logo} aria-label="Home">
-          logo
+          <Logo />
         </Link>
       </div>
 
