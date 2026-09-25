@@ -1,0 +1,126 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.form {
+    width: 100%;
+    max-width: 26rem;
+
+    @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-2);
+}
+
+.field {
+    width: 100%;
+
+    @include mixins.flex(row, stretch, stretch, nowrap, tokens.$spacing-2);
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background-color: color-mix(in oklch, var(--background) 70%, transparent);
+    backdrop-filter: blur(6px);
+
+    transition: border-color 0.2s ease;
+
+    &:focus-within {
+        border-color: var(--foreground);
+    }
+}
+
+.input {
+    flex: 1;
+    min-width: 0;
+
+    padding: tokens.$spacing-3 tokens.$spacing-4;
+
+    border: 0;
+    background: transparent;
+    color: var(--foreground);
+    font-size: tokens.$font-size-sm;
+    outline: none;
+
+    &::placeholder {
+        color: var(--muted-foreground);
+    }
+}
+
+.submit {
+    flex-shrink: 0;
+
+    @include mixins.flex(row, center, center, nowrap, tokens.$spacing-1-5);
+
+    padding: 0 tokens.$spacing-4;
+    margin: 3px;
+
+    border: 0;
+    border-radius: calc(var(--radius-md) - 3px);
+    background-color: var(--foreground);
+    color: var(--background);
+    font-size: tokens.$font-size-sm;
+    font-weight: tokens.$font-weight-medium;
+    white-space: nowrap;
+    cursor: pointer;
+
+    transition: opacity 0.18s ease;
+
+    &:hover:not(:disabled) {
+        opacity: 0.85;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--foreground);
+        outline-offset: 2px;
+    }
+}
+
+.error {
+    margin: 0;
+    padding-left: tokens.$spacing-1;
+
+    color: var(--destructive);
+    font-size: tokens.$font-size-xs;
+}
+
+.success {
+    width: 100%;
+
+    @include mixins.flex(row, center, center, nowrap, tokens.$spacing-2);
+
+    padding: tokens.$spacing-3 tokens.$spacing-4;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background-color: color-mix(in oklch, var(--brand) 12%, transparent);
+    color: var(--foreground);
+    font-size: tokens.$font-size-sm;
+
+    svg {
+        flex-shrink: 0;
+        color: var(--brand-foreground);
+    }
+}
+
+@include mixins.down(xs) {
+    .field {
+        flex-direction: column;
+        border: 0;
+        background: transparent;
+        backdrop-filter: none;
+        gap: tokens.$spacing-2;
+    }
+
+    .input {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        background-color: color-mix(in oklch, var(--background) 70%, transparent);
+    }
+
+    .submit {
+        margin: 0;
+        min-height: 2.75rem;
+        border-radius: var(--radius-sm);
+    }
+}

@@ -10,11 +10,17 @@
     "status": "Maintenance mode"
   },
   "Launch": {
+    "meta": {
+      "title": "One question daily — Something worth asking is coming",
+      "description": "One question. Everyone. Every day. Join the waitlist and be the first to answer when One question daily launches."
+    },
     "eyebrow": "One question daily",
     "title": "Something worth asking is coming.",
-    "description": "One question. Every day. A small pause to think, reflect and answer.",
+    "tagline": "One question. Everyone. Every day.",
+    "description": "A small daily pause to think, reflect and answer — the same question, on the same day, as everyone else.",
     "status": "Launching soon",
     "tickerLabel": "A taste of what's coming",
+    "tickerHint": "A new question, every day",
     "nextQuestion": "Another question",
     "questions": [
       "How are you feeling today?",
@@ -30,6 +36,23 @@
       "minutes": "min",
       "seconds": "sec",
       "done": "The first question is live."
+    },
+    "waitlist": {
+      "label": "Be the first to know",
+      "placeholder": "you@email.com",
+      "cta": "Get the first question",
+      "submitting": "Joining...",
+      "success": "You're on the list. See you on day one.",
+      "errors": {
+        "invalidEmail": "Enter a valid email address",
+        "generic": "Something went wrong. Please try again."
+      }
+    },
+    "social": {
+      "follow": "Follow @oneqdaily on X",
+      "shareLabel": "Share",
+      "shareText": "One question. Everyone. Every day. — oneqdaily.com",
+      "copied": "Link copied"
     }
   },
   "Header": {

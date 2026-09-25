@@ -111,6 +111,48 @@
     }
 }
 
+.labelRow {
+    width: 100%;
+
+    @include mixins.flex(row, space-between, center, wrap, tokens.$spacing-2);
+}
+
+.hint {
+    font-size: tokens.$font-size-2xs;
+    font-weight: tokens.$font-weight-medium;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--brand-foreground);
+}
+
+.footer {
+    width: 100%;
+
+    @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-3);
+}
+
+.dots {
+    @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-1-5);
+}
+
+.dot {
+    width: 5px;
+    height: 5px;
+    flex-shrink: 0;
+
+    border-radius: 50%;
+    background: var(--muted-foreground);
+    opacity: 0.4;
+
+    transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+
+.dotActive {
+    opacity: 1;
+    background: var(--brand-foreground);
+    transform: scale(1.4);
+}
+
 @keyframes blink {
     50% {
         opacity: 0;
@@ -120,5 +162,9 @@
 @media (prefers-reduced-motion: reduce) {
     .caret {
         animation: none;
+    }
+
+    .dot {
+        transition: none;
     }
 }

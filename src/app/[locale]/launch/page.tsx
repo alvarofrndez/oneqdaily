@@ -1,14 +1,46 @@
+import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
 import DotFieldBackground from '@/src/features/launch/components/DotFieldBackground';
 import QuestionTicker from '@/src/features/launch/components/QuestionTicker';
 import LaunchCountdown from '@/src/features/launch/components/LaunchCountdown';
+import WaitlistForm from '@/src/features/launch/components/WaitlistForm';
+import SocialActions from '@/src/features/launch/components/SocialActions';
 
 import styles from './page.module.scss';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://oneqdaily.com';
 
 function getLaunchTime(): number | null {
   const time = Date.parse(process.env.LAUNCH_DATE ?? '');
   return Number.isNaN(time) ? null : time;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('Launch.meta');
+  const title = t('title');
+  const description = t('description');
+
+  return {
+    title,
+    description,
+    alternates: { canonical: SITE_URL },
+    openGraph: {
+      title,
+      description,
+      url: SITE_URL,
+      siteName: 'One question daily',
+      type: 'website',
+      images: [{ url: `${SITE_URL}/logo-light.svg`, width: 512, height: 512 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      site: '@oneqdaily',
+      images: [`${SITE_URL}/logo-light.svg`],
+    },
+  };
 }
 
 export default async function LaunchPage() {
@@ -26,11 +58,17 @@ export default async function LaunchPage() {
 
         <h1 className={styles.title}>{t('title')}</h1>
 
+        <p className={styles.tagline}>{t('tagline')}</p>
+
         <p className={styles.description}>{t('description')}</p>
+
+        <LaunchCountdown target={getLaunchTime()} />
+
+        <WaitlistForm />
 
         <QuestionTicker questions={questions} />
 
-        <LaunchCountdown target={getLaunchTime()} />
+        <SocialActions />
 
         <div className={styles.divider} />
 

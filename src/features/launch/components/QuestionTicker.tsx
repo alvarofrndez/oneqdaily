@@ -75,10 +75,12 @@ export default function QuestionTicker({ questions }: Props) {
 
   return (
     <div className={styles.ticker}>
-      <p className={styles.label}>{t('tickerLabel')}</p>
+      <div className={styles.labelRow}>
+        <p className={styles.label}>{t('tickerLabel')}</p>
+        <p className={styles.hint}>{t('tickerHint')}</p>
+      </div>
 
       <p className={styles.question}>
-        {/* Los lectores de pantalla leen la pregunta completa, no letra a letra. */}
         <span className="sr-only">{current}</span>
 
         <span className={styles.text} aria-hidden="true">
@@ -87,10 +89,21 @@ export default function QuestionTicker({ questions }: Props) {
         </span>
       </p>
 
-      <button type="button" className={styles.next} onClick={next}>
-        <Shuffle size={14} strokeWidth={1.8} aria-hidden="true" />
-        <span>{t('nextQuestion')}</span>
-      </button>
+      <div className={styles.footer}>
+        <div className={styles.dots} role="presentation" aria-hidden="true">
+          {questions.map((question, dotIndex) => (
+            <span
+              key={question}
+              className={`${styles.dot} ${dotIndex === index ? styles.dotActive : ''}`}
+            />
+          ))}
+        </div>
+
+        <button type="button" className={styles.next} onClick={next}>
+          <Shuffle size={14} strokeWidth={1.8} aria-hidden="true" />
+          <span>{t('nextQuestion')}</span>
+        </button>
+      </div>
     </div>
   );
 }
