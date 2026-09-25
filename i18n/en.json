@@ -83,7 +83,12 @@
       "email": "Email",
       "password": "Password",
       "submit": "Log in",
-      "submitting": "Logging in..."
+      "submitting": "Logging in...",
+      "resendConfirmation": "Resend confirmation email",
+      "resending": "Sending...",
+      "confirmationResent": "Email sent. Check your inbox.",
+      "forgotPassword": "Forgot your password?",
+      "passwordUpdated": "Your password has been updated. Log in with your new password."
     },
     "Signup": {
       "title": "Create account",
@@ -93,9 +98,19 @@
       "username": "Username",
       "email": "Email",
       "password": "Password",
-      "submit": "Create account",
+      "confirmPassword": "Confirm password",
+      "passwordRequirementLength": "At least 8 characters",
+      "passwordRequirementLowercase": "At least one lowercase letter",
+      "passwordRequirementUppercase": "At least one uppercase letter",
+      "passwordRequirementNumber": "At least one number",
+      "passwordRequirementSymbol": "At least one special character",
+      "passwordsMatch": "Passwords match",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
       "submitting": "Creating account...",
-      "success": "Account created. Check your email to confirm it."
+      "submit": "Create account",
+      "success": "Your account has been created. Please check your email to confirm your account."
     },
     "OAuth": {
       "google": "Continue with Google",
@@ -107,14 +122,80 @@
       "fullName": "Full name",
       "save": "Save changes",
       "saving": "Saving...",
-      "success": "Profile updated."
+      "success": "Profile updated.",
+      "password": {
+        "title": "Change password",
+        "subtitle": "For security, enter your current password before changing it.",
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "confirmPassword": "Confirm password",
+        "showPassword": "Show password",
+        "hidePassword": "Hide password",
+        "submit": "Update password",
+        "submitting": "Updating...",
+        "success": "Password updated successfully.",
+        "requirements": {
+          "minLength": "At least 8 characters",
+          "lowercase": "One lowercase letter",
+          "uppercase": "One uppercase letter",
+          "number": "One number",
+          "symbol": "One symbol (!@#$…)"
+        }
+      }
+    },
+    "ForgotPassword": {
+      "title": "Reset your password",
+      "description": "Enter your email and we'll send you a link to reset your password.",
+      "email": "Email",
+      "submit": "Send reset link",
+      "submitting": "Sending...",
+      "emailSent": "If an account exists for that email, we've sent a reset link.",
+      "backToLogin": "Back to login",
+      "emailSentTitle": "Check your email",
+      "emailSentTo": "We've sent a recovery link to {email}.",
+      "checkSpam": "If you don't see it within a few minutes, check your spam folder.",
+      "resend": "Resend email",
+      "resending": "Resending...",
+      "resendIn": "You can resend in {seconds}s",
+      "useAnotherEmail": "Use another email"
+    },
+    "ResetPassword": {
+      "title": "Reset password",
+      "description": "Enter a new password for your account.",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "passwordRequirementLength": "At least 8 characters",
+      "passwordRequirementLowercase": "At least one lowercase letter",
+      "passwordRequirementUppercase": "At least one uppercase letter",
+      "passwordRequirementNumber": "At least one number",
+      "passwordRequirementSymbol": "At least one special character",
+      "passwordsMatch": "Passwords match",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "submitting": "Updating...",
+      "submit": "Update password",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password"
+    },
+    "Error": {
+      "title": "Link expired or invalid",
+      "description": "This confirmation link is no longer valid. Try logging in or signing up again.",
+      "backToLogin": "Back to login"
     },
     "errors": {
+      "emailNotConfirmed": "Please confirm your email before logging in.",
       "missingCredentials": "Email and password are required",
-      "passwordTooShort": "Password must be at least 6 characters",
       "invalidCredentials": "Incorrect email or password",
-      "notAuthenticated": "You are not logged in",
-      "usernameRequired": "Username cannot be empty"
+      "usernameRequired": "Username cannot be empty",
+      "passwordTooShort": "Password must be at least 8 characters long.",
+      "passwordMissingLowercase": "Password must contain at least one lowercase letter.",
+      "passwordMissingUppercase": "Password must contain at least one uppercase letter.",
+      "passwordMissingNumber": "Password must contain at least one number.",
+      "passwordMissingSymbol": "Password must contain at least one special character.",
+      "passwordsDoNotMatch": "Passwords do not match.",
+      "notAuthenticated": "You are not authenticated.",
+      "passwordTooWeak": "This password is too weak or does not meet the security requirements.",
+      "currentPasswordRequired": "Enter your current password.",
+      "currentPasswordIncorrect": "Your current password is incorrect."
     }
   },
   "Breadcrumbs": {
@@ -155,6 +236,10 @@
         "privacy": "Privacy policy",
         "terms": "Terms of service"
       }
+    },
+    "social": {
+      "x": "X",
+      "label": "social"
     },
     "copyright": "© {year} One question daily. All rights reserved."
   },
@@ -242,6 +327,32 @@
       "answeredOn": "Answered on {date}",
       "postedOn": "Posted on {date}",
       "postedBy": "Posted by {username}"
+    },
+    "ShareCard": {
+      "trigger": "Share",
+      "title": "Share this answer",
+      "close": "Close",
+      "formatLabel": "Format",
+      "formats": { "square": "Post", "story": "Story", "landscape": "X / Twitter" },
+      "previewAlt": "Answer preview card",
+      "shareNative": "Share",
+      "download": "Download image",
+      "whatsapp": "WhatsApp",
+      "x": "X",
+      "copyLink": "Copy link",
+      "copied": "Copied!",
+      "instagramHint": "For Instagram: download the image and share it as a post or story from the app.",
+      "captionError": "Couldn't load the question. Try again.",
+      "loadingCaption": "Preparing your message…",
+      "retry": "Retry",
+      "caption": {
+        "cta": "Answer for yourself at {site}"
+      },
+      "og": {
+        "anonymousAuthor": "Anonymous",
+        "siteLabel": "oneqdaily.com",
+        "tagline": "One question. Every day."
+      }
     },
     "errors": {
       "invalidInput": "Invalid input",

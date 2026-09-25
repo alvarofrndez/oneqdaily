@@ -32,6 +32,7 @@ import {
 
 import styles from './AnswerList.module.scss';
 import { useServerNow } from '@/src/components/server-clock';
+import ShareAnswerCard from '@/src/components/ShareAnswerCard';
 
 const PAGE_SIZE = 10;
 
@@ -430,47 +431,55 @@ export default function AnswerList({
                                     )}
                             </div>
 
-                            <div
-                                className={
-                                    styles.like
-                                }
-                                onClick={(event) =>
-                                    event.stopPropagation()
-                                }
-                                onKeyDown={(event) =>
-                                    event.stopPropagation()
-                                }
-                            >
-                                <LikeButton
-                                    initialLiked={
-                                        answer.liked_by_me ??
-                                        false
+                            <div className={styles.actions}>
+                                {answer.visibility === 'public' && (
+                                    <ShareAnswerCard
+                                        onClick={(event) =>
+                                            event.stopPropagation()
+                                        }
+                                        onKeyDown={(event) =>
+                                            event.stopPropagation()
+                                        }
+                                        answerId={answer.id}
+                                        questionId={questionId}
+                                        answerText={answer.answer_text}
+                                    />
+                                )}
+                                <div
+                                    className={
+                                        styles.like
                                     }
-                                    initialCount={
-                                        answer.likes_count ??
-                                        0
+                                    onClick={(event) =>
+                                        event.stopPropagation()
                                     }
-                                    onToggle={(
-                                        nextLiked
-                                    ) =>
-                                        setAnswerLike(
-                                            answer.id,
+                                    onKeyDown={(event) =>
+                                        event.stopPropagation()
+                                    }
+                                >
+                                    <LikeButton
+                                        initialLiked={
+                                            answer.liked_by_me ??
+                                            false
+                                        }
+                                        initialCount={
+                                            answer.likes_count ??
+                                            0
+                                        }
+                                        onToggle={(
                                             nextLiked
-                                        )
-                                    }
-                                />
+                                        ) =>
+                                            setAnswerLike(
+                                                answer.id,
+                                                nextLiked
+                                            )
+                                        }
+                                    />
+                                </div>
                             </div>
+                            
                         </div>
 
-                        <div
-                            className={
-                                styles.answerText
-                            }
-                            dangerouslySetInnerHTML={{
-                                __html:
-                                    answer.answer_text,
-                            }}
-                        />
+                        <p className={styles.answerText}>{answer.answer_text}</p>
                     </div>
                 ))
             )}

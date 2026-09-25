@@ -17,11 +17,14 @@
     border-radius: var(--radius-md);
     background-color: color-mix(in oklch, var(--background) 70%, transparent);
     backdrop-filter: blur(6px);
+     box-shadow: var(--shadow-sm);
 
     transition: border-color 0.2s ease;
 
+
     &:focus-within {
-        border-color: var(--foreground);
+        border-color: var(--brand-foreground);
+        box-shadow: var(--shadow-md);
     }
 }
 
@@ -58,11 +61,13 @@
     font-weight: tokens.$font-weight-medium;
     white-space: nowrap;
     cursor: pointer;
+    box-shadow: var(--shadow-sm);
 
     transition: opacity 0.18s ease;
 
     &:hover:not(:disabled) {
         opacity: 0.85;
+        box-shadow: var(--shadow-md);
     }
 
     &:disabled {

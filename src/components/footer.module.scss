@@ -29,7 +29,7 @@
     .brandBlock {
         min-width: 0;
 
-        @include mixins.flex(column, flex-start, flex-start, nowrap, tokens.$spacing-2);
+        @include mixins.flex(column, flex-start, flex-start, nowrap, tokens.$spacing-3);
     }
 
     .logo {
@@ -47,6 +47,53 @@
         color: var(--muted-foreground);
         font-size: tokens.$font-size-sm;
         line-height: tokens.$line-height-relaxed;
+    }
+
+    .social {
+        // display
+        @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-2);
+
+        // margin
+        margin-top: tokens.$spacing-1;
+    }
+
+    .socialLink {
+        // size
+        width: 2rem;
+        height: 2rem;
+        flex-shrink: 0;
+
+        // display
+        @include mixins.flex(row, center, center, nowrap, 0);
+
+        // decoration
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        background-color: var(--background);
+        color: var(--muted-foreground);
+
+        // transition
+        transition:
+            color 0.18s ease,
+            border-color 0.18s ease,
+            background-color 0.18s ease,
+            box-shadow 0.18s ease,
+            transform 0.18s ease;
+
+        &:hover {
+            // decoration
+            color: var(--foreground);
+            box-shadow: var(--shadow-xs);
+        }
+
+        &:active {
+            transform: translateY(1px);
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--focus-ring);
+            outline-offset: 2px;
+        }
     }
 
     .columns {
@@ -90,13 +137,14 @@
         transition: color 0.18s ease;
 
         &:hover {
-            color: var(--muted-foreground);
+            color: var(--foreground);
             text-decoration: underline;
         }
 
         &:focus-visible {
-            outline: 2px solid var(--foreground);
+            outline: 2px solid var(--focus-ring);
             outline-offset: 2px;
+            border-radius: var(--radius-sm);
         }
     }
 
@@ -104,8 +152,15 @@
         // size
         width: 100%;
 
+        // display
+        @include mixins.flex(row, space-between, center, wrap, tokens.$spacing-3);
+
         // margin
+        padding-top: tokens.$spacing-6;
         padding-bottom: tokens.$spacing-6;
+
+        // decoration
+        border-top: 1px solid var(--border);
     }
 
     .copyright {
@@ -135,6 +190,10 @@
         .columns {
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: tokens.$spacing-6 tokens.$spacing-4;
+        }
+
+        .bottom {
+            @include mixins.flex(column, center, flex-start, nowrap, tokens.$spacing-2);
         }
     }
 }

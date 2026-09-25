@@ -7,6 +7,7 @@ import LikeButton from '@/src/components/like-button';
 import styles from './page.module.scss';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { formatDateKey, formatInstant } from '@/lib/time';
+import ShareAnswerCard from '@/src/components/ShareAnswerCard';
 
 export default async function AnswerDetailPage({
   params,
@@ -76,10 +77,7 @@ export default async function AnswerDetailPage({
         </div>
 
         <div className={styles.content}>
-          <div
-            className={styles.text}
-            dangerouslySetInnerHTML={{ __html: answer.answer_text }}
-          />
+          <p className={styles.text}>{answer.answer_text}</p>
 
           <div className={styles.answerMeta}>
             <span className={styles.answerDate}>
@@ -92,13 +90,24 @@ export default async function AnswerDetailPage({
               <span className={styles.badge}>{t('private')}</span>
             )}
 
-            <span className={styles.likes}>
-              <LikeButton
-                initialLiked={answer.liked_by_me ?? false}
-                initialCount={answer.likes_count ?? 0}
-                onToggle={setAnswerLike.bind(null, answer.id)}
-              />
-            </span>
+            
+
+            <div className={styles.actions}>
+              {answer.visibility === 'public' && (
+                <ShareAnswerCard
+                  answerId={answer.id}
+                  questionId={question.id}
+                  answerText={answer.answer_text}
+                />
+              )}
+              <div className={styles.likes}>
+                <LikeButton
+                  initialLiked={answer.liked_by_me ?? false}
+                  initialCount={answer.likes_count ?? 0}
+                  onToggle={setAnswerLike.bind(null, answer.id)}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

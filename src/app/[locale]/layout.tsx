@@ -13,6 +13,7 @@ import { SITE_MODE } from '@/config/site';
 import Footer from '@/src/components/footer';
 import { NextIntlClientProvider } from 'next-intl';
 import Breadcrumbs from '@/src/components/breadcrumbs';
+import { Analytics } from "@vercel/analytics/next"
 
 const dmSans = DM_Sans({ variable: '--font-sans', subsets: ['latin'], });
 const fraunces = Fraunces({ variable: '--font-heading', subsets: ['latin'], });
@@ -57,6 +58,7 @@ export default async function LocaleLayout({
               <NextIntlClientProvider locale={locale} messages={messages}>
                 {children}
               </NextIntlClientProvider>
+              <Analytics />
             </body>
         </html>
     );
@@ -104,6 +106,7 @@ export default async function LocaleLayout({
             <Footer user={user} profile={profile} />
           </div>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );

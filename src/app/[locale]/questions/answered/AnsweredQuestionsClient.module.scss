@@ -371,105 +371,13 @@
                     .answerText {
                         min-width: 0;
 
-                        margin: 0;
-
                         color: var(--foreground);
-
                         font-size: tokens.$font-size-base;
-                        line-height: 1.55;
-
+                        white-space: pre-wrap;
                         overflow-wrap: anywhere;
                         word-break: break-word;
 
-                        transition:
-                            color 0.18s ease;
-
-                        :global(p) {
-                            margin:
-                                0 0
-                                tokens.$spacing-2;
-                        }
-
-                        :global(p:last-child) {
-                            margin-bottom: 0;
-                        }
-
-                        :global(h1),
-                        :global(h2),
-                        :global(h3) {
-                            margin:
-                                tokens.$spacing-3
-                                0
-                                tokens.$spacing-2;
-
-                            line-height: 1.2;
-                        }
-
-                        :global(ul),
-                        :global(ol) {
-                            margin:
-                                tokens.$spacing-2
-                                0;
-
-                            padding-left:
-                                tokens.$spacing-5;
-                        }
-
-                        :global(blockquote) {
-                            margin:
-                                tokens.$spacing-2
-                                0;
-
-                            padding-left:
-                                tokens.$spacing-3;
-
-                            border-left: 2px solid
-                                var(--border);
-
-                            color: var(
-                                --muted-foreground
-                            );
-                        }
-
-                        :global(pre) {
-                            max-width: 100%;
-
-                            margin:
-                                tokens.$spacing-3
-                                0;
-
-                            padding:
-                                tokens.$spacing-3;
-
-                            overflow-x: auto;
-
-                            border-radius:
-                                var(--radius-sm);
-
-                            background:
-                                var(--accent);
-
-                            font-size:
-                                tokens.$font-size-xs;
-                        }
-
-                        :global(img) {
-                            display: block;
-
-                            max-width: 100%;
-                            height: auto;
-                        }
-
-                        :global(table) {
-                            display: block;
-
-                            max-width: 100%;
-
-                            overflow-x: auto;
-
-                            border-collapse:
-                                collapse;
-                        }
+                        transition: color 0.2 ease;
                     }
 
                     .answerMeta {
@@ -492,7 +400,7 @@
                                 flex-start,
                                 center,
                                 wrap,
-                                tokens.$spacing-2
+                                tokens.$spacing-4
                             );
                         }
 
@@ -507,42 +415,26 @@
                         }
 
                         .badge {
-                            display: inline-flex;
-                            align-items: center;
-
-                            min-height: 1.5rem;
-
-                            padding-inline:
-                                tokens.$spacing-1-5;
-
-                            border: 1px solid
-                                var(--border);
-                            border-radius:
-                                var(--radius-sm);
-
-                            color:
-                                var(--muted-foreground);
-
-                            font-size:
-                                tokens.$font-size-2xs;
-                            font-weight:
-                                tokens.$font-weight-medium;
-                            line-height: 1;
-
-                            white-space: nowrap;
+                            color: var(--muted-foreground);
+                            font-size: tokens.$font-size-xs;
                         }
 
-                        .likes {
-                            flex-shrink: 0;
+                        .actions {
+                            // display
+                            @include mixins.flex(row, flex-end, center, nowrap, tokens.$spacing-2);
 
-                            display: inline-flex;
-                            align-items: center;
-                            justify-content: center;
-
-                            min-width: 2.25rem;
-                            min-height: 2.25rem;
-
+                            // margin
                             margin-left: auto;
+
+                            .likes{
+                                // display
+                                @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-1);
+
+                                // decoration
+                                color: var(--muted-foreground);
+                                font-size: tokens.$font-size-xs;
+                                line-height: tokens.$line-height-normal;
+                            }
                         }
                     }
 

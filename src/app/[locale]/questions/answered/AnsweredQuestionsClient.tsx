@@ -24,6 +24,7 @@ import styles from './AnsweredQuestionsClient.module.scss';
 
 import { useLocale } from 'next-intl';
 import { formatDateKey, formatInstant } from '@/lib/time';
+import ShareAnswerCard from '@/src/components/ShareAnswerCard';
 
 type QuestionGroup = {
     questionId: string;
@@ -316,15 +317,7 @@ export default function AnsweredQuestionsClient({
                                                                         styles.answerLink
                                                                     }
                                                                 >
-                                                                    <div
-                                                                        className={
-                                                                            styles.answerText
-                                                                        }
-                                                                        dangerouslySetInnerHTML={{
-                                                                            __html:
-                                                                                answer.answer_text,
-                                                                        }}
-                                                                    />
+                                                                    <p className={styles.answerText}>{answer.answer_text}</p>
                                                                 </Link>
 
                                                                 <div
@@ -362,30 +355,24 @@ export default function AnsweredQuestionsClient({
                                                                         )}
                                                                     </div>
 
-                                                                    <span
-                                                                        className={
-                                                                            styles.likes
-                                                                        }
-                                                                    >
-                                                                        <LikeButton
-                                                                            initialLiked={
-                                                                                answer.liked_by_me ??
-                                                                                false
-                                                                            }
-                                                                            initialCount={
-                                                                                answer.likes_count ??
-                                                                                0
-                                                                            }
-                                                                            onToggle={(
-                                                                                nextLiked
-                                                                            ) =>
-                                                                                setAnswerLike(
-                                                                                    answer.id,
-                                                                                    nextLiked
-                                                                                )
-                                                                            }
-                                                                        />
-                                                                    </span>
+                                                                        
+                                                                    <div className={styles.actions}>
+                                                                        {answer.visibility === 'public' && (
+                                                                            <ShareAnswerCard
+                                                                                answerId={answer.id}
+                                                                                questionId={questionId}
+                                                                                answerText={answer.answer_text}
+                                                                            />
+                                                                        )}
+                                                                        <div className={styles.likes}>
+                                                                            <LikeButton
+                                                                                initialLiked={answer.liked_by_me ?? false}
+                                                                                initialCount={answer.likes_count ?? 0}
+                                                                                onToggle={setAnswerLike.bind(null, answer.id)}
+                                                                            />
+                                                                        </div>
+                                                                    </div>
+                                                                    
                                                                 </div>
                                                             </article>
                                                         )

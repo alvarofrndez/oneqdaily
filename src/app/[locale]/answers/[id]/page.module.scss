@@ -123,144 +123,47 @@
             .text{
                 min-width: 0;
 
-                margin: 0;
-
                 color: var(--foreground);
-
                 font-size: tokens.$font-size-base;
-                line-height: 1.55;
-
+                white-space: pre-wrap;
                 overflow-wrap: anywhere;
                 word-break: break-word;
 
-                transition: color 0.18s ease;
-
-                :global(p) {
-                    margin:
-                        0
-                        0
-                        tokens.$spacing-2;
-                }
-
-                :global(p:last-child) {
-                    margin-bottom: 0;
-                }
-
-                :global(h1),
-                :global(h2),
-                :global(h3) {
-                    margin:
-                        tokens.$spacing-3
-                        0
-                        tokens.$spacing-2;
-
-                    color: var(--foreground);
-
-                    line-height: 1.2;
-                }
-
-                :global(ul),
-                :global(ol) {
-                    margin:
-                        tokens.$spacing-2
-                        0
-                        tokens.$spacing-2;
-
-                    padding-left: tokens.$spacing-5;
-                }
-
-                :global(blockquote) {
-                    margin:
-                        tokens.$spacing-2
-                        0;
-
-                    padding-left: tokens.$spacing-3;
-
-                    border-left: 2px solid var(--border);
-
-                    color: var(--muted-foreground);
-                }
-
-                :global(img) {
-                    display: block;
-
-                    max-width: 100%;
-                    height: auto;
-                }
-
-                :global(pre) {
-                    max-width: 100%;
-
-                    margin:
-                        tokens.$spacing-3
-                        0;
-
-                    padding: tokens.$spacing-3;
-
-                    overflow-x: auto;
-
-                    border-radius: var(--radius-sm);
-
-                    background: var(--accent);
-
-                    font-size: tokens.$font-size-xs;
-                }
-
-                :global(code) {
-                    overflow-wrap: anywhere;
-                }
-
-                :global(a) {
-                    color: inherit;
-                    text-decoration: underline;
-                    text-underline-offset: 0.15em;
-                }
-
-                :global(table) {
-                    display: block;
-
-                    max-width: 100%;
-
-                    overflow-x: auto;
-
-                    border-collapse: collapse;
-                }
+                transition: color 0.2 ease;
             }
 
             .answerMeta {
                 // display
-                @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-8);
+                @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-4);
 
                 .answerDate {
                     // decoration
                     color: var(--muted-foreground);
-                    font-size: tokens.$font-size-sm;
+                    font-size: tokens.$font-size-xs;
                     line-height: tokens.$line-height-normal;
                 }
 
                 .badge {
-                    // display
-                    display: inline-flex;
-                    align-items: center;
-
-                    // decoration
-                    font-size: tokens.$font-size-sm;
                     color: var(--muted-foreground);
-                    font-weight: tokens.$font-weight-light;
-                    line-height: tokens.$line-height-normal;
+                    font-size: tokens.$font-size-xs;
                 }
 
-                .likes {
+                .actions {
                     // display
-                    @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-1);
+                    @include mixins.flex(row, flex-end, center, nowrap, tokens.$spacing-2);
 
                     // margin
                     margin-left: auto;
 
-                    // decoration
-                    color: var(--muted-foreground);
-                    font-size: tokens.$font-size-xs;
-                    line-height: tokens.$line-height-normal;
+                    .likes{
+                        // display
+                        @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-1);
+
+                        // decoration
+                        color: var(--muted-foreground);
+                        font-size: tokens.$font-size-xs;
+                        line-height: tokens.$line-height-normal;
+                    }
                 }
             }
         }

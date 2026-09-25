@@ -36,23 +36,20 @@
 }
 
 .unit {
-    // display
-    @include mixins.flex(
-        column,
-        center,
-        center,
-        nowrap,
-        tokens.$spacing-1-5
-    );
-
-    // margin
+    @include mixins.flex(column, center, center, nowrap, tokens.$spacing-1-5);
     padding: tokens.$spacing-4 tokens.$spacing-2;
 
-    // decoration
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     background: color-mix(in oklch, var(--background) 70%, transparent);
     backdrop-filter: blur(6px);
+    box-shadow: var(--shadow-sm); // ← nuevo
+
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+        box-shadow: var(--shadow-md);
+    }
 }
 
 .value {

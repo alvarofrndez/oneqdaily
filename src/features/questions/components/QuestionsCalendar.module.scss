@@ -252,7 +252,6 @@
 
                 .number{
                     // decoration
-                    color: var(--brand-foreground);
                     font-size: tokens.$font-size-sm;
                     font-weight: tokens.$font-weight-medium;
 
@@ -266,7 +265,7 @@
                     height: tokens.$spacing-2;
 
                     // decoratin
-                    background-color: var(--brand);
+                    background-color: var(--brand-foreground);
                     border-radius: var(--radius-full);
                     
                     // transition
@@ -279,11 +278,6 @@
                     .number{
                         // decoration
                         color: var(--foreground);
-                    }
-
-                    .badge{
-                        // decoratin
-                        background-color: var(--brand-foreground);
                     }
                 }
             }

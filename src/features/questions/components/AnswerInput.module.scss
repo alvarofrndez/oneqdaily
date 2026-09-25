@@ -4,126 +4,89 @@
 .wrapper {
     width: min(960px, 100%);
 
-    .footer {
-        width: 100%;
-        min-width: 0;
+    @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-3);
 
-        @include mixins.flex(
-            row,
-            space-between,
-            center,
-            nowrap,
-            tokens.$spacing-4
-        );
-    }
+    padding: tokens.$spacing-4;
 
-    .footerMeta {
-        min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background-color: var(--card);
+    box-shadow: var(--shadow-sm);
+    outline: none;
 
-        @include mixins.flex(
-            row,
-            flex-start,
-            center,
-            nowrap,
-            tokens.$spacing-3
-        );
-    }
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
 
-    .footerActions {
-        flex-shrink: 0;
-    }
+.textarea {
+    min-height: 6rem;
+    max-height: 60dvh;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    resize: vertical;
 
-    .anonymous {
-        display: inline-flex;
-        align-items: center;
-
-        min-height: 2.25rem;
-
-        padding-inline: tokens.$spacing-1;
-
-        color: var(--muted-foreground);
-
-        font-size: tokens.$font-size-sm;
-        line-height: tokens.$line-height-normal;
-        white-space: nowrap;
-    }
-
-    .visibility {
-        @include mixins.flex(
-            row,
-            flex-start,
-            center,
-            nowrap,
-            tokens.$spacing-2
-        );
-    }
-
-    .visibilityLabel {
-        color: var(--muted-foreground);
-
-        font-size: tokens.$font-size-sm;
-        line-height: 1;
-
-        cursor: pointer;
-        white-space: nowrap;
-
-        transition: color 0.18s ease;
-    }
-
-    .active {
-        color: var(--foreground);
+    &:focus-visible {
+        outline: none;
+        box-shadow: none;
     }
 }
 
-/*
- * El editor puede contener más controles que el viewport.
- * Evitamos que provoque scroll horizontal en toda la página.
- */
-.wrapper :global([role='toolbar']) {
-    max-width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
+.footer {
+    width: 100%;
+    min-width: 0;
+    @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-4);
+}
 
-    scrollbar-width: thin;
+.footerMeta {
+    min-width: 0;
+    @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-3);
+}
 
-    -webkit-overflow-scrolling: touch;
+.footerActions {
+    flex-shrink: 0;
+}
+
+.anonymous {
+    color: var(--muted-foreground);
+    font-size: tokens.$font-size-sm;
+    white-space: nowrap;
+}
+
+.visibility {
+    @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-2);
+}
+
+.visibilityLabel {
+    color: var(--muted-foreground);
+    font-size: tokens.$font-size-sm;
+    line-height: 1;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.18s ease;
+}
+
+.active {
+    color: var(--foreground);
+}
+
+.counter {
+    color: var(--muted-foreground);
+    font-size: tokens.$font-size-xs;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
 }
 
 @include mixins.down(sm) {
-    .wrapper {
-        .footer {
-            @include mixins.flex(
-                column,
-                flex-start,
-                stretch,
-                nowrap,
-                tokens.$spacing-3
-            );
-        }
-
-        .footerMeta {
-            width: 100%;
-        }
-
-        .footerActions {
-            width: 100%;
-        }
-
-        .anonymous {
-            padding-inline: 0;
-        }
-
-        .visibility {
-            min-height: 2.5rem;
-        }
+    .footer {
+        @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-3);
     }
-}
 
-@include mixins.down(xs) {
-    .wrapper {
-        .anonymous,
-        .visibilityLabel {
-            font-size: tokens.$font-size-xs;
-        }
+    .footerMeta {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .footerActions {
+        width: 100%;
     }
 }

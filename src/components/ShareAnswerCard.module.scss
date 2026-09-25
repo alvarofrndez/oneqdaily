@@ -1,0 +1,342 @@
+@use '@/src/styles/tokens.scss' as tokens;
+@use '@/src/styles/mixins.scss' as mixins;
+
+.trigger {
+    @include mixins.flex(row, center, center, nowrap, tokens.$spacing-1-5);
+
+    padding: tokens.$spacing-1-5;
+
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--muted-foreground);
+    font-size: tokens.$font-size-sm;
+    cursor: pointer;
+    outline: none;
+
+    transition: color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+
+    &:hover {
+        color: var(--foreground);
+        background-color: var(--accent);
+        border: 1px solid var(--border);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--focus-ring);
+        outline-offset: 2px;
+    }
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: tokens.$z-index-modal;
+
+    @include mixins.flex(column, center, center, nowrap, 0);
+
+    padding: tokens.$spacing-4;
+
+    background-color: oklch(0% 0 0 / 45%);
+    backdrop-filter: blur(2px);
+}
+
+.dialog {
+    width: min(420px, 100%);
+    max-height: 90vh;
+
+    @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-4);
+
+    padding: tokens.$spacing-5;
+    overflow-y: auto;
+
+    border-radius: var(--radius-sm);
+    background-color: var(--background);
+    box-shadow: var(--shadow-lg);
+    outline: none;
+}
+
+.header {
+    @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-3);
+}
+
+.title {
+    margin: 0;
+    font-size: tokens.$font-size-lg;
+    font-weight: tokens.$font-weight-medium;
+    color: var(--foreground);
+}
+
+.close {
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+
+    @include mixins.flex(row, center, center, nowrap, 0);
+
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--muted-foreground);
+    cursor: pointer;
+
+    transition: background-color 0.18s ease, color 0.18s ease;
+
+    &:hover {
+        background-color: var(--accent);
+        color: var(--foreground);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--focus-ring);
+        outline-offset: 2px;
+    }
+}
+
+.formatSwitch {
+    @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-1-5);
+}
+
+.formatOption {
+    flex: 1;
+    min-height: 2.25rem;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--muted-foreground);
+    font-size: tokens.$font-size-xs;
+    font-weight: tokens.$font-weight-medium;
+    cursor: pointer;
+
+    transition: color 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+
+    &:hover {
+        background-color: var(--accent);
+    }
+
+    &.active {
+        color: var(--background);
+        background-color: var(--foreground);
+        border-color: var(--foreground);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--focus-ring);
+        outline-offset: 2px;
+    }
+}
+
+.previewWrapper {
+    position: relative;
+    width: 100%;
+    max-height: 55vh;
+
+    overflow: hidden;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background-color: var(--muted);
+}
+
+.skeleton {
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        90deg,
+        var(--muted) 25%,
+        var(--accent) 37%,
+        var(--muted) 63%
+    );
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: 0 0; }
+}
+
+.previewImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.25s ease;
+}
+
+.actions {
+    @include mixins.flex(row, flex-start, stretch, nowrap, tokens.$spacing-2);
+}
+
+.primaryAction,
+.secondaryAction {
+    flex: 1;
+    min-height: 2.5rem;
+
+    @include mixins.flex(row, center, center, nowrap, tokens.$spacing-2);
+
+    border-radius: var(--radius-sm);
+    font-size: tokens.$font-size-sm;
+    font-weight: tokens.$font-weight-medium;
+    text-decoration: none;
+    cursor: pointer;
+
+    transition: opacity 0.18s ease, box-shadow 0.18s ease;
+
+    &:focus-visible {
+        outline: 2px solid var(--focus-ring);
+        outline-offset: 2px;
+    }
+}
+
+.primaryAction {
+    border: 1px solid var(--foreground);
+    background-color: var(--foreground);
+    color: var(--background);
+    box-shadow: var(--shadow-sm);
+
+    &:hover {
+        opacity: 0.88;
+        box-shadow: var(--shadow-md);
+    }
+}
+
+.secondaryAction {
+    border: 1px solid var(--border);
+    background-color: transparent;
+    color: var(--foreground);
+
+    &:hover {
+        background-color: var(--accent);
+    }
+}
+
+.socialRow {
+    @include mixins.flex(row, center, center, wrap, tokens.$spacing-2);
+}
+
+.socialButton {
+    min-height: 2.25rem;
+
+    @include mixins.flex(row, center, center, nowrap, tokens.$spacing-1-5);
+
+    padding: 0 tokens.$spacing-3;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--foreground);
+    font-size: tokens.$font-size-xs;
+    font-weight: tokens.$font-weight-medium;
+    text-decoration: none;
+    cursor: pointer;
+
+    transition: background-color 0.18s ease, border-color 0.18s ease;
+
+    &:hover {
+        color: var(--foreground);
+        background-color: var(--muted);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--focus-ring);
+        outline-offset: 2px;
+    }
+}
+
+.socialButton.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.captionError {
+    margin: 0;
+    padding: tokens.$spacing-2 tokens.$spacing-3;
+
+    border: 1px solid var(--destructive);
+    border-radius: var(--radius-sm);
+    background-color: color-mix(in oklch, var(--destructive) 10%, transparent);
+
+    color: var(--destructive);
+    font-size: tokens.$font-size-xs;
+}
+
+.instagramHint {
+    margin: 0;
+    color: var(--muted-foreground);
+    font-size: tokens.$font-size-xs;
+    line-height: tokens.$line-height-relaxed;
+    text-align: center;
+}
+
+.spin {
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.skeleton {
+    // ya tenías esto, solo añade el centrado del icono:
+    @include mixins.flex(row, center, center, nowrap, 0);
+    color: var(--muted-foreground);
+}
+
+.statusBar {
+    @include mixins.flex(row, center, center, nowrap, tokens.$spacing-2);
+
+    padding: tokens.$spacing-2 tokens.$spacing-3;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background-color: var(--muted);
+
+    color: var(--muted-foreground);
+    font-size: tokens.$font-size-xs;
+}
+
+.statusBarError {
+    @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-3);
+
+    padding: tokens.$spacing-2 tokens.$spacing-3;
+
+    border: 1px solid var(--destructive);
+    border-radius: var(--radius-sm);
+    background-color: color-mix(in oklch, var(--destructive) 10%, transparent);
+
+    color: var(--destructive);
+    font-size: tokens.$font-size-xs;
+}
+
+.retryButton {
+    flex-shrink: 0;
+
+    padding: tokens.$spacing-1 tokens.$spacing-2;
+
+    border: 1px solid var(--destructive);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--destructive);
+    font-size: tokens.$font-size-xs;
+    font-weight: tokens.$font-weight-medium;
+    cursor: pointer;
+
+    transition: background-color 0.18s ease;
+
+    &:hover {
+        background-color: color-mix(in oklch, var(--destructive) 15%, transparent);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--focus-ring);
+        outline-offset: 2px;
+    }
+}
+
+@include mixins.down(xs) {
+    .actions {
+        flex-direction: column;
+    }
+}

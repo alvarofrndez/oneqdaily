@@ -25,6 +25,18 @@
         // display
         @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-6);
 
+        .header {
+            // display
+            @include mixins.flex(row, flex-start, center, nowrap, tokens.$spacing-3);
+
+             .headerText {
+                min-width: 0;
+
+                // display
+                @include mixins.flex(column, center, flex-start, nowrap, tokens.$spacing-0-5);
+            }
+        }
+
         .title {
             // decoration
             font-size: tokens.$font-size-xl;
@@ -38,6 +50,7 @@
             font-size: tokens.$font-size-sm;
             line-height: tokens.$line-height-normal;
             color: var(--muted-foreground);
+            overflow-wrap: anywhere;
         }
 
         .divider {
@@ -59,6 +72,49 @@
                 content: '';
                 background-color: var(--border);
             }
+        }
+
+        .success {
+            // margin
+            margin: 0;
+            padding: tokens.$spacing-2 tokens.$spacing-3;
+
+            // decoration
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background-color: var(--accent);
+            font-size: tokens.$font-size-sm;
+            color: var(--foreground);
+        }
+
+        // ---------- Secciones secundarias (ej. cambio de contraseña) ----------
+        .section {
+            // display
+            @include mixins.flex(column, flex-start, stretch, nowrap, tokens.$spacing-1);
+
+            // margin
+            padding-top: tokens.$spacing-6;
+
+            // decoration
+            border-top: 1px solid var(--border);
+        }
+
+        .sectionTitle {
+            // decoration
+            font-size: tokens.$font-size-base;
+            font-weight: tokens.$font-weight-medium;
+            line-height: tokens.$line-height-normal;
+            color: var(--foreground);
+        }
+
+        .sectionSubtitle {
+            // margin
+            margin-bottom: tokens.$spacing-2;
+
+            // decoration
+            font-size: tokens.$font-size-sm;
+            line-height: tokens.$line-height-relaxed;
+            color: var(--muted-foreground);
         }
 
         .footer {
@@ -89,16 +145,14 @@
     }
 }
 
-@include mixins.downHeight(md){
-    .page{
+@include mixins.downHeight(md) {
+    .page {
         min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-8);
-
     }
 }
 
-@include mixins.downHeight(sm){
-    .page{
+@include mixins.downHeight(sm) {
+    .page {
         min-height: calc(100dvh - tokens.$header-height - tokens.$spacing-4);
-
     }
 }

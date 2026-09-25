@@ -1,5 +1,5 @@
-@use '@/src/styles/tokens.scss' as tokens;
-@use '@/src/styles/mixins.scss' as mixins;
+@use "@/src/styles/tokens.scss" as tokens;
+@use "@/src/styles/mixins.scss" as mixins;
 
 .form {
     // size
@@ -43,18 +43,192 @@
                 color: var(--muted-foreground);
             }
 
-            &:hover,
-            &:focus-visible {
-                // decoration
-                border-color: var(--foreground);
-            }
-
             &:disabled {
                 // decoration
                 opacity: 0.5;
                 cursor: not-allowed;
             }
         }
+    }
+
+    .resendButton {
+        // display
+        display: block;
+
+        // decoration
+        border: none;
+        background: none;
+        color: var(--foreground);
+        font-size: tokens.$font-size-xs;
+        text-decoration: underline;
+        cursor: pointer;
+
+        // transition
+        transition: opacity 0.2s ease;
+
+        &:disabled {
+            // decoration
+            opacity: 0.6;
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+    }
+
+    .forgotLink {
+        // display
+        align-self: flex-end;
+
+        // decoration
+        font-size: tokens.$font-size-xs;
+        color: var(--muted-foreground);
+        text-decoration: none;
+
+        // transition
+        transition: all 0.2s ease;
+
+        &:hover {
+            // decoration
+            color: var(--foreground);
+            text-decoration: underline;
+        }
+    }
+
+    .feedback {
+        // display
+        display: flex;
+        align-items: center;
+        gap: tokens.$spacing-1-5;
+
+        // decoration
+        font-size: tokens.$font-size-xs;
+        line-height: tokens.$line-height-normal;
+    }
+
+    .valid {
+        // decoration
+        color: var(--success);
+    }
+
+    .invalid {
+        // decoration
+        color: var(--destructive);
+    }
+
+    .passwordWrapper {
+        // position
+        position: relative;
+
+        // size
+        width: 100%;
+
+        .input {
+            // margin
+            padding-right: tokens.$spacing-10;
+        }
+    }
+
+    .visibilityButton {
+        // size
+        width: tokens.$spacing-3;
+        height: tokens.$spacing-3;
+
+        // position
+        position: absolute;
+        top: 50%;
+        right: tokens.$spacing-2;
+        transform: translateY(-50%);
+
+        // display
+        @include mixins.flex(row, center, center);
+
+        // margin
+        padding: 0;
+
+        // decoration
+        border: none;
+        background: transparent;
+        color: var(--muted-foreground);
+        cursor: pointer;
+
+        // transition
+        transition: color 0.2s ease;
+
+        &:hover {
+            // decoration
+            color: var(--foreground);
+        }
+
+        &:focus-visible {
+            // decoration
+            outline: 2px solid var(--foreground);
+            outline-offset: 2px;
+            border-radius: var(--radius-sm);
+        }
+
+        &:disabled {
+            // decoration
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    .passwordRequirements {
+        // display
+        display: flex;
+        flex-wrap: wrap;
+        gap: tokens.$spacing-1 tokens.$spacing-3;
+
+        // margin
+        margin: tokens.$spacing-2 0 0;
+        padding: 0;
+
+        // decoration
+        list-style: none;
+    }
+
+    .passwordRequirement {
+        // display
+        display: flex;
+        align-items: center;
+        gap: tokens.$spacing-1-5;
+
+        // decoration
+        font-size: tokens.$font-size-2xs;
+        line-height: tokens.$line-height-normal;
+        color: var(--muted-foreground);
+
+        // transition
+        transition: color 0.18s ease;
+    }
+
+    .requirementDot {
+        // size
+        width: 0.375rem;
+        height: 0.375rem;
+        flex-shrink: 0;
+
+        // decoration
+        border-radius: var(--radius-full);
+        background-color: var(--muted-foreground);
+        opacity: 0.5;
+
+        // transition
+        transition:
+            background-color 0.18s ease,
+            opacity 0.18s ease;
+    }
+
+    .requirementMet {
+        color: var(--foreground);
+
+        .requirementDot {
+            background-color: var(--brand-foreground);
+            opacity: 1;
+        }
+    }
+
+    .requirementPending {
+        color: var(--muted-foreground);
     }
 
     .error {
@@ -103,10 +277,197 @@
     }
 }
 
-// Mensaje suelto (estado de éxito de signup, que sustituye al formulario)
 .message {
     // decoration
     font-size: tokens.$font-size-sm;
     line-height: tokens.$line-height-normal;
     color: var(--muted-foreground);
+}
+
+.successBlock {
+    // size
+    width: 100%;
+
+    // display
+    @include mixins.flex(column, flex-start, flex-start, nowrap, tokens.$spacing-2);
+
+    .successTitle {
+        // size
+        width: 100%;
+
+        // decoration
+        font-size: tokens.$font-size-sm;
+        line-height: tokens.$line-height-normal;
+        font-weight: 500;
+        color: var(--foreground);
+    }
+
+    .successMessage {
+        // size
+        width: 100%;
+        
+        // decoration
+        font-size: tokens.$font-size-sm;
+        line-height: tokens.$line-height-normal;
+        color: var(--muted-foreground);
+    }
+
+    .successHint {
+        // size
+        width: 100%;
+
+        // decoration
+        font-size: tokens.$font-size-xs;
+        line-height: tokens.$line-height-normal;
+        color: var(--muted-foreground);
+    }
+
+    .successActions {
+        // size
+        width: 100%;
+
+        // display
+        @include mixins.flex(row, space-between, center, nowrap, tokens.$spacing-2);
+
+        // margin
+        margin-top: tokens.$spacing-2;
+
+        .resendButton{
+            // decoration
+            font-size: tokens.$font-size-sm;
+            cursor: pointer;
+
+            // transition
+
+            &:hover{
+                // decoration
+                text-decoration: underline;
+            }
+        }
+
+        .forgotLink{
+            // decoration
+            font-size: tokens.$font-size-sm;
+            cursor: pointer;
+
+            &:hover{
+                // decoration
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+.collapsible {
+  // display
+  display: flex;
+  flex-direction: column;
+
+  // decoration
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.collapsibleTrigger {
+  // display
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: tokens.$spacing-2;
+
+  // size
+  width: 100%;
+  min-height: 2.75rem;
+
+  // margin
+  padding: 0 tokens.$spacing-3;
+
+  // decoration
+  border: none;
+  background: transparent;
+  font-size: tokens.$font-size-sm;
+  font-weight: tokens.$font-weight-medium;
+  color: var(--foreground);
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+
+  // transition
+  transition: background-color 0.18s ease;
+
+  &:hover {
+    background-color: var(--accent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--foreground);
+    outline-offset: -2px;
+  }
+}
+
+.chevron {
+  // decoration
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+
+  // transition
+  transition: transform 0.2s ease-in-out, color 0.18s ease;
+}
+
+.chevronOpen {
+  transform: rotate(90deg);
+  color: var(--foreground);
+}
+
+.collapsiblePanel {
+  // display
+  display: none;
+  grid-template-rows: 0fr;
+
+  // decoration
+  opacity: 0;
+
+  // transition
+  transition:
+    grid-template-rows 0.2s ease,
+    opacity 0.2s ease,
+    display 0.2s allow-discrete;
+
+  &.expandedPanel {
+    display: grid;
+    grid-template-rows: 1fr;
+    opacity: 1;
+
+    @starting-style {
+      opacity: 0;
+      grid-template-rows: 0fr;
+    }
+  }
+}
+
+.collapsiblePanelClip {
+  // size
+  min-height: 0;
+
+  // decoration
+  overflow: hidden;
+}
+
+.collapsiblePanelInner {
+  // margin
+  padding: tokens.$spacing-4;
+
+  // decoration
+  border-top: 1px solid var(--border);
+}
+
+.collapsibleHint {
+  // margin
+  margin-bottom: tokens.$spacing-3;
+
+  // decoration
+  font-size: tokens.$font-size-xs;
+  line-height: tokens.$line-height-normal;
+  color: var(--muted-foreground);
 }
