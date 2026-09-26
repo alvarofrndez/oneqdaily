@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
@@ -8,6 +9,65 @@ import styles from './page.module.scss';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { formatDateKey, formatInstant } from '@/lib/time';
 import ShareAnswerCard from '@/src/components/ShareAnswerCard';
+import { buildMetadata } from '@/lib/seo/metadata';
+import { SITE_URL } from '@/lib/seo/config';
+import { getAnswerCardImageUrl, truncateForCard } from '@/lib/share-card';
+import { discussionForumPostingJsonLd } from '@/lib/seo/json-ld';
+import { buildBreadcrumbJsonLd } from '@/lib/seo/breadcrumb-data';
+import { JsonLd } from '@/src/components/JsonLd';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const locale = await getLocale();
+  const t = await getTranslations('Questions.AnswerDetail');
+
+  const result = await getAnswerById(id);
+
+  if (!result) {
+    return buildMetadata({
+      locale,
+      path: `/answers/${id}`,
+      title: t('answerNotFound'),
+      description: t('answerNotFound'),
+      noIndex: true,
+    });
+  }
+
+  const { answer, question } = result;
+
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const isOwner = answer.user_id === user?.id;
+  const isPublic = answer.visibility === 'public';
+
+  if (!isPublic && !isOwner) {
+    return buildMetadata({
+      locale,
+      path: `/answers/${id}`,
+      title: t('answerNotFound'),
+      description: t('answerNotFound'),
+      noIndex: true,
+    });
+  }
+
+  return buildMetadata({
+    locale,
+    path: `/answers/${id}`,
+    title: t('forQuestion', { questionText: question.text }),
+    description: truncateForCard(answer.answer_text, 200),
+    ogImage: isPublic
+      ? `${SITE_URL}${getAnswerCardImageUrl(id, 'landscape', locale)}`
+      : undefined,
+    noIndex: !isPublic,
+  });
+}
 
 export default async function AnswerDetailPage({
   params,
@@ -41,9 +101,29 @@ export default async function AnswerDetailPage({
   }
 
   const isOwner = answer.user_id === user?.id;
+  const answerUrl = `${SITE_URL}/${locale}/answers/${answer.id}`;
+
+  const discussionPosting =
+    answer.visibility === 'public'
+      ? discussionForumPostingJsonLd({
+          url: answerUrl,
+          headline: question.text,
+          text: answer.answer_text,
+          datePublished: answer.created_at,
+          authorName: answer.profiles?.username ?? undefined,
+        })
+      : null;
+
+  const breadcrumbs =
+    answer.visibility === 'public'
+      ? await buildBreadcrumbJsonLd(locale, `/answers/${answer.id}`)
+      : null;
 
   return (
     <section className={styles.page}>
+      <JsonLd data={discussionPosting} />
+      <JsonLd data={breadcrumbs} />
+
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.info}>
@@ -89,8 +169,6 @@ export default async function AnswerDetailPage({
             {answer.visibility === 'private' && (
               <span className={styles.badge}>{t('private')}</span>
             )}
-
-            
 
             <div className={styles.actions}>
               {answer.visibility === 'public' && (

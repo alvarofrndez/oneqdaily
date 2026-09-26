@@ -1,17 +1,39 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { ArrowLeft } from 'lucide-react';
 
 import styles from '@/src/styles/content-page.module.scss';
+import { buildMetadata } from '@/lib/seo/metadata';
+import { buildBreadcrumbJsonLd } from '@/lib/seo/breadcrumb-data';
+import { webPageJsonLd } from '@/lib/seo/json-ld';
+import { SITE_URL } from '@/lib/seo/config';
+import { JsonLd } from '@/src/components/JsonLd';
 
 export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
   const t = await getTranslations('Terms.meta');
-  return { title: t('title'), description: t('description') };
+
+  return buildMetadata({
+    locale,
+    path: '/terms',
+    title: t('title'),
+    description: t('description'),
+  });
 }
 
 export default async function TermsPage() {
+  const locale = await getLocale();
   const t = await getTranslations('Terms');
+  const tMeta = await getTranslations('Terms.meta');
+
+  const webPage = webPageJsonLd({
+    name: tMeta('title'),
+    description: tMeta('description'),
+    url: `${SITE_URL}/${locale}/terms`,
+  });
+
+  const breadcrumbs = await buildBreadcrumbJsonLd(locale, '/terms');
 
   const acceptanceClauses = t.raw('acceptance.clauses') as string[];
   const accountClauses = t.raw('accounts.clauses') as string[];
@@ -22,6 +44,9 @@ export default async function TermsPage() {
 
   return (
     <main className={styles.page}>
+      <JsonLd data={webPage} />
+      <JsonLd data={breadcrumbs} />
+
       <div className={styles.container}>
         <div className={styles.topNav}>
           <Link href="/" className={styles.backLink}>

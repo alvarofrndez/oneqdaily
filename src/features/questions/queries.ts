@@ -188,3 +188,19 @@ export async function getAnswerById(
 
   return { answer, question: questions }
 }
+
+export async function getPublicAnswerIds(): Promise<{ id: string; created_at: string }[]> {
+  const supabase = await createSupabaseServerClient()
+  const { data, error } = await supabase
+    .from('answers')
+    .select('id, created_at')
+    .eq('visibility', 'public')
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    console.error('Error fetching public answer ids for sitemap:', error)
+    return []
+  }
+
+  return data as { id: string; created_at: string }[]
+}

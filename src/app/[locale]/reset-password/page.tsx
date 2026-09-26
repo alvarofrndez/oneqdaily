@@ -1,8 +1,23 @@
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import ResetPasswordForm from '@/src/features/auth/components/ResetPasswordForm';
 import styles from '@/src/features/auth/components/auth-page.module.scss';
+import { buildMetadata } from '@/lib/seo/metadata';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const t = await getTranslations('Auth.ResetPassword');
+
+  return buildMetadata({
+    locale,
+    path: '/reset-password',
+    title: t('title'),
+    description: t('description'),
+    noIndex: true,
+  });
+}
 
 export default async function ResetPasswordPage() {
   const supabase = await createSupabaseServerClient();

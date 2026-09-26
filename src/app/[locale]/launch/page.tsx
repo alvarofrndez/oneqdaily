@@ -6,10 +6,9 @@ import QuestionTicker from '@/src/features/launch/components/QuestionTicker';
 import LaunchCountdown from '@/src/features/launch/components/LaunchCountdown';
 import WaitlistForm from '@/src/features/launch/components/WaitlistForm';
 import SocialActions from '@/src/features/launch/components/SocialActions';
-
+import { SITE_URL, DEFAULT_OG_IMAGE, SITE_NAME, X_HANDLE } from '@/lib/seo/config';
 import styles from './page.module.scss';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://oneqdaily.com';
 
 function getLaunchTime(): number | null {
   const time = Date.parse(process.env.LAUNCH_DATE ?? '');
@@ -25,20 +24,25 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     alternates: { canonical: SITE_URL },
+    robots: {
+      index: false,
+      follow: false,
+      googleBot: { index: false, follow: false },
+    },
     openGraph: {
       title,
       description,
       url: SITE_URL,
-      siteName: 'One question daily',
+      siteName: SITE_NAME,
       type: 'website',
-      images: [{ url: `${SITE_URL}/logo-light.svg`, width: 512, height: 512 }],
+      images: [{ url: DEFAULT_OG_IMAGE, width: 512, height: 512 }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      site: '@oneqdaily',
-      images: [`${SITE_URL}/logo-light.svg`],
+      site: X_HANDLE,
+      images: [DEFAULT_OG_IMAGE],
     },
   };
 }

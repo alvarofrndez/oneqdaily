@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import {
   ArrowLeft,
 } from 'lucide-react';
@@ -8,6 +8,11 @@ import {
 import { getAllQuestions } from '@/src/features/questions/queries';
 
 import styles from './page.module.scss';
+import { buildMetadata } from '@/lib/seo/metadata';
+import { JsonLd } from '@/src/components/JsonLd';
+import { SITE_URL } from '@/lib/seo/config';
+import { buildBreadcrumbJsonLd } from '@/lib/seo/breadcrumb-data';
+import { faqPageJsonLd, webPageJsonLd } from '@/lib/seo/json-ld';
 
 type Step = { title: string; description: string };
 type Feature = { title: string; description: string };
@@ -15,16 +20,21 @@ type FaqItem = { question: string; answer: string };
 
 
 export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
   const t = await getTranslations('About.meta');
 
-  return {
+  return buildMetadata({
+    locale,
+    path: '/about',
     title: t('title'),
     description: t('description'),
-  };
+  });
 }
 
 export default async function AboutPage() {
+  const locale = await getLocale();
   const t = await getTranslations('About');
+  const tMeta = await getTranslations('About.meta');
 
   const questions = await getAllQuestions();
   const totalQuestions = questions.length;
@@ -37,25 +47,21 @@ export default async function AboutPage() {
   const communityParagraphs = t.raw('community.paragraphs') as string[];
   const faqItems = t.raw('faq.items') as FaqItem[];
 
-  const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqItems.map((item) => ({
-      '@type': 'Question',
-      name: item.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.answer,
-      },
-    })),
-  };
+  const faqJsonLd = faqPageJsonLd(faqItems);
+
+  const webPage = webPageJsonLd({
+    name: tMeta('title'),
+    description: tMeta('description'),
+    url: `${SITE_URL}/${locale}/about`,
+  });
+
+  const breadcrumbs = await buildBreadcrumbJsonLd(locale, '/about');
 
   return (
     <main className={styles.page}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      <JsonLd data={faqJsonLd} />
+      <JsonLd data={webPage} />
+      <JsonLd data={breadcrumbs} />
 
       <div className={styles.container}>
         <div className={styles.topNav}>
@@ -66,7 +72,7 @@ export default async function AboutPage() {
         </div>
 
         <section className={styles.hero}>
-          <h1 className={styles.eyebrow}>{t('hero.eyebrow')}</h1>
+          <h3 className={styles.eyebrow}>{t('hero.eyebrow')}</h3>
           <h1 className={styles.title}>{t('hero.title')}</h1>
           <p className={styles.subtitle}>{t('hero.subtitle')}</p>
 

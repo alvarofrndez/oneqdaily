@@ -1,11 +1,26 @@
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
 import SignupForm from '@/src/features/auth/components/SignupForm';
 import OAuthButtons from '@/src/features/auth/components/OAuthButtons';
 import styles from '@/src/features/auth/components/auth-page.module.scss';
+import { buildMetadata } from '@/lib/seo/metadata';
+import { getLocale, getTranslations } from 'next-intl/server';
+import { Metadata } from 'next';
 
-export default function SignupPage() {
-  const t = useTranslations('Auth.Signup');
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const t = await getTranslations('Auth.Signup');
+
+  return buildMetadata({
+    locale,
+    path: '/signup',
+    title: t('title'),
+    description: t('title'),
+    noIndex: true,
+  });
+}
+
+export default async function SignupPage() {
+  const t = await getTranslations('Auth.Signup');
 
   return (
     <main className={styles.page}>

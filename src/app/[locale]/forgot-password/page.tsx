@@ -1,7 +1,22 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import ForgotPasswordForm from '@/src/features/auth/components/ForgotPasswordForm';
 import styles from '@/src/features/auth/components/auth-page.module.scss';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
+import { buildMetadata } from '@/lib/seo/metadata';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const t = await getTranslations('Auth.ForgotPassword');
+
+  return buildMetadata({
+    locale,
+    path: '/forgot-password',
+    title: t('title'),
+    description: t('description'),
+    noIndex: true,
+  });
+}
 
 type ForgotPasswordPageProps = {
   searchParams: Promise<{

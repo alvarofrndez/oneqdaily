@@ -1,20 +1,41 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { ArrowLeft } from 'lucide-react';
 
 import styles from '@/src/styles/content-page.module.scss';
+import { buildMetadata } from '@/lib/seo/metadata';
+import { webPageJsonLd } from '@/lib/seo/json-ld';
+import { buildBreadcrumbJsonLd } from '@/lib/seo/breadcrumb-data';
+import { SITE_URL } from '@/lib/seo/config';
+import { JsonLd } from '@/src/components/JsonLd';
 
 type DataRow = { key: string; value: string };
-type Clause = string;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations('Privacy.meta');
-  return { title: t('title'), description: t('description') };
+  const locale = await getLocale();
+  const t = await getTranslations('Terms.meta');
+
+  return buildMetadata({
+    locale,
+    path: '/privacy',
+    title: t('title'),
+    description: t('description'),
+  });
 }
 
 export default async function PrivacyPage() {
+  const locale = await getLocale();
   const t = await getTranslations('Privacy');
+  const tMeta = await getTranslations('Privacy.meta');
+
+  const webPage = webPageJsonLd({
+    name: tMeta('title'),
+    description: tMeta('description'),
+    url: `${SITE_URL}/${locale}/privacy`,
+  });
+
+  const breadcrumbs = await buildBreadcrumbJsonLd(locale, '/privacy');
 
   const dataCollected = t.raw('dataCollected.rows') as DataRow[];
   const usesList = t.raw('uses.items') as string[];
@@ -24,6 +45,9 @@ export default async function PrivacyPage() {
 
   return (
     <main className={styles.page}>
+      <JsonLd data={webPage} />
+      <JsonLd data={breadcrumbs} />
+
       <div className={styles.container}>
         <div className={styles.topNav}>
           <Link href="/" className={styles.backLink}>

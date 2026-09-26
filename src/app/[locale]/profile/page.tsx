@@ -1,11 +1,25 @@
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { UserRound } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { getProfile } from '@/src/features/auth/queries';
 import ProfileForm from '@/src/features/auth/components/ProfileForm';
 import PasswordForm from '@/src/features/auth/components/PasswordForm';
 import styles from '@/src/features/auth/components/auth-page.module.scss';
+import { buildMetadata } from '@/lib/seo/metadata';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const t = await getTranslations('Auth.Profile');
+
+  return buildMetadata({
+    locale,
+    path: '/profile',
+    title: t('title'),
+    description: t('title'),
+    noIndex: true,
+  });
+}
 
 export default async function ProfilePage() {
   const supabase = await createSupabaseServerClient();

@@ -1,8 +1,23 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import LoginForm from '@/src/features/auth/components/LoginForm';
 import OAuthButtons from '@/src/features/auth/components/OAuthButtons';
 import styles from '@/src/features/auth/components/auth-page.module.scss';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
+import { buildMetadata } from '@/lib/seo/metadata';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const t = await getTranslations('Auth.Login');
+
+  return buildMetadata({
+    locale,
+    path: '/login',
+    title: t('title'),
+    description: t('title'),
+    noIndex: true,
+  });
+}
 
 export default async function LoginPage({
   searchParams,

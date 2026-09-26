@@ -305,7 +305,10 @@
       "back": "Go back",
       "notFound": "Question not found",
       "postedOn": "Posted on {date}",
-      "answersTitle": "Answers"
+      "answersTitle": "Answers",
+      "meta": {
+        "description": "Read and share your answer to \"{question}\" on One question daily."
+      }
     },
     "AnsweredQuestion": {
       "title": "Question",

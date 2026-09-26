@@ -1,4 +1,4 @@
-import type {Metadata} from 'next';
+import type {Metadata, Viewport} from 'next';
 import { DM_Sans, Fraunces, DM_Mono } from 'next/font/google';
 import '@/src/styles/globals.css';
 import '@/components/editor/style.css';
@@ -14,6 +14,7 @@ import Footer from '@/src/components/footer';
 import { NextIntlClientProvider } from 'next-intl';
 import Breadcrumbs from '@/src/components/breadcrumbs';
 import { Analytics } from "@vercel/analytics/next"
+import { SITE_URL, SITE_NAME } from '@/lib/seo/config';
 
 const dmSans = DM_Sans({ variable: '--font-sans', subsets: ['latin'], });
 const fraunces = Fraunces({ variable: '--font-heading', subsets: ['latin'], });
@@ -21,9 +22,25 @@ const dmMono = DM_Mono({ variable: '--font-mono', subsets: ['latin'], weight: ['
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('Metadata');
+
   return {
-    title: t('title'),
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: t('title'),
+      template: `%s · ${SITE_NAME}`,
+    },
     description: t('description'),
+  };
+}
+
+export function generateViewport(): Viewport {
+  return {
+    width: 'device-width',
+    initialScale: 1,
+    themeColor: [
+      { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+      { media: '(prefers-color-scheme: dark)', color: '#171717' },
+    ],
   };
 }
 

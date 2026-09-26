@@ -1,44 +1,54 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { ArrowLeft } from 'lucide-react';
 
 import styles from '@/src/styles/content-page.module.scss';
+import { buildMetadata } from '@/lib/seo/metadata';
+import { faqPageJsonLd, webPageJsonLd } from '@/lib/seo/json-ld';
+import { buildBreadcrumbJsonLd } from '@/lib/seo/breadcrumb-data';
+import { SITE_URL } from '@/lib/seo/config';
+import { JsonLd } from '@/src/components/JsonLd';
 
 type FaqItem = { question: string; answer: string };
 type FaqCategory = { title: string; items: FaqItem[] };
 
 export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
   const t = await getTranslations('FaqPage.meta');
-  return { title: t('title'), description: t('description') };
+
+  return buildMetadata({
+    locale,
+    path: '/faq',
+    title: t('title'),
+    description: t('description'),
+  });
 }
 
 export default async function FaqPage() {
+  const locale = await getLocale();
   const t = await getTranslations('FaqPage');
+  const tMeta = await getTranslations('FaqPage.meta');
+
+  const webPage = webPageJsonLd({
+    name: tMeta('title'),
+    description: tMeta('description'),
+    url: `${SITE_URL}/${locale}/faq`,
+  });
+
+  const breadcrumbs = await buildBreadcrumbJsonLd(locale, '/faq');
+
   const categories = t.raw('categories') as FaqCategory[];
 
   const allItems = categories.flatMap((category) => category.items);
 
-  const faqJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: allItems.map((item) => ({
-      '@type': 'Question',
-      name: item.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.answer,
-      },
-    })),
-  };
+  const faqJsonLd = faqPageJsonLd(allItems);
 
   return (
     <main className={styles.page}>
-      <script
-        type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-      />
+      <JsonLd data={faqJsonLd} />
+      <JsonLd data={webPage} />
+      <JsonLd data={breadcrumbs} />
 
       <div className={styles.container}>
         <div className={styles.topNav}>

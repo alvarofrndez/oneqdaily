@@ -57,8 +57,8 @@ export async function GET(
     const answerExcerpt = truncateForCard(answer.answer_text, maxAnswerChars);
 
     const authorName = answer.profiles?.username ?? t('anonymousAuthor');
-    const questionDate = formatDateKey(question.display_date, locale); // antes 'es' fijo
-    const answerDate = formatDateKey(answer.created_at.slice(0, 10), locale); // antes 'es' fijo
+    const questionDate = formatDateKey(question.display_date, locale);
+    const answerDate = formatDateKey(answer.created_at.slice(0, 10), locale);
     const siteLabel = t('siteLabel');
     const tagline = t('tagline');
 
@@ -74,112 +74,108 @@ export async function GET(
 
     return new ImageResponse(
         (
-        <div
-            style={{
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            padding: isStory ? '96px 72px' : '72px',
-            backgroundColor: '#ffffff',
-            fontFamily: 'DM Sans',
-            }}
-        >
-            {/* Header: fecha de la pregunta */}
-            <div
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-                fontFamily: 'DM Mono',
-                fontSize: 28,
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                color: '#8c8c8c',
-            }}
-            >
             <div
                 style={{
-                width: 10,
-                height: 10,
-                borderRadius: '50%',
-                backgroundColor: LOGO_ACCENT_COLOR,
-                display: 'flex',
-                }}
-            />
-            {questionDate}
-            </div>
-
-            {/* Pregunta */}
-            <div
-            style={{
-                display: 'flex',
-                fontFamily: 'DM Sans',
-                fontWeight: 600,
-                fontSize: isStory ? 56 : 48,
-                lineHeight: 1.2,
-                letterSpacing: '-0.02em',
-                color: '#171717',
-            }}
-            >
-            {question.text}
-            </div>
-
-            {/* Respuesta */}
-            <div
-            style={{
+                width: '100%',
+                height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 24,
-                paddingLeft: 32,
-                borderLeft: `4px solid ${LOGO_ACCENT_COLOR}`,
-            }}
-            >
-            <div
-                style={{
-                display: 'flex',
+                justifyContent: 'space-between',
+                padding: isStory ? '96px 72px' : '72px',
+                backgroundColor: '#ffffff',
                 fontFamily: 'DM Sans',
-                fontWeight: 400,
-                fontSize: isStory ? 40 : 34,
-                lineHeight: 1.45,
-                color: '#3a3a3a',
                 }}
             >
-                “{answerExcerpt}”
-            </div>
-
-            <div
+                <div
                 style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                fontFamily: 'DM Mono',
-                fontSize: 26,
-                color: '#8c8c8c',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    fontFamily: 'DM Mono',
+                    fontSize: 28,
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    color: '#8c8c8c',
                 }}
-            >
-                <span>@{authorName}</span>
-                <span>{answerDate}</span>
-            </div>
-            </div>
+                >
+                <div
+                    style={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: '50%',
+                    backgroundColor: LOGO_ACCENT_COLOR,
+                    display: 'flex',
+                    }}
+                />
+                {questionDate}
+                </div>
 
-            {/* Footer / branding */}
-            <div
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                paddingTop: 32,
-                borderTop: '2px solid #e5e5e5',
-                fontFamily: 'DM Mono',
-                fontSize: 24,
-                color: '#171717',
-            }}
-            >
-                <span>{siteLabel}</span>
-                <span style={{ color: LOGO_ACCENT_COLOR }}>{tagline}</span>
+                <div
+                style={{
+                    display: 'flex',
+                    fontFamily: 'DM Sans',
+                    fontWeight: 600,
+                    fontSize: isStory ? 56 : 48,
+                    lineHeight: 1.2,
+                    letterSpacing: '-0.02em',
+                    color: '#171717',
+                }}
+                >
+                {question.text}
+                </div>
+
+                <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 24,
+                    paddingLeft: 32,
+                    borderLeft: `4px solid ${LOGO_ACCENT_COLOR}`,
+                }}
+                >
+                <div
+                    style={{
+                    display: 'flex',
+                    fontFamily: 'DM Sans',
+                    fontWeight: 400,
+                    fontSize: isStory ? 40 : 34,
+                    lineHeight: 1.45,
+                    color: '#3a3a3a',
+                    }}
+                >
+                    “{answerExcerpt}”
+                </div>
+
+                <div
+                    style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    fontFamily: 'DM Mono',
+                    fontSize: 26,
+                    color: '#8c8c8c',
+                    }}
+                >
+                    <span>@{authorName}</span>
+                    <span>{answerDate}</span>
+                </div>
+                </div>
+
+                <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingTop: 32,
+                    borderTop: '2px solid #e5e5e5',
+                    fontFamily: 'DM Mono',
+                    fontSize: 24,
+                    color: '#171717',
+                }}
+                >
+                    <span>{siteLabel}</span>
+                    <span style={{ color: LOGO_ACCENT_COLOR }}>{tagline}</span>
+                </div>
             </div>
-        </div>
         ),
         {
             width,

@@ -170,7 +170,7 @@ export default function ShareAnswerCard({
     <>
       <button
         ref={triggerRef}
-        type="button"
+        type='button'
         className={styles.trigger}
         onClick={handleTriggerClick}
         onKeyDown={handleTriggerKeyDown}
@@ -178,16 +178,16 @@ export default function ShareAnswerCard({
         aria-busy={open && questionLoading}
       >
         {open && questionLoading ? (
-          <Loader2 size={14} strokeWidth={1.8} className={styles.spin} aria-hidden="true" />
+          <Loader2 size={14} strokeWidth={1.8} className={styles.spin} aria-hidden='true' />
         ) : (
-          <Share2 size={14} strokeWidth={1.8} aria-hidden="true" />
+          <Share2 size={14} strokeWidth={1.8} aria-hidden='true' />
         )}
       </button>
 
       {open && (
         <div
           className={styles.overlay}
-          role="presentation"
+          role='presentation'
           onClick={(event) => {
             event.stopPropagation();
             closeDialog();
@@ -196,8 +196,8 @@ export default function ShareAnswerCard({
           <div
             ref={dialogRef}
             className={styles.dialog}
-            role="dialog"
-            aria-modal="true"
+            role='dialog'
+            aria-modal='true'
             aria-labelledby={titleId}
             aria-busy={questionLoading}
             tabIndex={-1}
@@ -210,21 +210,21 @@ export default function ShareAnswerCard({
               </h2>
 
               <button
-                type="button"
+                type='button'
                 className={styles.close}
                 onClick={closeDialog}
                 aria-label={t('close')}
               >
-                <XIcon size={16} strokeWidth={1.8} aria-hidden="true" />
+                <XIcon size={16} strokeWidth={1.8} aria-hidden='true' />
               </button>
             </header>
 
-            <div className={styles.formatSwitch} role="tablist" aria-label={t('formatLabel')}>
+            <div className={styles.formatSwitch} role='tablist' aria-label={t('formatLabel')}>
               {FORMAT_ORDER.map((key) => (
                 <button
                   key={key}
-                  type="button"
-                  role="tab"
+                  type='button'
+                  role='tab'
                   aria-selected={format === key}
                   className={`${styles.formatOption} ${format === key ? styles.active : ''}`}
                   onClick={() => {
@@ -245,7 +245,7 @@ export default function ShareAnswerCard({
             >
               {!imageLoaded && (
                 <div className={styles.skeleton}>
-                  <Loader2 size={22} strokeWidth={1.8} className={styles.spin} aria-hidden="true" />
+                  <Loader2 size={22} strokeWidth={1.8} className={styles.spin} aria-hidden='true' />
                 </div>
               )}
 
@@ -256,13 +256,14 @@ export default function ShareAnswerCard({
                 className={styles.previewImage}
                 style={{ opacity: imageLoaded ? 1 : 0 }}
                 onLoad={() => setImageLoaded(true)}
+                loading='lazy'
               />
             </div>
 
             {questionError && !questionLoading && (
-              <div className={styles.statusBarError} role="alert">
+              <div className={styles.statusBarError} role='alert'>
                 <span>{t('captionError')}</span>
-                <button type="button" className={styles.retryButton} onClick={handleRetryQuestion}>
+                <button type='button' className={styles.retryButton} onClick={handleRetryQuestion}>
                   {t('retry')}
                 </button>
               </div>
@@ -271,7 +272,7 @@ export default function ShareAnswerCard({
             <div className={styles.actions}>
               {canNativeShare && (
                 <button
-                  type="button"
+                  type='button'
                   className={styles.primaryAction}
                   onClick={handleNativeShare}
                   disabled={!captionReady}
@@ -292,8 +293,8 @@ export default function ShareAnswerCard({
             <div className={styles.socialRow}>
               
               <a  href={captionReady ? buildWhatsappUrl(caption) : undefined}
-                target="_blank"
-                rel="noopener noreferrer"
+                target='_blank'
+                rel='noopener noreferrer'
                 className={`${styles.socialButton} ${!captionReady ? styles.disabled : ''}`}
                 aria-disabled={!captionReady}
                 onClick={(event) => {
@@ -305,8 +306,8 @@ export default function ShareAnswerCard({
 
               
               <a  href={captionReady ? buildXUrl(caption, answerUrl) : undefined}
-                target="_blank"
-                rel="noopener noreferrer"
+                target='_blank'
+                rel='noopener noreferrer'
                 className={`${styles.socialButton} ${!captionReady ? styles.disabled : ''}`}
                 aria-disabled={!captionReady}
                 onClick={(event) => {
@@ -316,7 +317,7 @@ export default function ShareAnswerCard({
                 {t('x')}
               </a>
 
-              <button type="button" className={styles.socialButton} onClick={handleCopyLink}>
+              <button type='button' className={styles.socialButton} onClick={handleCopyLink}>
                 {copied ? (
                   <>
                     {t('copied')}

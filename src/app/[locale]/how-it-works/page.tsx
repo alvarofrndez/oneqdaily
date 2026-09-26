@@ -1,20 +1,42 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { ArrowLeft } from 'lucide-react';
 
 import styles from '@/src/styles/content-page.module.scss';
+import { buildMetadata } from '@/lib/seo/metadata';
+import { webPageJsonLd } from '@/lib/seo/json-ld';
+import { SITE_URL } from '@/lib/seo/config';
+import { buildBreadcrumbJsonLd } from '@/lib/seo/breadcrumb-data';
+import { JsonLd } from '@/src/components/JsonLd';
 
 type Step = { title: string; description: string };
 type TimelineItem = { time: string; title: string; description: string };
 
 export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
   const t = await getTranslations('HowItWorksPage.meta');
-  return { title: t('title'), description: t('description') };
+
+  return buildMetadata({
+    locale,
+    path: '/how-it-works',
+    title: t('title'),
+    description: t('description'),
+  });
 }
 
 export default async function HowItWorksPage() {
+  const locale = await getLocale();
   const t = await getTranslations('HowItWorksPage');
+  const tMeta = await getTranslations('HowItWorksPage.meta');
+
+  const webPage = webPageJsonLd({
+    name: tMeta('title'),
+    description: tMeta('description'),
+    url: `${SITE_URL}/${locale}/how-it-works`,
+  });
+
+  const breadcrumbs = await buildBreadcrumbJsonLd(locale, '/how-it-works');
 
   const lifecycleSteps = t.raw('lifecycle.steps') as Step[];
   const answeringSteps = t.raw('answering.steps') as Step[];
@@ -25,6 +47,9 @@ export default async function HowItWorksPage() {
 
   return (
     <main className={styles.page}>
+      <JsonLd data={webPage} />
+      <JsonLd data={breadcrumbs} />
+
       <div className={styles.container}>
         <div className={styles.topNav}>
           <Link href="/" className={styles.backLink}>

@@ -1,9 +1,24 @@
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { getAnswersByUser } from '@/src/features/questions/queries';
 import { AnswerWithQuestion, QuestionSummary } from '@/src/features/questions/types';
 import AnsweredQuestionsClient from './AnsweredQuestionsClient';
+import { buildMetadata } from '@/lib/seo/metadata';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const t = await getTranslations('UserMenu');
+
+  return buildMetadata({
+    locale,
+    path: '/questions/answered',
+    title: t('answeredQuestions'),
+    description: t('answeredQuestions'),
+    noIndex: true,
+  });
+}
 
 export default async function AnsweredQuestionsPage() {
   const supabase = await createSupabaseServerClient();

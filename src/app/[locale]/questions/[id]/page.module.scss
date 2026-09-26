@@ -46,16 +46,18 @@
                 );
 
                 .question {
+                    // size
                     width: 100%;
 
+                    // margin
                     margin: 0;
 
+                    // decoration
                     font-size: clamp(
                         tokens.$font-size-3xl,
                         6vw,
                         tokens.$font-size-6xl
                     );
-
                     font-family: var(--font-mono);
                     font-weight: tokens.$font-weight-medium;
                     line-height: 1.05;
@@ -68,60 +70,31 @@
             }
 
             .info {
+                // size
                 width: 100%;
 
+                // display
                 @include mixins.flex(
                     row,
-                    space-between,
+                    flex-end,
                     center,
                     nowrap,
                     tokens.$spacing-4
                 );
 
                 .questionDate {
-                    margin: 0;
-
+                    // decoration
                     color: var(--muted-foreground);
                     font-size: tokens.$font-size-xs;
                     line-height: tokens.$line-height-normal;
                 }
-
-                .backLink {
-                    min-height: 2.25rem;
-
-                    @include mixins.flex(
-                        row,
-                        center,
-                        center,
-                        nowrap,
-                        tokens.$spacing-1-5
-                    );
-
-                    color: var(--muted-foreground);
-                    font-size: tokens.$font-size-xs;
-                    line-height: 1;
-                    text-decoration: none;
-
-                    transition: all .2s ease,;
-
-                    &:hover {
-                        text-decoration: underline;
-                        color: var(--foreground);
-                    }
-
-                    &:focus-visible {
-                        outline: 2px solid var(--foreground);
-                        outline-offset: 2px;
-                    }
-
-                    svg {
-                        flex-shrink: 0;
-                    }
-                }
             }
 
             .answerForm {
+                // size
                 width: 100%;
+
+                // margin
                 padding-top: tokens.$spacing-3;
             }
         }

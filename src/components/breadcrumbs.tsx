@@ -6,42 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { ChevronRight } from 'lucide-react';
 
 import styles from './breadcrumbs.module.scss';
-
-type CrumbKey =
-  | 'home'
-  | 'questions'
-  | 'question'
-  | 'answered'
-  | 'answer'
-  | 'profile'
-  | 'about'
-  | 'howItWorks'
-  | 'faq'
-  | 'privacy'
-  | 'terms';
-
-type Crumb = { key: CrumbKey; href?: string };
-
-const HOME: Crumb = { key: 'home', href: '/' };
-const QUESTIONS: Crumb = { key: 'questions', href: '/questions' };
-
-/**
- * Tabla de rutas (sin prefijo de idioma).
- * El último elemento de cada trail es la página actual y no lleva enlace.
- * El orden importa: `/questions/answered` debe ir antes que `/questions/[id]`.
- */
-const ROUTES: { pattern: RegExp; trail: Crumb[] }[] = [
-  { pattern: /^\/questions$/, trail: [HOME, { key: 'questions' }] },
-  { pattern: /^\/questions\/answered$/, trail: [HOME, QUESTIONS, { key: 'answered' }] },
-  { pattern: /^\/questions\/[^/]+$/, trail: [HOME, QUESTIONS, { key: 'question' }] },
-  { pattern: /^\/answers\/[^/]+$/, trail: [HOME, { key: 'answer' }] },
-  { pattern: /^\/profile$/, trail: [HOME, { key: 'profile' }] },
-  { pattern: /^\/about$/, trail: [HOME, { key: 'about' }] },
-  { pattern: /^\/how-it-works$/, trail: [HOME, { key: 'howItWorks' }] },
-  { pattern: /^\/faq$/, trail: [HOME, { key: 'faq' }] },
-  { pattern: /^\/privacy$/, trail: [HOME, { key: 'privacy' }] },
-  { pattern: /^\/terms$/, trail: [HOME, { key: 'terms' }] },
-];
+import { getBreadcrumbTrail } from '@/lib/seo/breadcrumb-routes';
 
 function getPathWithoutLocale(pathname: string, locale: string) {
   const prefix = `/${locale}`;
@@ -60,7 +25,7 @@ export default function Breadcrumbs() {
   const pathname = usePathname();
 
   const path = getPathWithoutLocale(pathname, locale);
-  const trail = ROUTES.find(({ pattern }) => pattern.test(path))?.trail;
+  const trail = getBreadcrumbTrail(path);
 
   if (!trail) return null;
 
