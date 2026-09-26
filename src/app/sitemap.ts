@@ -1,9 +1,8 @@
-// src/app/sitemap.ts
 import type { MetadataRoute } from 'next';
 import { routing } from '@/i18n/routing';
 import { SITE_URL } from '@/lib/seo/config';
+import { SITE_MODE } from '@/config/site';
 import { getAllQuestions, getPublicAnswerIds } from '@/src/features/questions/queries';
-import { Question } from '../features/questions/types';
 
 const STATIC_ROUTES: {
   path: string;
@@ -26,6 +25,10 @@ function withAlternates(path: string) {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  if (SITE_MODE !== 'live') {
+    return [];
+  }
+
   const lastModified = new Date();
 
   const staticEntries = STATIC_ROUTES.flatMap(({ path, changeFrequency, priority }) => {
@@ -45,7 +48,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getPublicAnswerIds(),
   ]);
 
-  const questionEntries = questions.flatMap((question: Question) =>
+  const questionEntries = questions.flatMap((question) =>
     routing.locales.map((locale) => ({
       url: `${SITE_URL}/${locale}/questions/${question.id}`,
       lastModified: new Date(question.created_at),
@@ -56,7 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   // TODO: paginate and revalidate for optimization
-  const answerEntries = publicAnswers.flatMap(({ id, created_at }: { id: string, created_at: string}) =>
+  const answerEntries = publicAnswers.flatMap(({ id, created_at }) =>
     routing.locales.map((locale) => ({
       url: `${SITE_URL}/${locale}/answers/${id}`,
       lastModified: new Date(created_at),
