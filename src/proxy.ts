@@ -1,3 +1,4 @@
+// src/proxy.ts
 import createMiddleware from 'next-intl/middleware';
 import { NextResponse } from 'next/server';
 import { type NextRequest } from 'next/server';
@@ -47,5 +48,7 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/((?!api|trpc|_next|_vercel|auth|.*\\..*).*)',
+  matcher: [
+    '/((?!api/|trpc/|_next/static|_next/image|_vercel|auth/|favicon\\.ico|robots\\.txt|sitemap\\.xml|manifest\\.webmanifest|logo-light\\.svg|logo-dark\\.svg).*)',
+  ],
 };
