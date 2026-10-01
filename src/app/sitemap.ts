@@ -43,9 +43,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
   });
 
-  const [questions, publicAnswers] = await Promise.all([
+  const [questions] = await Promise.all([
     getAllQuestions(),
-    getPublicAnswerIds(),
   ]);
 
   const questionEntries = questions.flatMap((question) =>
@@ -58,16 +57,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
   );
 
-  // TODO: paginate and revalidate for optimization
-  const answerEntries = publicAnswers.flatMap(({ id, created_at }) =>
-    routing.locales.map((locale) => ({
-      url: `${SITE_URL}/${locale}/answers/${id}`,
-      lastModified: new Date(created_at),
-      changeFrequency: 'monthly' as const,
-      priority: 0.3,
-      alternates: { languages: withAlternates(`/answers/${id}`) },
-    }))
-  );
 
-  return [...staticEntries, ...questionEntries, ...answerEntries];
+  return [...staticEntries, ...questionEntries];
 }
